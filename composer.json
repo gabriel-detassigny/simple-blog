@@ -1,6 +1,10 @@
 {
     "require": {
-        "php": ">= 7.1"
+        "php": ">= 7.1",
+        "guzzlehttp/psr7": "^1.4",
+        "nikic/fast-route": "^1.2",
+        "twig/twig": "^2.4",
+        "psr/container": "^1.0"
     },
     "autoload": {
         "psr-4": {
