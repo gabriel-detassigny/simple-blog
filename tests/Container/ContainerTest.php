@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GabrielDeTassigny\Blog\Tests\Container;
 
 use GabrielDeTassigny\Blog\Container\Container;

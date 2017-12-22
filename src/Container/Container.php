@@ -14,7 +14,7 @@ class Container implements ContainerInterface
     private const DEPENDENCIES = [
         'home_controller' => [
             'name' => HomeController::class,
-            'dependencies' => ['server_request', 'twig']
+            'dependencies' => ['twig']
         ],
         'server_request' => [
             'method' => 'createServerRequest'
