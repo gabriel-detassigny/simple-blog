@@ -59,7 +59,8 @@ class Container implements ContainerInterface
         $loader = new Twig_Loader_Filesystem(__DIR__ . '/../../frontend/views/');
 
         return new Twig_Environment($loader, array(
-            'cache' => __DIR__ . '/../../cache',
+            'cache' => false,// __DIR__ . '/../../cache',
+            'debug' => true // TODO: set this as part of an environment variable
         ));
     }
 
