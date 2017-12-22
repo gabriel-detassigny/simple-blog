@@ -6,9 +6,17 @@
         "twig/twig": "^2.4",
         "psr/container": "^1.0"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^6.5"
+    },
     "autoload": {
         "psr-4": {
             "GabrielDeTassigny\\Blog\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "GabrielDeTassigny\\Blog\\Tests\\": "tests/"
         }
     }
 }

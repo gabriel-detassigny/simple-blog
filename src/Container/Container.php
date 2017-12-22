@@ -4,9 +4,7 @@ namespace GabrielDeTassigny\Blog\Container;
 
 use GabrielDeTassigny\Blog\Controller\HomeController;
 use GuzzleHttp\Psr7\ServerRequest;
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Twig_Environment;
 use Twig_Loader_Filesystem;
@@ -38,7 +36,7 @@ class Container implements ContainerInterface
             return $objects[$id];
         }
         if (!$this->has($id)) {
-            // throw not found exception
+            throw new NotFoundException($id);
         }
         return $this->createObject($id);
     }
@@ -94,12 +92,13 @@ class Container implements ContainerInterface
     /**
      * @param string $id
      * @return mixed
+     * @throws ContainerException
      */
     private function createObjectFromMethod($id)
     {
         $method = self::DEPENDENCIES[$id]['method'];
         if (!method_exists($this, $method)) {
-            // throw container exception
+            throw new ContainerException("Method {$method} not found", ContainerException::UNKNOWN_METHOD);
         }
         $this->objects[$id] = $this->$method();
         return $this->objects[$id];
