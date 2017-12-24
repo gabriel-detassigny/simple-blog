@@ -3,11 +3,12 @@
 declare(strict_types=1);
 
 use GabrielDeTassigny\Blog\Container\Container;
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 $container = new Container();
 
-function dispatcher(string $className, string $methodName, array $vars, Container $container)
+function dispatcher(string $className, string $methodName, array $vars, ContainerInterface $container)
 {
     $controller = $container->get($className);
     $controller->$methodName($vars);

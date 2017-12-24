@@ -59,10 +59,12 @@ class Container implements ContainerInterface
     private function createTwig(): Twig_Environment
     {
         $loader = new Twig_Loader_Filesystem(__DIR__ . '/../../frontend/views/');
+        $enableCache = filter_var(getenv('TWIG_CACHE'), FILTER_VALIDATE_BOOLEAN);
+        $enableDebug = filter_var(getenv('TWIG_DEBUG'), FILTER_VALIDATE_BOOLEAN);
 
         return new Twig_Environment($loader, array(
-            'cache' => false,// __DIR__ . '/../../cache',
-            'debug' => true // TODO: set this as part of an environment variable
+            'cache' => ($enableCache ? __DIR__ . '/../../cache' : false),
+            'debug' => $enableDebug
         ));
     }
 
