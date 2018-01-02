@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Container;
 
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\Setup;
 use GabrielDeTassigny\Blog\Controller\HomeController;
 use GuzzleHttp\Psr7\ServerRequest;
 use Psr\Container\ContainerInterface;
@@ -23,6 +25,9 @@ class Container implements ContainerInterface
         ],
         'twig' => [
             'method' => 'createTwig'
+        ],
+        'entity_manager' => [
+            'method' => 'createEntityManager'
         ]
     ];
 
@@ -66,6 +71,23 @@ class Container implements ContainerInterface
             'cache' => ($enableCache ? __DIR__ . '/../../cache' : false),
             'debug' => $enableDebug
         ));
+    }
+
+    private function createEntityManager(): EntityManager
+    {
+        $paths = [__DIR__ . '/../Entity'];
+        $isDev = filter_var(getenv('DB_DEV'), FILTER_VALIDATE_BOOLEAN);
+
+        $dbParams = [
+            'driver' => 'pdo_mysql',
+            'user' => getenv('DB_USER'),
+            'password' => getenv('DB_PASSWORD'),
+            'dbname' => getenv('DB_NAME')
+        ];
+
+        $config = Setup::createAnnotationMetadataConfiguration($paths, $isDev);
+
+        return EntityManager::create($dbParams, $config);
     }
 
     /**
