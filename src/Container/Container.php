@@ -7,6 +7,8 @@ namespace GabrielDeTassigny\Blog\Container;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 use GabrielDeTassigny\Blog\Controller\HomeController;
+use GabrielDeTassigny\Blog\Entity\Post;
+use GabrielDeTassigny\Blog\Repository\PostRepository;
 use GuzzleHttp\Psr7\ServerRequest;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -18,7 +20,7 @@ class Container implements ContainerInterface
     private const DEPENDENCIES = [
         'home_controller' => [
             'name' => HomeController::class,
-            'dependencies' => ['twig']
+            'dependencies' => ['twig', 'post_repository']
         ],
         'server_request' => [
             'method' => 'createServerRequest'
@@ -28,6 +30,9 @@ class Container implements ContainerInterface
         ],
         'entity_manager' => [
             'method' => 'createEntityManager'
+        ],
+        'post_repository' => [
+            'method' => 'createPostRepository'
         ]
     ];
 
@@ -88,6 +93,17 @@ class Container implements ContainerInterface
         $config = Setup::createAnnotationMetadataConfiguration($paths, $isDev);
 
         return EntityManager::create($dbParams, $config);
+    }
+
+    private function createPostRepository(): PostRepository
+    {
+        /** @var EntityManager $entityManager */
+        $entityManager = $this->get('entity_manager');
+
+        /** @var PostRepository $repository */
+        $repository = $entityManager->getRepository(Post::class);
+
+        return $repository;
     }
 
     /**

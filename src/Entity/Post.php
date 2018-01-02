@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Entity;
 
+use DateTime;
+
 /**
- * @Entity
+ * @Entity(repositoryClass="GabrielDeTassigny\Blog\Repository\PostRepository")
  * @Table(
  *     name="posts",
  *     indexes={@Index(name="title", columns={"title"})}
@@ -13,11 +15,7 @@ namespace GabrielDeTassigny\Blog\Entity;
  */
 class Post
 {
-    /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
-     */
+    /** @Id @Column(type="integer") @GeneratedValue */
     private $id;
 
     /** @Column(type="text", length=20000, nullable=false) */
@@ -34,4 +32,36 @@ class Post
 
     /** @Column(type="datetime", name="updated_at", nullable=true) */
     private $updatedAt;
+
+    /**
+     * @return string
+     */
+    public function getText()
+    {
+        return $this->text;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSubtitle()
+    {
+        return $this->subtitle;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
 }
