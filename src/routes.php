@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use GabrielDeTassigny\Blog\Container\Container;
+use GabrielDeTassigny\Blog\Container\WebContainerProvider;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-$container = new Container();
+$container = WebContainerProvider::getContainer();
 
 function dispatcher(string $className, string $methodName, array $vars, ContainerInterface $container)
 {

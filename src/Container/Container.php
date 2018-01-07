@@ -4,16 +4,9 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Container;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Tools\Setup;
+use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceProvider;
 use GabrielDeTassigny\Blog\Controller\HomeController;
-use GabrielDeTassigny\Blog\Entity\Post;
-use GabrielDeTassigny\Blog\Repository\PostRepository;
-use GuzzleHttp\Psr7\ServerRequest;
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Twig_Environment;
-use Twig_Loader_Filesystem;
 
 class Container implements ContainerInterface
 {
@@ -21,31 +14,25 @@ class Container implements ContainerInterface
         'home_controller' => [
             'name' => HomeController::class,
             'dependencies' => ['twig', 'post_repository']
-        ],
-        'server_request' => [
-            'method' => 'createServerRequest'
-        ],
-        'twig' => [
-            'method' => 'createTwig'
-        ],
-        'entity_manager' => [
-            'method' => 'createEntityManager'
-        ],
-        'post_repository' => [
-            'method' => 'createPostRepository'
         ]
     ];
 
     /** @var array */
     private $objects = [];
 
+    /** @var ServiceProvider[] */
+    private $serviceProviders = [];
+
     /**
      * {@inheritdoc}
      */
     public function get($id)
     {
-        if (isset($objects[$id])) {
-            return $objects[$id];
+        if (isset($this->objects[$id])) {
+            return $this->objects[$id];
+        }
+        if (isset($this->serviceProviders[$id])) {
+            return $this->retrieveService($id);
         }
         if (!$this->has($id)) {
             throw new NotFoundException($id);
@@ -58,63 +45,28 @@ class Container implements ContainerInterface
      */
     public function has($id)
     {
-        return array_key_exists($id, self::DEPENDENCIES);
-    }
-
-    private function createServerRequest(): ServerRequestInterface
-    {
-        return ServerRequest::fromGlobals();
-    }
-
-    private function createTwig(): Twig_Environment
-    {
-        $loader = new Twig_Loader_Filesystem(__DIR__ . '/../../frontend/views/');
-        $enableCache = filter_var(getenv('TWIG_CACHE'), FILTER_VALIDATE_BOOLEAN);
-        $enableDebug = filter_var(getenv('TWIG_DEBUG'), FILTER_VALIDATE_BOOLEAN);
-
-        return new Twig_Environment($loader, array(
-            'cache' => ($enableCache ? __DIR__ . '/../../cache' : false),
-            'debug' => $enableDebug
-        ));
-    }
-
-    private function createEntityManager(): EntityManager
-    {
-        $paths = [__DIR__ . '/../Entity'];
-        $isDev = filter_var(getenv('DB_DEV'), FILTER_VALIDATE_BOOLEAN);
-
-        $dbParams = [
-            'driver' => 'pdo_mysql',
-            'user' => getenv('DB_USER'),
-            'password' => getenv('DB_PASSWORD'),
-            'dbname' => getenv('DB_NAME')
-        ];
-
-        $config = Setup::createAnnotationMetadataConfiguration($paths, $isDev);
-
-        return EntityManager::create($dbParams, $config);
-    }
-
-    private function createPostRepository(): PostRepository
-    {
-        /** @var EntityManager $entityManager */
-        $entityManager = $this->get('entity_manager');
-
-        /** @var PostRepository $repository */
-        $repository = $entityManager->getRepository(Post::class);
-
-        return $repository;
+        return array_key_exists($id, self::DEPENDENCIES) || array_key_exists($id, $this->serviceProviders);
     }
 
     /**
-     * @param string $id
-     * @return mixed
+     * @param string $serviceName
+     * @param ServiceProvider $serviceProvider
+     * @return void
      */
-    private function createObject($id)
+    public function registerService(string $serviceName, ServiceProvider $serviceProvider): void
     {
-        if (array_key_exists('method', self::DEPENDENCIES[$id])) {
-            return $this->createObjectFromMethod($id);
-        }
+        $this->serviceProviders[$serviceName] = $serviceProvider;
+    }
+
+    public function retrieveService(string $id)
+    {
+        $this->objects[$id] = $this->serviceProviders[$id]->getService();
+
+        return $this->objects[$id];
+    }
+
+    private function createObject(string $id)
+    {
         $dependencies = $this->getDependencies(self::DEPENDENCIES[$id]['dependencies']);
         $className = self::DEPENDENCIES[$id]['name'];
         $this->objects[$id] = new $className(...$dependencies);
@@ -130,20 +82,5 @@ class Container implements ContainerInterface
         }
 
         return $dependencies;
-    }
-
-    /**
-     * @param string $id
-     * @return mixed
-     * @throws ContainerException
-     */
-    private function createObjectFromMethod($id)
-    {
-        $method = self::DEPENDENCIES[$id]['method'];
-        if (!method_exists($this, $method)) {
-            throw new ContainerException("Method {$method} not found", ContainerException::UNKNOWN_METHOD);
-        }
-        $this->objects[$id] = $this->$method();
-        return $this->objects[$id];
     }
 }
