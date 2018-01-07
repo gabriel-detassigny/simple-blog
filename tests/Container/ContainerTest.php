@@ -6,8 +6,12 @@ namespace GabrielDeTassigny\Blog\Tests\Container;
 
 use GabrielDeTassigny\Blog\Container\Container;
 use GabrielDeTassigny\Blog\Container\NotFoundException;
+use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceProvider;
 use GabrielDeTassigny\Blog\Controller\HomeController;
+use GabrielDeTassigny\Blog\Repository\PostRepository;
+use Phake;
 use PHPUnit\Framework\TestCase;
+use Twig_Environment;
 
 class ContainerTest extends TestCase
 {
@@ -20,6 +24,12 @@ class ContainerTest extends TestCase
     public function setUp()
     {
         $this->container = new Container();
+        $mockTwigProvider = Phake::mock(ServiceProvider::class);
+        Phake::when($mockTwigProvider)->getService()->thenReturn(Phake::mock(Twig_Environment::class));
+        $mockPostRepositoryProvider = Phake::mock(ServiceProvider::class);
+        Phake::when($mockPostRepositoryProvider)->getService()->thenReturn(Phake::mock(PostRepository::class));
+        $this->container->registerService('twig', $mockTwigProvider);
+        $this->container->registerService('post_repository', $mockPostRepositoryProvider);
     }
 
     public function testHasMethodIsTrue()
@@ -44,5 +54,10 @@ class ContainerTest extends TestCase
         $controller = $this->container->get('home_controller');
 
         $this->assertInstanceOf(HomeController::class, $controller);
+    }
+
+    public function testHasRegisteredService()
+    {
+        $this->assertTrue($this->container->has('twig'));
     }
 }
