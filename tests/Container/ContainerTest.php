@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace GabrielDeTassigny\Blog\Tests\Container;
 
 use GabrielDeTassigny\Blog\Container\Container;
+use GabrielDeTassigny\Blog\Container\ContainerException;
 use GabrielDeTassigny\Blog\Container\NotFoundException;
+use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceCreationException;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceProvider;
 use GabrielDeTassigny\Blog\Controller\HomeController;
 use GabrielDeTassigny\Blog\Repository\PostRepository;
@@ -59,5 +61,17 @@ class ContainerTest extends TestCase
     public function testHasRegisteredService()
     {
         $this->assertTrue($this->container->has('twig'));
+    }
+
+    public function testServiceProviderThrowsException()
+    {
+        $this->expectException(ContainerException::class);
+
+        $serviceProvider = Phake::mock(ServiceProvider::class);
+        Phake::when($serviceProvider)->getService()->thenThrow(new ServiceCreationException());
+
+        $this->container->registerService('test_service', $serviceProvider);
+
+        $this->container->get('test_service');
     }
 }

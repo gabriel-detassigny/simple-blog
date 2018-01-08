@@ -6,8 +6,11 @@ namespace GabrielDeTassigny\Blog\Container\ServiceProvider\Doctrine;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceCreationException;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceProvider;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class RepositoryProvider implements ServiceProvider
 {
@@ -25,13 +28,18 @@ class RepositoryProvider implements ServiceProvider
 
     /**
      * @return EntityRepository
-     *
-     * TODO: Catch possible exceptions
+     * @throws ServiceCreationException
      */
     public function getService()
     {
-        /** @var EntityManager $entityManager */
-        $entityManager = $this->container->get('entity_manager');
+        try {
+            /** @var EntityManager $entityManager */
+            $entityManager = $this->container->get('entity_manager');
+        } catch (ContainerExceptionInterface $e) {
+            throw new ServiceCreationException("Error when attempting to retrieve entity_manager dependency");
+        } catch (NotFoundExceptionInterface $e) {
+            throw new ServiceCreationException("entity_manager dependency not found");
+        }
 
         return $entityManager->getRepository($this->entityClassName);
     }

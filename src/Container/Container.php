@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Container;
 
+use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceCreationException;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceProvider;
 use GabrielDeTassigny\Blog\Controller\HomeController;
 use Psr\Container\ContainerInterface;
@@ -60,7 +61,11 @@ class Container implements ContainerInterface
 
     public function retrieveService(string $id)
     {
-        $this->objects[$id] = $this->serviceProviders[$id]->getService();
+        try {
+            $this->objects[$id] = $this->serviceProviders[$id]->getService();
+        } catch (ServiceCreationException $e) {
+            throw new ContainerException("Error retrieving service {$id} from its provider");
+        }
 
         return $this->objects[$id];
     }

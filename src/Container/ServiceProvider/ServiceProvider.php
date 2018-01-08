@@ -8,6 +8,7 @@ interface ServiceProvider
 {
     /**
      * @return object
+     * @throws ServiceCreationException
      */
     public function getService();
 }

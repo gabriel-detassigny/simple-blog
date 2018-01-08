@@ -9,5 +9,4 @@ use Psr\Container\ContainerExceptionInterface;
 
 class ContainerException extends Exception implements ContainerExceptionInterface
 {
-    public const UNKNOWN_METHOD = 1;
 }
