@@ -7,6 +7,7 @@ namespace GabrielDeTassigny\Blog\Tests\Controller;
 use GabrielDeTassigny\Blog\Controller\HomeController;
 use GabrielDeTassigny\Blog\Entity\Post;
 use GabrielDeTassigny\Blog\Repository\PostRepository;
+use GabrielDeTassigny\Blog\Service\PostViewingService;
 use Phake;
 use Phake_IMock;
 use PHPUnit\Framework\TestCase;
@@ -20,8 +21,8 @@ class HomeControllerTest extends TestCase
     /** @var Twig_Environment|Phake_IMock */
     private $twig;
 
-    /** @var PostRepository|Phake_IMock */
-    private $postRepository;
+    /** @var PostViewingService|Phake_IMock */
+    private $postService;
 
     /**
      * {@inheritdoc}
@@ -29,14 +30,14 @@ class HomeControllerTest extends TestCase
     public function setUp()
     {
         $this->twig = Phake::mock(Twig_Environment::class);
-        $this->postRepository = Phake::mock(PostRepository::class);
-        $this->controller = new HomeController($this->twig, $this->postRepository);
+        $this->postService = Phake::mock(PostViewingService::class);
+        $this->controller = new HomeController($this->twig, $this->postService);
     }
 
     public function testIndexWillDisplayTwigView()
     {
         $posts = [Phake::mock(Post::class), Phake::mock(Post::class)];
-        Phake::when($this->postRepository)->findAll()->thenReturn($posts);
+        Phake::when($this->postService)->findPageOfLatestPosts()->thenReturn($posts);
 
         $this->controller->index();
 

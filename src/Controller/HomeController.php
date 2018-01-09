@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Controller;
 
-use GabrielDeTassigny\Blog\Repository\PostRepository;
+use GabrielDeTassigny\Blog\Service\PostViewingService;
 use Twig_Environment;
 
 class HomeController
@@ -12,18 +12,18 @@ class HomeController
     /** @var Twig_Environment */
     private $twig;
 
-    /** @var PostRepository */
-    private $postRepository;
+    /** @var PostViewingService */
+    private $postViewingService;
 
-    public function __construct(Twig_Environment $twig, PostRepository $postRepository)
+    public function __construct(Twig_Environment $twig, PostViewingService $postViewingService)
     {
         $this->twig = $twig;
-        $this->postRepository = $postRepository;
+        $this->postViewingService = $postViewingService;
     }
 
     public function index()
     {
-        $posts = $this->postRepository->findAll();
+        $posts = $this->postViewingService->findPageOfLatestPosts();
         $this->twig->display('home.html.twig', ['posts' => $posts]);
     }
 }
