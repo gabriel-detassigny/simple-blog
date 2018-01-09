@@ -25,7 +25,10 @@ class Container implements ContainerInterface
     private $serviceProviders = [];
 
     /**
-     * {@inheritdoc}
+     * @param string $id
+     * @return object
+     * @throws NotFoundException
+     * @throws ContainerException
      */
     public function get($id)
     {
@@ -59,7 +62,12 @@ class Container implements ContainerInterface
         $this->serviceProviders[$serviceName] = $serviceProvider;
     }
 
-    public function retrieveService(string $id)
+    /**
+     * @param string $id
+     * @return object
+     * @throws ContainerException
+     */
+    private function retrieveService(string $id)
     {
         try {
             $this->objects[$id] = $this->serviceProviders[$id]->getService();
@@ -70,6 +78,11 @@ class Container implements ContainerInterface
         return $this->objects[$id];
     }
 
+    /**
+     * @param string $id
+     * @return mixed
+     * @throws ContainerException
+     */
     private function createObject(string $id)
     {
         $dependencies = $this->getDependencies(self::DEPENDENCIES[$id]['dependencies']);
@@ -79,6 +92,11 @@ class Container implements ContainerInterface
         return $this->objects[$id];
     }
 
+    /**
+     * @param array $dependencyList
+     * @return array
+     * @throws ContainerException
+     */
     private function getDependencies(array $dependencyList): array
     {
         $dependencies = [];
