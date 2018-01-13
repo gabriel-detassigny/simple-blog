@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Tests\Controller;
 
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use GabrielDeTassigny\Blog\Controller\HomeController;
 use GabrielDeTassigny\Blog\Entity\Post;
 use GabrielDeTassigny\Blog\Repository\PostRepository;
@@ -36,7 +37,7 @@ class HomeControllerTest extends TestCase
 
     public function testIndexWillDisplayTwigView()
     {
-        $posts = [Phake::mock(Post::class), Phake::mock(Post::class)];
+        $posts = Phake::mock(Paginator::class);
         Phake::when($this->postService)->findPageOfLatestPosts()->thenReturn($posts);
 
         $this->controller->index();
