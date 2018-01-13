@@ -74,4 +74,11 @@ class ContainerTest extends TestCase
 
         $this->container->get('test_service');
     }
+
+    public function testGetSameObjectOnSuccessiveCalls()
+    {
+        $controller = $this->container->get('home_controller');
+
+        $this->assertSame($controller, $this->container->get('home_controller'));
+    }
 }
