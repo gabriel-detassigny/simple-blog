@@ -18,9 +18,19 @@ class WebContainerProvider
         $container = new Container();
         $container->registerService('server_request', new ServerRequestProvider());
         $container->registerService('twig', new TwigProvider());
-        $container->registerService('entity_manager', new EntityManagerProvider());
+        $container->registerService('entity_manager', new EntityManagerProvider(self::getDbParams()));
         $container->registerService('post_repository', new RepositoryProvider($container, Post::class));
 
         return $container;
+    }
+
+    private static function getDbParams(): array
+    {
+        return [
+            'driver' => 'pdo_mysql',
+            'user' => getenv('DB_USER'),
+            'password' => getenv('DB_PASSWORD'),
+            'dbname' => getenv('DB_NAME')
+        ];
     }
 }
