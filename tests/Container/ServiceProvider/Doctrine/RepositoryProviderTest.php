@@ -51,14 +51,4 @@ class RepositoryProviderTest extends TestCase
 
         $this->serviceProvider->getService();
     }
-
-    public function testGetServiceWhenContainerThrowsNotFoundException()
-    {
-        $this->expectException(ServiceCreationException::class);
-
-        Phake::when($this->container)->get(self::ENTITY_MANAGER)
-            ->thenThrow(new NotFoundException(self::ENTITY_MANAGER));
-
-        $this->serviceProvider->getService();
-    }
 }

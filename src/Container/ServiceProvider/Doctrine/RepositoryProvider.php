@@ -37,8 +37,6 @@ class RepositoryProvider implements ServiceProvider
             $entityManager = $this->container->get('entity_manager');
         } catch (ContainerExceptionInterface $e) {
             throw new ServiceCreationException("Error when attempting to retrieve entity_manager dependency");
-        } catch (NotFoundExceptionInterface $e) {
-            throw new ServiceCreationException("entity_manager dependency not found");
         }
 
         return $entityManager->getRepository($this->entityClassName);
