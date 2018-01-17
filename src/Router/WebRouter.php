@@ -41,7 +41,7 @@ class WebRouter
      */
     public function dispatch(): void
     {
-        /** @var ServerRequestInterface */
+        /** @var ServerRequestInterface $serverRequest */
         $serverRequest = $this->container->get('server_request');
 
         $routeInfo = $this->dispatcher->dispatch($serverRequest->getMethod(), $serverRequest->getUri()->getPath());
