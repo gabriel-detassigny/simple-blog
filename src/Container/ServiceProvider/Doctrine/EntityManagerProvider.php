@@ -29,7 +29,7 @@ class EntityManagerProvider implements ServiceProvider
      */
     public function getService()
     {
-        $paths = [__DIR__ . '/../../Entity'];
+        $paths = [__DIR__ . '/../../../Entity'];
         $isDev = filter_var(getenv('DB_DEV'), FILTER_VALIDATE_BOOLEAN);
         $config = Setup::createAnnotationMetadataConfiguration($paths, $isDev);
 
