@@ -21,6 +21,9 @@ class HomeController
         $this->postViewingService = $postViewingService;
     }
 
+    /**
+     * @throws \Twig_Error
+     */
     public function index()
     {
         $posts = $this->postViewingService->findPageOfLatestPosts();
