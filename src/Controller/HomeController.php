@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace GabrielDeTassigny\Blog\Controller;
 
 use GabrielDeTassigny\Blog\Service\PostViewingService;
+use GabrielDeTassigny\Blog\ValueObject\InvalidPageException;
+use GabrielDeTassigny\Blog\ValueObject\Page;
 use Twig_Environment;
 
 class HomeController
@@ -24,9 +26,26 @@ class HomeController
     /**
      * @throws \Twig_Error
      */
-    public function index()
+    public function index(): void
     {
-        $posts = $this->postViewingService->findPageOfLatestPosts();
+        $posts = $this->postViewingService->findPageOfLatestPosts(new Page(1));
+        $this->twig->display('home.html.twig', ['posts' => $posts]);
+    }
+
+    /**
+     * @param array $vars
+     * @throws \Twig_Error
+     */
+    public function getPosts(array $vars): void
+    {
+        try {
+            $page = new Page((int) $vars['page']);
+        } catch (InvalidPageException $e) {
+            // TODO: Handle error
+            return;
+        }
+
+        $posts = $this->postViewingService->findPageOfLatestPosts($page);
         $this->twig->display('home.html.twig', ['posts' => $posts]);
     }
 }

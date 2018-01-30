@@ -7,6 +7,7 @@ namespace GabrielDeTassigny\Blog\Tests\Service;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use GabrielDeTassigny\Blog\Repository\PostRepository;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
+use GabrielDeTassigny\Blog\ValueObject\Page;
 use Phake;
 use Phake_IMock;
 use PHPUnit\Framework\TestCase;
@@ -34,6 +35,6 @@ class PostViewingServiceTest extends TestCase
         $pageResult = Phake::mock(Paginator::class);
         Phake::when($this->repository)->searchPageOfLatestPosts(Phake::anyParameters())->thenReturn($pageResult);
 
-        $this->assertSame($pageResult, $this->service->findPageOfLatestPosts());
+        $this->assertSame($pageResult, $this->service->findPageOfLatestPosts(new Page(1)));
     }
 }

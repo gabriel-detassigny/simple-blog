@@ -20,8 +20,8 @@ class PostViewingService
         $this->repository = $repository;
     }
 
-    public function findPageOfLatestPosts(): Paginator
+    public function findPageOfLatestPosts(Page $page): Paginator
     {
-        return $this->repository->searchPageOfLatestPosts(new Page(1), self::PAGE_SIZE);
+        return $this->repository->searchPageOfLatestPosts($page, self::PAGE_SIZE);
     }
 }
