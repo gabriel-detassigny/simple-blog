@@ -7,6 +7,8 @@ namespace GabrielDeTassigny\Blog\Controller;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
 use GabrielDeTassigny\Blog\ValueObject\InvalidPageException;
 use GabrielDeTassigny\Blog\ValueObject\Page;
+use Teapot\HttpException;
+use Teapot\StatusCode;
 use Twig_Environment;
 
 class HomeController
@@ -35,14 +37,14 @@ class HomeController
     /**
      * @param array $vars
      * @throws \Twig_Error
+     * @throws HttpException
      */
     public function getPosts(array $vars): void
     {
         try {
             $page = new Page((int) $vars['page']);
         } catch (InvalidPageException $e) {
-            // TODO: Handle error
-            return;
+            throw new HttpException('Page not found', StatusCode::NOT_FOUND);
         }
 
         $posts = $this->postViewingService->findPageOfLatestPosts($page);

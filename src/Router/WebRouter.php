@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Router;
 
+use Exception;
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Teapot\HttpException;
+use Teapot\StatusCode;
 use Twig_Environment;
 
 class WebRouter
@@ -50,7 +53,7 @@ class WebRouter
         switch ($routeInfo[0]) {
             case Dispatcher::NOT_FOUND:
             case Dispatcher::METHOD_NOT_ALLOWED:
-                $this->renderError("404 Page not found", "This page does not exist!");
+                $this->renderError(StatusCode::NOT_FOUND, 'This page does not exist!');
                 break;
             case Dispatcher::FOUND:
                 $handler = $routeInfo[1];
@@ -69,20 +72,26 @@ class WebRouter
      */
     private function dispatchToController(string $controllerKey, string $methodName, array $vars): void
     {
-        $controller = $this->container->get($controllerKey);
-        $controller->$methodName($vars);
+        try {
+            $controller = $this->container->get($controllerKey);
+            $controller->$methodName($vars);
+        } catch (HttpException $e) {
+            $this->renderError($e->getCode(), $e->getMessage());
+        } catch (Exception $e) {
+            $this->renderError(StatusCode::INTERNAL_SERVER_ERROR, 'Something went wrong!');
+        }
     }
 
     /**
-     * @param string $errorTitle
+     * @param int $errorCode
      * @param string $errorDescription
      * @throws ContainerExceptionInterface
      */
-    private function renderError(string $errorTitle, string $errorDescription): void
+    private function renderError(int $errorCode, string $errorDescription): void
     {
         /** @var Twig_Environment */
         $twig = $this->container->get('twig');
 
-        $twig->display('error.html.twig', ['errorTitle' => $errorTitle, 'errorDescription' => $errorDescription]);
+        $twig->display('error.html.twig', ['errorCode' => $errorCode, 'errorDescription' => $errorDescription]);
     }
 }

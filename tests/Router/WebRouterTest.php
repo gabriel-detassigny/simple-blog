@@ -12,6 +12,8 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
+use Teapot\HttpException;
+use Teapot\StatusCode;
 use Twig_Environment;
 
 class WebRouterTest extends TestCase
@@ -42,7 +44,7 @@ class WebRouterTest extends TestCase
         $this->router = new WebRouter($this->container);
     }
 
-    public function testDispatchRouteNotFound()
+    public function testDispatchRouteNotFound(): void
     {
         Phake::when($this->serverRequest)->getMethod()->thenReturn('GET');
         $uri = Phake::mock(UriInterface::class);
@@ -51,10 +53,47 @@ class WebRouterTest extends TestCase
 
         $this->router->dispatch();
 
-        Phake::verify($this->twig)->display('error.html.twig', Phake::ignoreRemaining());
+        $this->assertErrorRendered(StatusCode::NOT_FOUND, 'This page does not exist!');
     }
 
-    public function testDispatchRouteFound()
+    public function testDispatchRouteFound(): void
+    {
+        $controller = $this->getMockRoutedController();
+
+        $this->router->dispatch();
+
+        Phake::verify($controller)->index([]);
+    }
+
+    public function testDispatchControllerThrowsHttpError(): void
+    {
+        $controller = $this->getMockRoutedController();
+        Phake::when($controller)->index([])->thenThrow(new HttpException('page not found', StatusCode::NOT_FOUND));
+
+        $this->router->dispatch();
+
+        $this->assertErrorRendered(StatusCode::NOT_FOUND, 'page not found');
+    }
+
+    public function testDispatchControllerThrowsError(): void
+    {
+        $controller = $this->getMockRoutedController();
+        Phake::when($controller)->index([])->thenThrow(new \Exception('unhandled error!'));
+
+        $this->router->dispatch();
+
+        $this->assertErrorRendered(StatusCode::INTERNAL_SERVER_ERROR, 'Something went wrong!');
+    }
+
+    private function assertErrorRendered(int $code, string $description): void
+    {
+        Phake::verify($this->twig)->display(
+            'error.html.twig',
+            ['errorCode' => $code, 'errorDescription' => $description]
+        );
+    }
+
+    private function getMockRoutedController(): Phake_IMock
     {
         Phake::when($this->serverRequest)->getMethod()->thenReturn('GET');
         $uri = Phake::mock(UriInterface::class);
@@ -63,8 +102,6 @@ class WebRouterTest extends TestCase
         $controller = Phake::mock(HomeController::class);
         Phake::when($this->container)->get('home_controller')->thenReturn($controller);
 
-        $this->router->dispatch();
-
-        Phake::verify($controller)->index([]);
+        return $controller;
     }
 }

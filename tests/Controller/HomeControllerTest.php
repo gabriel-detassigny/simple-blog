@@ -12,6 +12,8 @@ use GabrielDeTassigny\Blog\Service\PostViewingService;
 use Phake;
 use Phake_IMock;
 use PHPUnit\Framework\TestCase;
+use Teapot\HttpException;
+use Teapot\StatusCode;
 use Twig_Environment;
 
 class HomeControllerTest extends TestCase
@@ -38,10 +40,29 @@ class HomeControllerTest extends TestCase
     public function testIndexWillDisplayTwigView()
     {
         $posts = Phake::mock(Paginator::class);
-        Phake::when($this->postService)->findPageOfLatestPosts()->thenReturn($posts);
+        Phake::when($this->postService)->findPageOfLatestPosts(Phake::anyParameters())->thenReturn($posts);
 
         $this->controller->index();
 
         Phake::verify($this->twig)->display('home.html.twig', ['posts' => $posts]);
+    }
+
+    public function testGetPosts()
+    {
+        $vars = ['page' => '2'];
+        $posts = Phake::mock(Paginator::class);
+        Phake::when($this->postService)->findPageOfLatestPosts(Phake::anyParameters())->thenReturn($posts);
+
+        $this->controller->getPosts($vars);
+
+        Phake::verify($this->twig)->display('home.html.twig', ['posts' => $posts]);
+    }
+
+    public function testGetPostsInvalidPage()
+    {
+        $this->expectException(HttpException::class);
+        $this->expectExceptionCode(StatusCode::NOT_FOUND);
+
+        $this->controller->getPosts(['page' => 'test']);
     }
 }
