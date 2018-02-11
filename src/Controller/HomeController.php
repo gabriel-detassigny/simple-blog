@@ -10,6 +10,7 @@ use GabrielDeTassigny\Blog\ValueObject\Page;
 use Teapot\HttpException;
 use Teapot\StatusCode;
 use Twig_Environment;
+use Twig_Error;
 
 class HomeController
 {
@@ -26,17 +27,17 @@ class HomeController
     }
 
     /**
-     * @throws \Twig_Error
+     * @throws Twig_Error
+     * @throws HttpException
      */
     public function index(): void
     {
-        $posts = $this->postViewingService->findPageOfLatestPosts(new Page(1));
-        $this->twig->display('home.html.twig', ['posts' => $posts]);
+        $this->getPosts(['page' => 1]);
     }
 
     /**
      * @param array $vars
-     * @throws \Twig_Error
+     * @throws Twig_Error
      * @throws HttpException
      */
     public function getPosts(array $vars): void
@@ -48,6 +49,10 @@ class HomeController
         }
 
         $posts = $this->postViewingService->findPageOfLatestPosts($page);
-        $this->twig->display('home.html.twig', ['posts' => $posts]);
+        $previousPage = $this->postViewingService->getPreviousPage($page);
+        $nextPage = $this->postViewingService->getNextPage($page, count($posts));
+
+        $params = ['posts' => $posts, 'previousPage' => $previousPage, 'nextPage' => $nextPage];
+        $this->twig->display('home.html.twig', $params);
     }
 }

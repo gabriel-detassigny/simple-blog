@@ -20,8 +20,12 @@
             {% endfor %}
             <nav>
                 <ul class="pager">
-                    <li><a href="#">Previous</a></li>
-                    <li><a href="#">Next</a></li>
+                    {% if previousPage is not null %}
+                        <li><a href="/posts/page/{{ previousPage.getValue }}">Previous</a></li>
+                    {% endif %}
+                    {% if nextPage is not null %}
+                        <li><a href="/posts/page/{{ nextPage.getValue }}">Next</a></li>
+                    {% endif %}
                 </ul>
             </nav>
 

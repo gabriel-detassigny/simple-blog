@@ -35,19 +35,25 @@ class HomeControllerTest extends TestCase
         $this->twig = Phake::mock(Twig_Environment::class);
         $this->postService = Phake::mock(PostViewingService::class);
         $this->controller = new HomeController($this->twig, $this->postService);
+
+        Phake::when($this->postService)->getPreviousPage(Phake::anyParameters())->thenReturn(null);
+        Phake::when($this->postService)->getNextPage(Phake::anyParameters())->thenReturn(null);
     }
 
-    public function testIndexWillDisplayTwigView()
+    public function testIndexWillDisplayTwigView(): void
     {
         $posts = Phake::mock(Paginator::class);
         Phake::when($this->postService)->findPageOfLatestPosts(Phake::anyParameters())->thenReturn($posts);
 
         $this->controller->index();
 
-        Phake::verify($this->twig)->display('home.html.twig', ['posts' => $posts]);
+        Phake::verify($this->twig)->display(
+            'home.html.twig',
+            ['posts' => $posts, 'previousPage' => null, 'nextPage' => null]
+        );
     }
 
-    public function testGetPosts()
+    public function testGetPosts(): void
     {
         $vars = ['page' => '2'];
         $posts = Phake::mock(Paginator::class);
@@ -55,10 +61,13 @@ class HomeControllerTest extends TestCase
 
         $this->controller->getPosts($vars);
 
-        Phake::verify($this->twig)->display('home.html.twig', ['posts' => $posts]);
+        Phake::verify($this->twig)->display(
+            'home.html.twig',
+            ['posts' => $posts, 'previousPage' => null, 'nextPage' => null]
+        );
     }
 
-    public function testGetPostsInvalidPage()
+    public function testGetPostsInvalidPage(): void
     {
         $this->expectException(HttpException::class);
         $this->expectExceptionCode(StatusCode::NOT_FOUND);
