@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Tests\Router;
 
-use GabrielDeTassigny\Blog\Controller\HomeController;
+use GabrielDeTassigny\Blog\Controller\PostViewingController;
 use GabrielDeTassigny\Blog\Router\WebRouter;
 use Phake;
 use Phake_IMock;
@@ -99,8 +99,8 @@ class WebRouterTest extends TestCase
         $uri = Phake::mock(UriInterface::class);
         Phake::when($this->serverRequest)->getUri()->thenReturn($uri);
         Phake::when($uri)->getPath()->thenReturn('/');
-        $controller = Phake::mock(HomeController::class);
-        Phake::when($this->container)->get('home_controller')->thenReturn($controller);
+        $controller = Phake::mock(PostViewingController::class);
+        Phake::when($this->container)->get('post_viewing_controller')->thenReturn($controller);
 
         return $controller;
     }

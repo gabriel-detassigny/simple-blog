@@ -12,7 +12,7 @@ use Teapot\StatusCode;
 use Twig_Environment;
 use Twig_Error;
 
-class HomeController
+class PostViewingController
 {
     /** @var Twig_Environment */
     private $twig;

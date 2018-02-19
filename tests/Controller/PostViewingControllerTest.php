@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace GabrielDeTassigny\Blog\Tests\Controller;
 
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use GabrielDeTassigny\Blog\Controller\HomeController;
+use GabrielDeTassigny\Blog\Controller\PostViewingController;
 use GabrielDeTassigny\Blog\Entity\Post;
 use GabrielDeTassigny\Blog\Repository\PostRepository;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
@@ -16,9 +16,9 @@ use Teapot\HttpException;
 use Teapot\StatusCode;
 use Twig_Environment;
 
-class HomeControllerTest extends TestCase
+class PostViewingControllerTest extends TestCase
 {
-    /** @var HomeController */
+    /** @var PostViewingController */
     private $controller;
 
     /** @var Twig_Environment|Phake_IMock */
@@ -34,7 +34,7 @@ class HomeControllerTest extends TestCase
     {
         $this->twig = Phake::mock(Twig_Environment::class);
         $this->postService = Phake::mock(PostViewingService::class);
-        $this->controller = new HomeController($this->twig, $this->postService);
+        $this->controller = new PostViewingController($this->twig, $this->postService);
 
         Phake::when($this->postService)->getPreviousPage(Phake::anyParameters())->thenReturn(null);
         Phake::when($this->postService)->getNextPage(Phake::anyParameters())->thenReturn(null);

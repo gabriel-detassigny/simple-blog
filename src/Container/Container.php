@@ -6,15 +6,15 @@ namespace GabrielDeTassigny\Blog\Container;
 
 use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceCreationException;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceProvider;
-use GabrielDeTassigny\Blog\Controller\HomeController;
+use GabrielDeTassigny\Blog\Controller\PostViewingController;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
 use Psr\Container\ContainerInterface;
 
 class Container implements ContainerInterface
 {
     private const DEPENDENCIES = [
-        'home_controller' => [
-            'name' => HomeController::class,
+        'post_viewing_controller' => [
+            'name' => PostViewingController::class,
             'dependencies' => ['twig', 'post_viewing_service']
         ],
         'post_viewing_service' => [

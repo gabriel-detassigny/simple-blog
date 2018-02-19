@@ -13,7 +13,7 @@ class PostRepository extends EntityRepository
 {
     private const SQL_PAGE_INDEX = 1;
 
-    public function searchPageOfLatestPosts(Page $page, int $pageSize)
+    public function searchPageOfLatestPosts(Page $page, int $pageSize): Paginator
     {
         $dql = 'SELECT p FROM ' . Post::class . ' p ORDER BY p.createdAt DESC';
 

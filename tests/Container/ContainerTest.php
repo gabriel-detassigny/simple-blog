@@ -9,7 +9,7 @@ use GabrielDeTassigny\Blog\Container\ContainerException;
 use GabrielDeTassigny\Blog\Container\NotFoundException;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceCreationException;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceProvider;
-use GabrielDeTassigny\Blog\Controller\HomeController;
+use GabrielDeTassigny\Blog\Controller\PostViewingController;
 use GabrielDeTassigny\Blog\Repository\PostRepository;
 use Phake;
 use PHPUnit\Framework\TestCase;
@@ -36,7 +36,7 @@ class ContainerTest extends TestCase
 
     public function testHasMethodIsTrue()
     {
-        $this->assertTrue($this->container->has('home_controller'));
+        $this->assertTrue($this->container->has('post_viewing_controller'));
     }
 
     public function testHasMethodIsFalse()
@@ -53,9 +53,9 @@ class ContainerTest extends TestCase
 
     public function testGetFromIdentifier()
     {
-        $controller = $this->container->get('home_controller');
+        $controller = $this->container->get('post_viewing_controller');
 
-        $this->assertInstanceOf(HomeController::class, $controller);
+        $this->assertInstanceOf(PostViewingController::class, $controller);
     }
 
     public function testHasRegisteredService()
@@ -77,8 +77,8 @@ class ContainerTest extends TestCase
 
     public function testGetSameObjectOnSuccessiveCalls()
     {
-        $controller = $this->container->get('home_controller');
+        $controller = $this->container->get('post_viewing_controller');
 
-        $this->assertSame($controller, $this->container->get('home_controller'));
+        $this->assertSame($controller, $this->container->get('post_viewing_controller'));
     }
 }

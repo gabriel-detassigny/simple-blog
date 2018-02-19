@@ -17,8 +17,8 @@ use Twig_Environment;
 class WebRouter
 {
     const ROUTES = [
-        ['GET', '/', 'home_controller/index'],
-        ['GET', '/posts/page/{page}', 'home_controller/getPosts']
+        ['GET', '/', 'post_viewing_controller/index'],
+        ['GET', '/posts/page/{page}', 'post_viewing_controller/getPosts']
     ];
 
     /** @var ContainerInterface */
