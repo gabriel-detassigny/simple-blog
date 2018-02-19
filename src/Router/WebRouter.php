@@ -10,6 +10,7 @@ use FastRoute\RouteCollector;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Log\LoggerInterface;
 use Teapot\HttpException;
 use Teapot\StatusCode;
 use Twig_Environment;
@@ -21,6 +22,7 @@ class WebRouter
         ['GET', '/posts/page/{page}', 'post_viewing_controller/getPosts'],
         ['GET', '/posts/{id}', 'post_viewing_controller/showPost']
     ];
+    const EXCEPTION_MESSAGE = 'An unexpected exception occurred!';
 
     /** @var ContainerInterface */
     private $container;
@@ -79,6 +81,9 @@ class WebRouter
         } catch (HttpException $e) {
             $this->renderError($e->getCode(), $e->getMessage());
         } catch (Exception $e) {
+            /** @var LoggerInterface $log */
+            $log = $this->container->get('log');
+            $log->error(self::EXCEPTION_MESSAGE, ['message' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
             $this->renderError(StatusCode::INTERNAL_SERVER_ERROR, 'Something went wrong!');
         }
     }

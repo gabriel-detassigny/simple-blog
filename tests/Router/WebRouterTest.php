@@ -12,6 +12,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
+use Psr\Log\LoggerInterface;
 use Teapot\HttpException;
 use Teapot\StatusCode;
 use Twig_Environment;
@@ -30,6 +31,9 @@ class WebRouterTest extends TestCase
     /** @var ServerRequestInterface|Phake_IMock */
     private $serverRequest;
 
+    /** @var LoggerInterface|Phake_IMock */
+    private $log;
+
     /**
      * {@inheritdoc}
      */
@@ -38,8 +42,11 @@ class WebRouterTest extends TestCase
         $this->container = Phake::mock(ContainerInterface::class);
         $this->twig = Phake::mock(Twig_Environment::class);
         $this->serverRequest = Phake::mock(ServerRequestInterface::class);
+        $this->log = Phake::mock(LoggerInterface::class);
+
         Phake::when($this->container)->get('server_request')->thenReturn($this->serverRequest);
         Phake::when($this->container)->get('twig')->thenReturn($this->twig);
+        Phake::when($this->container)->get('log')->thenReturn($this->log);
 
         $this->router = new WebRouter($this->container);
     }
