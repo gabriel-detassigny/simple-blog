@@ -10,7 +10,7 @@ before_script:
 script: vendor/bin/phpunit
 
 install:
-  - composer require satooshi/php-coveralls:~0.6@stable
+  - composer require php-coveralls/php-coveralls
 
 after_success:
-  - php vendor/bin/coveralls -v
+  - travis_retry php vendor/bin/php-coveralls
