@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace GabrielDeTassigny\Blog\Service;
 
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use GabrielDeTassigny\Blog\Container\NotFoundException;
 use GabrielDeTassigny\Blog\Entity\Post;
 use GabrielDeTassigny\Blog\Repository\PostRepository;
 use GabrielDeTassigny\Blog\ValueObject\InvalidPageException;
@@ -56,7 +55,7 @@ class PostViewingService
         $post = $this->repository->find($id);
 
         if ($post === null) {
-            throw new NotFoundException("Post with ID {$id} was not found");
+            throw new PostNotFoundException("Post with ID {$id} was not found");
         }
         return $post;
     }
