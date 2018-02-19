@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GabrielDeTassigny\Blog\Container\ServiceProvider;
+namespace GabrielDeTassigny\Blog\Tests\Container\ServiceProvider;
 
+use GabrielDeTassigny\Blog\Container\ServiceProvider\LogProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
