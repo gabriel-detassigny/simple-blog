@@ -3,9 +3,9 @@
 {% block content %}
     <div class="blog-header">
         <h1>{{ post.getTitle }}</h1>
-        <h2>{{ post.getSubtitle }}</h2>
+        <p class="lead blog-description">{{ post.getSubtitle }}</p>
     </div>
     <div class="row">
-        <p>{{ post.getText }}</p>
+        <p>{{ post.getText | raw }}</p>
     </div>
 {% endblock %}
