@@ -8,6 +8,7 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 use GabrielDeTassigny\Blog\Container\NotFoundException;
 use GabrielDeTassigny\Blog\Entity\Post;
 use GabrielDeTassigny\Blog\Repository\PostRepository;
+use GabrielDeTassigny\Blog\Service\PostNotFoundException;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
 use GabrielDeTassigny\Blog\ValueObject\Page;
 use Phake;
@@ -79,7 +80,7 @@ class PostViewingServiceTest extends TestCase
 
     public function testGetPost_NotFound(): void
     {
-        $this->expectException(NotFoundException::class);
+        $this->expectException(PostNotFoundException::class);
 
         $this->service->getPost(self::POST_ID);
     }
