@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Controller;
 
+use GabrielDeTassigny\Blog\Service\PostNotFoundException;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
 use GabrielDeTassigny\Blog\ValueObject\InvalidPageException;
 use GabrielDeTassigny\Blog\ValueObject\Page;
@@ -54,5 +55,20 @@ class PostViewingController
 
         $params = ['posts' => $posts, 'previousPage' => $previousPage, 'nextPage' => $nextPage];
         $this->twig->display('home.html.twig', $params);
+    }
+
+    /**
+     * @param array $vars
+     * @throws HttpException
+     * @throws Twig_Error
+     */
+    public function showPost(array $vars): void
+    {
+        try {
+            $post = $this->postViewingService->getPost((int) $vars['id']);
+        } catch (PostNotFoundException $e) {
+            throw new HttpException("Post not found", StatusCode::NOT_FOUND);
+        }
+        $this->twig->display('post.html.twig', ['post' => $post]);
     }
 }

@@ -18,7 +18,8 @@ class WebRouter
 {
     const ROUTES = [
         ['GET', '/', 'post_viewing_controller/index'],
-        ['GET', '/posts/page/{page}', 'post_viewing_controller/getPosts']
+        ['GET', '/posts/page/{page}', 'post_viewing_controller/getPosts'],
+        ['GET', '/posts/{id}', 'post_viewing_controller/showPost']
     ];
 
     /** @var ContainerInterface */

@@ -8,6 +8,7 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 use GabrielDeTassigny\Blog\Controller\PostViewingController;
 use GabrielDeTassigny\Blog\Entity\Post;
 use GabrielDeTassigny\Blog\Repository\PostRepository;
+use GabrielDeTassigny\Blog\Service\PostNotFoundException;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
 use Phake;
 use Phake_IMock;
@@ -18,6 +19,7 @@ use Twig_Environment;
 
 class PostViewingControllerTest extends TestCase
 {
+    const POST_ID = 1;
     /** @var PostViewingController */
     private $controller;
 
@@ -73,5 +75,24 @@ class PostViewingControllerTest extends TestCase
         $this->expectExceptionCode(StatusCode::NOT_FOUND);
 
         $this->controller->getPosts(['page' => 'test']);
+    }
+
+    public function testShowPost_IdNotFound(): void
+    {
+        Phake::when($this->postService)->getPost(self::POST_ID)->thenThrow(new PostNotFoundException());
+        $this->expectException(HttpException::class);
+        $this->expectExceptionCode(StatusCode::NOT_FOUND);
+
+        $this->controller->showPost(['id' => self::POST_ID]);
+    }
+
+    public function testShowPost(): void
+    {
+        $post = Phake::mock(Post::class);
+        Phake::when($this->postService)->getPost(self::POST_ID)->thenReturn($post);
+
+        $this->controller->showPost(['id' => self::POST_ID]);
+
+        Phake::verify($this->twig)->display('post.html.twig', ['post' => $post]);
     }
 }
