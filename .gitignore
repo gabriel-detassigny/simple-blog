@@ -3,3 +3,5 @@ cache/*
 !cache/.gitkeep
 .env
 build/
+logs/*
+!logs/.gitkeep
