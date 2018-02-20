@@ -20,7 +20,8 @@ class WebRouter
     const ROUTES = [
         ['GET', '/', 'post_viewing_controller/index'],
         ['GET', '/posts/page/{page}', 'post_viewing_controller/getPosts'],
-        ['GET', '/posts/{id}', 'post_viewing_controller/showPost']
+        ['GET', '/posts/{id:\d+}', 'post_viewing_controller/showPost'],
+        ['GET', '/posts/new', 'post_writing_controller/newPost']
     ];
     const EXCEPTION_MESSAGE = 'An unexpected exception occurred!';
 

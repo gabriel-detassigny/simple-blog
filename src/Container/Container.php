@@ -7,6 +7,7 @@ namespace GabrielDeTassigny\Blog\Container;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceCreationException;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceProvider;
 use GabrielDeTassigny\Blog\Controller\PostViewingController;
+use GabrielDeTassigny\Blog\Controller\PostWritingController;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
 use Psr\Container\ContainerInterface;
 
@@ -16,6 +17,10 @@ class Container implements ContainerInterface
         'post_viewing_controller' => [
             'name' => PostViewingController::class,
             'dependencies' => ['twig', 'post_viewing_service']
+        ],
+        'post_writing_controller' => [
+            'name' => PostWritingController::class,
+            'dependencies' => ['twig']
         ],
         'post_viewing_service' => [
             'name' => PostViewingService::class,
