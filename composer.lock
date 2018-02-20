@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8d919d1befdf53b555846974ecfa2152",
+    "content-hash": "9eb033f30896d3c550ca3e533b819f20",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -952,6 +952,46 @@
                 "psr-3"
             ],
             "time": "2016-10-10T12:19:37+00:00"
+        },
+        {
+            "name": "saffyre/basic-http-authentication",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/saffyre/basic-http-authentication.git",
+                "reference": "a67b7899b4feee8bcb009a24ed46d95ab1f79952"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/saffyre/basic-http-authentication/zipball/a67b7899b4feee8bcb009a24ed46d95ab1f79952",
+                "reference": "a67b7899b4feee8bcb009a24ed46d95ab1f79952",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "basic-http-authentication.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alex Brombal",
+                    "email": "alex.brombal@gmail.com",
+                    "homepage": "http://www.brombal.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Simple Basic HTTP Authentication. No framework required.",
+            "keywords": [
+                "Authentication",
+                "basic",
+                "http"
+            ],
+            "time": "2015-11-16T16:47:42+00:00"
         },
         {
             "name": "shrikeh/teapot",
