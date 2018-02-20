@@ -50,7 +50,7 @@ class PostViewingControllerTest extends TestCase
         $this->controller->index();
 
         Phake::verify($this->twig)->display(
-            'home.html.twig',
+            'posts/list.twig',
             ['posts' => $posts, 'previousPage' => null, 'nextPage' => null]
         );
     }
@@ -64,7 +64,7 @@ class PostViewingControllerTest extends TestCase
         $this->controller->getPosts($vars);
 
         Phake::verify($this->twig)->display(
-            'home.html.twig',
+            'posts/list.twig',
             ['posts' => $posts, 'previousPage' => null, 'nextPage' => null]
         );
     }
@@ -93,6 +93,6 @@ class PostViewingControllerTest extends TestCase
 
         $this->controller->showPost(['id' => self::POST_ID]);
 
-        Phake::verify($this->twig)->display('post.html.twig', ['post' => $post]);
+        Phake::verify($this->twig)->display('posts/show.twig', ['post' => $post]);
     }
 }

@@ -95,7 +95,7 @@ class WebRouterTest extends TestCase
     private function assertErrorRendered(int $code, string $description): void
     {
         Phake::verify($this->twig)->display(
-            'error.html.twig',
+            'error.twig',
             ['errorCode' => $code, 'errorDescription' => $description]
         );
     }

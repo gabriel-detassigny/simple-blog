@@ -99,6 +99,6 @@ class WebRouter
         /** @var Twig_Environment */
         $twig = $this->container->get('twig');
 
-        $twig->display('error.html.twig', ['errorCode' => $errorCode, 'errorDescription' => $errorDescription]);
+        $twig->display('error.twig', ['errorCode' => $errorCode, 'errorDescription' => $errorDescription]);
     }
 }

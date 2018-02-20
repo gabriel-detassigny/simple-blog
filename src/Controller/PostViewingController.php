@@ -54,7 +54,7 @@ class PostViewingController
         $nextPage = $this->postViewingService->getNextPage($page, count($posts));
 
         $params = ['posts' => $posts, 'previousPage' => $previousPage, 'nextPage' => $nextPage];
-        $this->twig->display('home.html.twig', $params);
+        $this->twig->display('posts/list.twig', $params);
     }
 
     /**
@@ -67,8 +67,8 @@ class PostViewingController
         try {
             $post = $this->postViewingService->getPost((int) $vars['id']);
         } catch (PostNotFoundException $e) {
-            throw new HttpException("Post not found", StatusCode::NOT_FOUND);
+            throw new HttpException('Post not found', StatusCode::NOT_FOUND);
         }
-        $this->twig->display('post.html.twig', ['post' => $post]);
+        $this->twig->display('posts/show.twig', ['post' => $post]);
     }
 }
