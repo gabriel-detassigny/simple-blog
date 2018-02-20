@@ -6,7 +6,7 @@ namespace GabrielDeTassigny\Blog\Service;
 
 class AuthenticationService
 {
-    const LOGIN_MESSAGE = "Please log in.";
+    private const LOGIN_MESSAGE = "Please log in.";
 
     public function authenticateAsAdmin(): bool
     {
