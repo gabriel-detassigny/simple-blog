@@ -21,7 +21,7 @@ class Container implements ContainerInterface
         ],
         'post_writing_controller' => [
             'name' => PostWritingController::class,
-            'dependencies' => ['twig', 'authentication_service']
+            'dependencies' => ['twig', 'authentication_service', 'server_request']
         ],
         'post_viewing_service' => [
             'name' => PostViewingService::class,

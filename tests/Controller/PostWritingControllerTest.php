@@ -9,6 +9,7 @@ use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use Phake;
 use Phake_IMock;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ServerRequestInterface;
 use Teapot\HttpException;
 use Teapot\StatusCode;
 use Twig_Environment;
@@ -24,6 +25,9 @@ class PostWritingControllerTest extends TestCase
     /** @var AuthenticationService|Phake_IMock */
     private $authenticationService;
 
+    /** @var ServerRequestInterface|Phake_IMock */
+    private $request;
+
     /**
      * {@inheritdoc}
      */
@@ -31,7 +35,9 @@ class PostWritingControllerTest extends TestCase
     {
         $this->twig = Phake::mock(Twig_Environment::class);
         $this->authenticationService = Phake::mock(AuthenticationService::class);
-        $this->controller = new PostWritingController($this->twig, $this->authenticationService);
+        $this->request = Phake::mock(ServerRequestInterface::class);
+        Phake::when($this->request)->getParsedBody()->thenReturn([]);
+        $this->controller = new PostWritingController($this->twig, $this->authenticationService, $this->request);
     }
 
     public function testNewPost()
@@ -48,5 +54,23 @@ class PostWritingControllerTest extends TestCase
         $this->expectExceptionCode(StatusCode::FORBIDDEN);
 
         $this->controller->newPost();
+    }
+
+    public function testCreatePost_ForbiddenAccess()
+    {
+        $this->expectException(HttpException::class);
+        $this->expectExceptionCode(StatusCode::FORBIDDEN);
+
+        $this->controller->createPost();
+    }
+
+    public function testCreatePost_InvalidParameters()
+    {
+        $this->expectException(HttpException::class);
+        $this->expectExceptionCode(StatusCode::BAD_REQUEST);
+
+        Phake::when($this->authenticationService)->authenticateAsAdmin()->thenReturn(true);
+
+        $this->controller->createPost();
     }
 }

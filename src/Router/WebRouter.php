@@ -21,7 +21,8 @@ class WebRouter
         ['GET', '/', 'post_viewing_controller/index'],
         ['GET', '/posts/page/{page}', 'post_viewing_controller/getPosts'],
         ['GET', '/posts/{id:\d+}', 'post_viewing_controller/showPost'],
-        ['GET', '/posts/new', 'post_writing_controller/newPost']
+        ['GET', '/posts/new', 'post_writing_controller/newPost'],
+        ['POST', '/posts', 'post_writing_controller/createPost']
     ];
     const EXCEPTION_MESSAGE = 'An unexpected exception occurred!';
 

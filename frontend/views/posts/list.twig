@@ -13,8 +13,7 @@
             {% for post in posts %}
                 <div class="blog-post">
                     <h2 class="blog-post-title">{{ post.getTitle }}</h2>
-                    <p class="blog-post-meta">{{ post.getCreatedAt|date('F jS, Y') }} by <a href="#">Mark</a></p>
-
+                    <p class="blog-post-meta">{{ post.getCreatedAt|date('F jS, Y') }}</p>
                     <p>{{ post.getSubtitle }}</p>
                 </div>
             {% endfor %}
