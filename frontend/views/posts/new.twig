@@ -2,4 +2,19 @@
 
 {% block content %}
     <h1>New post</h1>
+    <form method="post" action="/posts">
+        <div class="form-group">
+            <label for="post-title">Title</label>
+            <input type="text" class="form-control" id="post-title" name="post[title]">
+        </div>
+        <div class="form-group">
+            <label for="post-subtitle">Subtitle</label>
+            <input type="text" class="form-control" id="post-subtitle" name="post[subtitle]">
+        </div>
+        <div class="form-group">
+            <label for="post-text">Text</label>
+            <textarea class="form-control" rows="20" id="post-text" name="post[text]"></textarea>
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
 {% endblock %}
