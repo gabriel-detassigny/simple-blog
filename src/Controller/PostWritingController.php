@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace GabrielDeTassigny\Blog\Controller;
 
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
+use GabrielDeTassigny\Blog\Service\PostCreationException;
+use GabrielDeTassigny\Blog\Service\PostWritingService;
 use Psr\Http\Message\ServerRequestInterface;
 use Teapot\HttpException;
 use Teapot\StatusCode;
@@ -22,14 +24,19 @@ class PostWritingController
     /** @var ServerRequestInterface */
     private $request;
 
+    /** @var PostWritingService */
+    private $postWritingService;
+
     public function __construct(
         Twig_Environment $twig,
         AuthenticationService $authenticationService,
-        ServerRequestInterface $request
+        ServerRequestInterface $request,
+        PostWritingService $postWritingService
     ) {
         $this->twig = $twig;
         $this->authenticationService = $authenticationService;
         $this->request = $request;
+        $this->postWritingService = $postWritingService;
     }
 
     /**
@@ -44,6 +51,7 @@ class PostWritingController
 
     /**
      * @throws HttpException
+     * @throws Twig_Error
      */
     public function createPost(): void
     {
@@ -51,6 +59,12 @@ class PostWritingController
         $body = $this->request->getParsedBody();
         if (!array_key_exists('post', $body) || !is_array($body['post'])) {
             throw new HttpException('Invalid form parameters', StatusCode::BAD_REQUEST);
+        }
+        try {
+            $this->postWritingService->createPost($body['post']);
+        } catch (PostCreationException $e) {
+            $this->twig->display('posts/new.twig', ['error' => $e->getMessage()]);
+            return;
         }
     }
 

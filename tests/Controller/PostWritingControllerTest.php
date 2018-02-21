@@ -6,6 +6,8 @@ namespace GabrielDeTassigny\Blog\Tests\Controller;
 
 use GabrielDeTassigny\Blog\Controller\PostWritingController;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
+use GabrielDeTassigny\Blog\Service\PostCreationException;
+use GabrielDeTassigny\Blog\Service\PostWritingService;
 use Phake;
 use Phake_IMock;
 use PHPUnit\Framework\TestCase;
@@ -16,6 +18,9 @@ use Twig_Environment;
 
 class PostWritingControllerTest extends TestCase
 {
+    private const BODY = ['post' => []];
+    private const CREATION_ERROR = 'Error when creating post';
+
     /** @var PostWritingController */
     private $controller;
 
@@ -28,6 +33,9 @@ class PostWritingControllerTest extends TestCase
     /** @var ServerRequestInterface|Phake_IMock */
     private $request;
 
+    /** @var PostWritingService|Phake_IMock */
+    private $postWritingService;
+
     /**
      * {@inheritdoc}
      */
@@ -37,7 +45,14 @@ class PostWritingControllerTest extends TestCase
         $this->authenticationService = Phake::mock(AuthenticationService::class);
         $this->request = Phake::mock(ServerRequestInterface::class);
         Phake::when($this->request)->getParsedBody()->thenReturn([]);
-        $this->controller = new PostWritingController($this->twig, $this->authenticationService, $this->request);
+        $this->postWritingService = Phake::mock(PostWritingService::class);
+
+        $this->controller = new PostWritingController(
+            $this->twig,
+            $this->authenticationService,
+            $this->request,
+            $this->postWritingService
+        );
     }
 
     public function testNewPost()
@@ -72,5 +87,18 @@ class PostWritingControllerTest extends TestCase
         Phake::when($this->authenticationService)->authenticateAsAdmin()->thenReturn(true);
 
         $this->controller->createPost();
+    }
+
+    public function testCreatePost_CreationError()
+    {
+        Phake::when($this->authenticationService)->authenticateAsAdmin()->thenReturn(true);
+        Phake::when($this->postWritingService)->createPost(self::BODY['post'])
+            ->thenThrow(new PostCreationException(self::CREATION_ERROR));
+
+        Phake::when($this->request)->getParsedBody()->thenReturn(self::BODY);
+
+        $this->controller->createPost();
+
+        Phake::verify($this->twig)->display('posts/new.twig', ['error' => self::CREATION_ERROR]);
     }
 }

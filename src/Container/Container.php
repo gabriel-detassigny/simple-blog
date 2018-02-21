@@ -10,6 +10,7 @@ use GabrielDeTassigny\Blog\Controller\PostViewingController;
 use GabrielDeTassigny\Blog\Controller\PostWritingController;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
+use GabrielDeTassigny\Blog\Service\PostWritingService;
 use Psr\Container\ContainerInterface;
 
 class Container implements ContainerInterface
@@ -21,7 +22,7 @@ class Container implements ContainerInterface
         ],
         'post_writing_controller' => [
             'name' => PostWritingController::class,
-            'dependencies' => ['twig', 'authentication_service', 'server_request']
+            'dependencies' => ['twig', 'authentication_service', 'server_request', 'post_writing_service']
         ],
         'post_viewing_service' => [
             'name' => PostViewingService::class,
@@ -30,6 +31,10 @@ class Container implements ContainerInterface
         'authentication_service' => [
             'name' => AuthenticationService::class,
             'dependencies' => []
+        ],
+        'post_writing_service' => [
+            'name' => PostWritingService::class,
+            'dependencies' => ['entity_manager']
         ]
     ];
 
