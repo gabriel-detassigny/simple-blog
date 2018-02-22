@@ -33,6 +33,11 @@ class Post
     /** @Column(type="datetime", name="updated_at", nullable=true) */
     private $updatedAt;
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
     public function getText(): string
     {
         return $this->text;
