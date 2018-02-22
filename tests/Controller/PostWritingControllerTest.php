@@ -94,11 +94,35 @@ class PostWritingControllerTest extends TestCase
         Phake::when($this->authenticationService)->authenticateAsAdmin()->thenReturn(true);
         Phake::when($this->postWritingService)->createPost(self::BODY['post'])
             ->thenThrow(new PostCreationException(self::CREATION_ERROR));
-
         Phake::when($this->request)->getParsedBody()->thenReturn(self::BODY);
 
         $this->controller->createPost();
 
         Phake::verify($this->twig)->display('posts/new.twig', ['error' => self::CREATION_ERROR]);
+    }
+
+    public function testCreatePost()
+    {
+        Phake::when($this->authenticationService)->authenticateAsAdmin()->thenReturn(true);
+        Phake::when($this->request)->getParsedBody()->thenReturn(self::BODY);
+
+        $this->controller->createPost();
+
+        Phake::verify($this->twig)->display('admin.twig', Phake::ignoreRemaining());
+    }
+
+    public function testIndex()
+    {
+        Phake::when($this->authenticationService)->authenticateAsAdmin()->thenReturn(true);
+        $this->controller->index();
+        Phake::verify($this->twig)->display('admin.twig');
+    }
+
+    public function testIndex_ForbiddenAccess()
+    {
+        $this->expectException(HttpException::class);
+        $this->expectExceptionCode(StatusCode::FORBIDDEN);
+
+        $this->controller->index();
     }
 }

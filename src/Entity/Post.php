@@ -67,4 +67,9 @@ class Post
     {
         $this->subtitle = $subtitle;
     }
+
+    public function setCreatedAt(DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
 }

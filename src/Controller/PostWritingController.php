@@ -43,6 +43,16 @@ class PostWritingController
      * @throws Twig_Error
      * @throws HttpException
      */
+    public function index(): void
+    {
+        $this->ensureAdminAuthentication();
+        $this->twig->display('admin.twig');
+    }
+
+    /**
+     * @throws Twig_Error
+     * @throws HttpException
+     */
     public function newPost(): void
     {
         $this->ensureAdminAuthentication();
@@ -66,6 +76,7 @@ class PostWritingController
             $this->twig->display('posts/new.twig', ['error' => $e->getMessage()]);
             return;
         }
+        $this->twig->display('admin.twig', ['success' => 'Post successfully created']);
     }
 
     /**

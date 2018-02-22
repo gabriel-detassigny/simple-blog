@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Service;
 
+use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use GabrielDeTassigny\Blog\Entity\Post;
@@ -28,6 +29,7 @@ class PostWritingService
         $post->setText($request['text']);
         $post->setSubtitle($request['subtitle']);
         $post->setTitle($request['title']);
+        $post->setCreatedAt(new DateTime());
 
         try {
             $this->entityManager->persist($post);

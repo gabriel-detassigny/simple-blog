@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Tests\Entity;
 
+use DateTime;
 use GabrielDeTassigny\Blog\Entity\Post;
 use PHPUnit\Framework\TestCase;
 
@@ -40,4 +41,13 @@ class PostTest extends TestCase
 
         $this->assertSame('Subtitle', $this->post->getSubtitle());
     }
+
+    public function testGetCreatedAt()
+    {
+        $date = new DateTime();
+        $this->post->setCreatedAt($date);
+
+        $this->assertSame($date, $this->post->getCreatedAt());
+    }
+
 }

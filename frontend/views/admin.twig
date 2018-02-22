@@ -1,0 +1,15 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <div class="blog-header">
+        <h1 class="blog-title">Admin</h1>
+    </div>
+    <div class="row">
+        {% if success is defined %}
+            <div class="alert alert-success" role="alert">
+                {{ success }}
+            </div>
+        {% endif %}
+        <a href="/posts/new" class="btn btn-primary">New Post</a>
+    </div>
+{% endblock %}
