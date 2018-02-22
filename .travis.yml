@@ -13,4 +13,4 @@ install:
   - composer require php-coveralls/php-coveralls
 
 after_success:
-  - travis_retry php vendor/bin/php-coveralls
+  - travis_retry php vendor/bin/php-coveralls -v
