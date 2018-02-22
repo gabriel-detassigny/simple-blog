@@ -6,7 +6,7 @@ namespace GabrielDeTassigny\Blog\Service;
 
 use DateTime;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\ORMException;
+use Exception;
 use GabrielDeTassigny\Blog\Entity\Post;
 
 class PostWritingService
@@ -34,7 +34,7 @@ class PostWritingService
         try {
             $this->entityManager->persist($post);
             $this->entityManager->flush();
-        } catch (ORMException $e) {
+        } catch (Exception $e) {
             throw new PostCreationException('Error on post creation : ' . $e->getMessage());
         }
     }

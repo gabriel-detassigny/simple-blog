@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace GabrielDeTassigny\Blog\Tests\Service;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\ORMException;
+use Exception;
 use GabrielDeTassigny\Blog\Service\PostCreationException;
 use GabrielDeTassigny\Blog\Service\PostWritingService;
 use Phake;
@@ -45,7 +45,7 @@ class PostWritingServiceTest extends TestCase
     {
         $this->expectException(PostCreationException::class);
 
-        Phake::when($this->entityManager)->persist(Phake::anyParameters())->thenThrow(new ORMException());
+        Phake::when($this->entityManager)->persist(Phake::anyParameters())->thenThrow(new Exception());
         $request = ['text' => 'example of text', 'title' => 'Title', 'subtitle' => 'Subtitle'];
 
         $this->service->createPost($request);
