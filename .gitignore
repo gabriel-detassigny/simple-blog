@@ -5,3 +5,5 @@ cache/*
 build/
 logs/*
 !logs/.gitkeep
+frontend/public/images/upload/*
+!frontend/public/images/upload/.gitkeep
