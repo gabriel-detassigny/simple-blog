@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Controller;
 
+use DateTime;
 use GabrielDeTassigny\Blog\Renderer\JsonRenderer;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\ImageService;
@@ -46,7 +47,7 @@ class ImageController
 
         $uploadedFiles = $this->request->getUploadedFiles();
         if (!empty($uploadedFiles) && array_key_exists('file', $uploadedFiles)) {
-            $location = $this->imageService->uploadImage($uploadedFiles['file']);
+            $location = $this->imageService->uploadImage($uploadedFiles['file'], new DateTime());
             $this->renderer->render(['location' => $location]);
         }
     }

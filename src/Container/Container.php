@@ -45,7 +45,7 @@ class Container implements ContainerInterface
         ],
         'image_service' => [
             'name' => ImageService::class,
-            'dependencies' => []
+            'dependencies' => ['log']
         ],
         'json_renderer' => [
             'name' => JsonRenderer::class,

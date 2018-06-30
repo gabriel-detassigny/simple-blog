@@ -66,7 +66,7 @@ class ImageControllerTest extends TestCase
         Phake::when($this->authenticationService)->authenticateAsAdmin()->thenReturn(true);
         $file = Phake::mock(UploadedFileInterface::class);
         Phake::when($this->request)->getUploadedFiles()->thenReturn(['file' => $file]);
-        Phake::when($this->imageService)->uploadImage($file)->thenReturn(self::IMAGE_LOCATION);
+        Phake::when($this->imageService)->uploadImage($file, Phake::ignoreRemaining())->thenReturn(self::IMAGE_LOCATION);
 
         $this->controller->upload();
 
