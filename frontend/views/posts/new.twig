@@ -18,7 +18,7 @@
         </div>
         <div class="form-group">
             <label for="post-text">Text</label>
-            <textarea class="form-control" rows="20" id="post-text" name="post[text]"></textarea>
+            <textarea class="form-control wysiwyg-input" rows="20" id="post-text" name="post[text]"></textarea>
         </div>
         <button type="submit" class="btn btn-default">Submit</button>
     </form>
@@ -26,5 +26,5 @@
 
 {% block javascript %}
     <script src="/js/tinymce/tinymce.min.js"></script>
-    <script>tinymce.init({ selector:'#post-text' });</script>
+    <script src="/js/admin.js"></script>
 {% endblock %}

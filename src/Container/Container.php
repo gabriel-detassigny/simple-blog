@@ -6,9 +6,12 @@ namespace GabrielDeTassigny\Blog\Container;
 
 use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceCreationException;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceProvider;
+use GabrielDeTassigny\Blog\Controller\ImageController;
 use GabrielDeTassigny\Blog\Controller\PostViewingController;
 use GabrielDeTassigny\Blog\Controller\PostWritingController;
+use GabrielDeTassigny\Blog\Renderer\JsonRenderer;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
+use GabrielDeTassigny\Blog\Service\ImageService;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
 use GabrielDeTassigny\Blog\Service\PostWritingService;
 use Psr\Container\ContainerInterface;
@@ -24,6 +27,10 @@ class Container implements ContainerInterface
             'name' => PostWritingController::class,
             'dependencies' => ['twig', 'authentication_service', 'server_request', 'post_writing_service']
         ],
+        'image_controller' => [
+            'name' => ImageController::class,
+            'dependencies' => ['authentication_service', 'server_request', 'json_renderer', 'image_service']
+        ],
         'post_viewing_service' => [
             'name' => PostViewingService::class,
             'dependencies' => ['post_repository']
@@ -35,6 +42,14 @@ class Container implements ContainerInterface
         'post_writing_service' => [
             'name' => PostWritingService::class,
             'dependencies' => ['entity_manager']
+        ],
+        'image_service' => [
+            'name' => ImageService::class,
+            'dependencies' => []
+        ],
+        'json_renderer' => [
+            'name' => JsonRenderer::class,
+            'dependencies' => []
         ]
     ];
 
