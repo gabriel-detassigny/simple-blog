@@ -7,13 +7,13 @@ namespace GabrielDeTassigny\Blog\Router;
 use Exception;
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
+use GabrielDeTassigny\Blog\Renderer\ErrorRenderer;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use Teapot\HttpException;
 use Teapot\StatusCode;
-use Twig_Environment;
 
 class WebRouter
 {
@@ -99,9 +99,25 @@ class WebRouter
      */
     private function renderError(int $errorCode, string $errorDescription): void
     {
-        /** @var Twig_Environment */
-        $twig = $this->container->get('twig');
+        /** @var ErrorRenderer $renderer */
+        $renderer = $this->container->get('error_renderer');
+        if ($this->isJsonExpected()) {
+            $renderer->setContentTypeToJson();
+        }
 
-        $twig->display('error.twig', ['errorCode' => $errorCode, 'errorDescription' => $errorDescription]);
+        $renderer->renderError($errorCode, $errorDescription);
+    }
+
+    private function isJsonExpected(): bool
+    {
+        /** @var ServerRequestInterface $request */
+        $request = $this->container->get('server_request');
+
+        foreach ($request->getHeader('Accept') as $acceptedContentType) {
+            if (strpos($acceptedContentType, ErrorRenderer::JSON) !== false) {
+                return true;
+            }
+        }
+        return false;
     }
 }

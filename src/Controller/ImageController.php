@@ -12,7 +12,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Teapot\HttpException;
 use Teapot\StatusCode;
 
-class ImageController
+class ImageController extends AdminController
 {
     /** @var AuthenticationService */
     private $authenticationService;
@@ -52,13 +52,8 @@ class ImageController
         }
     }
 
-    /**
-     * @throws HttpException
-     */
-    private function ensureAdminAuthentication(): void
+    protected function getAuthenticationService(): AuthenticationService
     {
-        if (!$this->authenticationService->authenticateAsAdmin()) {
-            throw new HttpException('Authentication failed', StatusCode::FORBIDDEN);
-        }
+        return $this->authenticationService;
     }
 }

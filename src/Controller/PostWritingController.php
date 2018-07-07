@@ -13,7 +13,7 @@ use Teapot\StatusCode;
 use Twig_Environment;
 use Twig_Error;
 
-class PostWritingController
+class PostWritingController extends AdminController
 {
     /** @var Twig_Environment */
     private $twig;
@@ -79,13 +79,8 @@ class PostWritingController
         $this->twig->display('admin.twig', ['success' => 'Post successfully created']);
     }
 
-    /**
-     * @throws HttpException
-     */
-    private function ensureAdminAuthentication(): void
+    protected function getAuthenticationService(): AuthenticationService
     {
-        if (!$this->authenticationService->authenticateAsAdmin()) {
-            throw new HttpException('Authentication failed', StatusCode::FORBIDDEN);
-        }
+        return $this->authenticationService;
     }
 }

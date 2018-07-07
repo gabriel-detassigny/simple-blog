@@ -9,6 +9,7 @@ use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceProvider;
 use GabrielDeTassigny\Blog\Controller\ImageController;
 use GabrielDeTassigny\Blog\Controller\PostViewingController;
 use GabrielDeTassigny\Blog\Controller\PostWritingController;
+use GabrielDeTassigny\Blog\Renderer\ErrorRenderer;
 use GabrielDeTassigny\Blog\Renderer\JsonRenderer;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\ImageService;
@@ -50,6 +51,10 @@ class Container implements ContainerInterface
         'json_renderer' => [
             'name' => JsonRenderer::class,
             'dependencies' => []
+        ],
+        'error_renderer' => [
+            'name' => ErrorRenderer::class,
+            'dependencies' => ['twig', 'json_renderer']
         ]
     ];
 
