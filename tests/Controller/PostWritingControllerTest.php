@@ -66,7 +66,7 @@ class PostWritingControllerTest extends TestCase
     public function testNewPost_ForbiddenAccess()
     {
         $this->expectException(HttpException::class);
-        $this->expectExceptionCode(StatusCode::FORBIDDEN);
+        $this->expectExceptionCode(StatusCode::UNAUTHORIZED);
 
         $this->controller->newPost();
     }
@@ -74,7 +74,7 @@ class PostWritingControllerTest extends TestCase
     public function testCreatePost_ForbiddenAccess()
     {
         $this->expectException(HttpException::class);
-        $this->expectExceptionCode(StatusCode::FORBIDDEN);
+        $this->expectExceptionCode(StatusCode::UNAUTHORIZED);
 
         $this->controller->createPost();
     }
@@ -121,7 +121,7 @@ class PostWritingControllerTest extends TestCase
     public function testIndex_ForbiddenAccess()
     {
         $this->expectException(HttpException::class);
-        $this->expectExceptionCode(StatusCode::FORBIDDEN);
+        $this->expectExceptionCode(StatusCode::UNAUTHORIZED);
 
         $this->controller->index();
     }

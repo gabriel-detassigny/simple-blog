@@ -52,7 +52,7 @@ class ImageControllerTest extends TestCase
 
     /**
      * @expectedException \Teapot\HttpException
-     * @expectedExceptionCode \Teapot\StatusCode::FORBIDDEN
+     * @expectedExceptionCode \Teapot\StatusCode::UNAUTHORIZED
      */
     public function testUpload_AuthenticationFailed()
     {
