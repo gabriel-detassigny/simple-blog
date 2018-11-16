@@ -12,6 +12,7 @@ use GabrielDeTassigny\Blog\Controller\PostWritingController;
 use GabrielDeTassigny\Blog\Renderer\ErrorRenderer;
 use GabrielDeTassigny\Blog\Renderer\JsonRenderer;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
+use GabrielDeTassigny\Blog\Service\BlogInfoService;
 use GabrielDeTassigny\Blog\Service\ImageService;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
 use GabrielDeTassigny\Blog\Service\PostWritingService;
@@ -22,7 +23,7 @@ class Container implements ContainerInterface
     private const DEPENDENCIES = [
         'post_viewing_controller' => [
             'name' => PostViewingController::class,
-            'dependencies' => ['twig', 'post_viewing_service']
+            'dependencies' => ['twig', 'post_viewing_service', 'blog_info_service']
         ],
         'post_writing_controller' => [
             'name' => PostWritingController::class,
@@ -47,6 +48,10 @@ class Container implements ContainerInterface
         'image_service' => [
             'name' => ImageService::class,
             'dependencies' => ['log']
+        ],
+        'blog_info_service' => [
+            'name' => BlogInfoService::class,
+            'dependencies' => ['blog_info_repository']
         ],
         'json_renderer' => [
             'name' => JsonRenderer::class,

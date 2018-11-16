@@ -10,6 +10,7 @@ use GabrielDeTassigny\Blog\Container\NotFoundException;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceCreationException;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceProvider;
 use GabrielDeTassigny\Blog\Controller\PostViewingController;
+use GabrielDeTassigny\Blog\Repository\BlogInfoRepository;
 use GabrielDeTassigny\Blog\Repository\PostRepository;
 use Phake;
 use PHPUnit\Framework\TestCase;
@@ -30,8 +31,11 @@ class ContainerTest extends TestCase
         Phake::when($mockTwigProvider)->getService()->thenReturn(Phake::mock(Twig_Environment::class));
         $mockPostRepositoryProvider = Phake::mock(ServiceProvider::class);
         Phake::when($mockPostRepositoryProvider)->getService()->thenReturn(Phake::mock(PostRepository::class));
+        $mockBlogInfoRepositoryProvider = Phake::mock(ServiceProvider::class);
+        Phake::when($mockBlogInfoRepositoryProvider)->getService()->thenReturn(Phake::mock(BlogInfoRepository::class));
         $this->container->registerService('twig', $mockTwigProvider);
         $this->container->registerService('post_repository', $mockPostRepositoryProvider);
+        $this->container->registerService('blog_info_repository', $mockBlogInfoRepositoryProvider);
     }
 
     public function testHasMethodIsTrue()

@@ -41,7 +41,7 @@ class WebRouter
     {
         $this->container = $container;
         $this->dispatcher = \FastRoute\simpleDispatcher(function(RouteCollector $r) {
-            foreach (WebRouter::ROUTES as $route) {
+            foreach (self::ROUTES as $route) {
                 $r->addRoute($route[0], $route[1], $route[2]);
             }
         });

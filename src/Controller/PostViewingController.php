@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Controller;
 
+use GabrielDeTassigny\Blog\Service\BlogInfoService;
 use GabrielDeTassigny\Blog\Service\PostNotFoundException;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
 use GabrielDeTassigny\Blog\ValueObject\InvalidPageException;
@@ -21,10 +22,14 @@ class PostViewingController
     /** @var PostViewingService */
     private $postViewingService;
 
-    public function __construct(Twig_Environment $twig, PostViewingService $postViewingService)
+    /** @var BlogInfoService */
+    private $blogInfoService;
+
+    public function __construct(Twig_Environment $twig, PostViewingService $postViewingService, BlogInfoService $blogInfoService)
     {
         $this->twig = $twig;
         $this->postViewingService = $postViewingService;
+        $this->blogInfoService = $blogInfoService;
     }
 
     /**
@@ -52,9 +57,19 @@ class PostViewingController
         $posts = $this->postViewingService->findPageOfLatestPosts($page);
         $previousPage = $this->postViewingService->getPreviousPage($page);
         $nextPage = $this->postViewingService->getNextPage($page, count($posts));
+        $blogTitle = $this->blogInfoService->getBlogTitle();
+        $blogDesc = $this->blogInfoService->getBlogDescription();
 
-        $params = ['posts' => $posts, 'previousPage' => $previousPage, 'nextPage' => $nextPage];
-        $this->twig->display('posts/list.twig', $params);
+        $this->twig->display(
+            'posts/list.twig',
+            [
+                'posts' => $posts,
+                'previousPage' => $previousPage,
+                'nextPage' => $nextPage,
+                'blogTitle' => $blogTitle,
+                'blogDesc' => $blogDesc
+            ]
+        );
     }
 
     /**

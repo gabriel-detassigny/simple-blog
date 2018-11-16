@@ -8,6 +8,7 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 use GabrielDeTassigny\Blog\Controller\PostViewingController;
 use GabrielDeTassigny\Blog\Entity\Post;
 use GabrielDeTassigny\Blog\Repository\PostRepository;
+use GabrielDeTassigny\Blog\Service\BlogInfoService;
 use GabrielDeTassigny\Blog\Service\PostNotFoundException;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
 use Phake;
@@ -29,6 +30,9 @@ class PostViewingControllerTest extends TestCase
     /** @var PostViewingService|Phake_IMock */
     private $postService;
 
+    /** @var BlogInfoService|Phake_IMock */
+    private $blogInfoService;
+
     /**
      * {@inheritdoc}
      */
@@ -36,7 +40,8 @@ class PostViewingControllerTest extends TestCase
     {
         $this->twig = Phake::mock(Twig_Environment::class);
         $this->postService = Phake::mock(PostViewingService::class);
-        $this->controller = new PostViewingController($this->twig, $this->postService);
+        $this->blogInfoService = Phake::mock(BlogInfoService::class);
+        $this->controller = new PostViewingController($this->twig, $this->postService, $this->blogInfoService);
 
         Phake::when($this->postService)->getPreviousPage(Phake::anyParameters())->thenReturn(null);
         Phake::when($this->postService)->getNextPage(Phake::anyParameters())->thenReturn(null);
@@ -51,7 +56,7 @@ class PostViewingControllerTest extends TestCase
 
         Phake::verify($this->twig)->display(
             'posts/list.twig',
-            ['posts' => $posts, 'previousPage' => null, 'nextPage' => null]
+            ['posts' => $posts, 'previousPage' => null, 'nextPage' => null, 'blogTitle' => null, 'blogDesc' => null]
         );
     }
 
@@ -65,7 +70,7 @@ class PostViewingControllerTest extends TestCase
 
         Phake::verify($this->twig)->display(
             'posts/list.twig',
-            ['posts' => $posts, 'previousPage' => null, 'nextPage' => null]
+            ['posts' => $posts, 'previousPage' => null, 'nextPage' => null, 'blogTitle' => null, 'blogDesc' => null]
         );
     }
 
