@@ -58,6 +58,16 @@ class BlogInfoServiceTest extends TestCase
         $this->assertSame($blogInfo->getValue(), $result);
     }
 
+    public function testGetAboutText(): void
+    {
+        $blogInfo = $this->createBlogInfo('about_text', 'This blog is written by ... about ...');
+        Phake::when($this->blogInfoRepository)->findOneBy(['key' => 'about_text'])->thenReturn($blogInfo);
+
+        $result = $this->blogInfoService->getAboutText();
+
+        $this->assertSame($blogInfo->getValue(), $result);
+    }
+
     private function createBlogInfo(string $key, string $value): BlogInfo
     {
         $blogInfo = new BlogInfo();

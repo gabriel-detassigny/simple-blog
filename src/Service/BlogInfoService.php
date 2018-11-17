@@ -12,8 +12,9 @@ class BlogInfoService
     /** @var BlogInfoRepository */
     private $blogInfoRepository;
 
-    const BLOG_TITLE = 'blog_title';
-    const BLOG_DESCRIPTION = 'blog_description';
+    private const BLOG_TITLE = 'blog_title';
+    private const BLOG_DESCRIPTION = 'blog_description';
+    private const ABOUT_TEXT = 'about_text';
 
     public function __construct(BlogInfoRepository $blogInfoRepository)
     {
@@ -28,6 +29,11 @@ class BlogInfoService
     public function getBlogDescription(): ?string
     {
         return $this->getBlogInfoValueFromKey(self::BLOG_DESCRIPTION);
+    }
+
+    public function getAboutText(): ?string
+    {
+        return $this->getBlogInfoValueFromKey(self::ABOUT_TEXT);
     }
 
     private function getBlogInfoValueFromKey(string $key): ?string

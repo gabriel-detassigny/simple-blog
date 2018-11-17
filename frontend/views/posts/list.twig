@@ -31,16 +31,12 @@
         </div><!-- /.blog-main -->
 
         <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
-            <div class="sidebar-module sidebar-module-inset">
-                <h4>About</h4>
-                <p>Etiam porta <em>sem malesuada magna</em></p>
-            </div>
-            <div class="sidebar-module">
-                <h4>Archives</h4>
-                <ol class="list-unstyled">
-                    <li><a href="#">March 2014</a></li>
-                </ol>
-            </div>
+            {% if aboutText is not empty %}
+                <div class="sidebar-module sidebar-module-inset">
+                    <h4>About</h4>
+                    <p>{{ aboutText }}</p>
+                </div>
+            {% endif %}
             <div class="sidebar-module">
                 <h4>Elsewhere</h4>
                 <ol class="list-unstyled">

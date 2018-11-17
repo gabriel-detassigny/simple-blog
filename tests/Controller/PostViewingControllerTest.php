@@ -56,7 +56,14 @@ class PostViewingControllerTest extends TestCase
 
         Phake::verify($this->twig)->display(
             'posts/list.twig',
-            ['posts' => $posts, 'previousPage' => null, 'nextPage' => null, 'blogTitle' => null, 'blogDesc' => null]
+            [
+                'posts' => $posts,
+                'previousPage' => null,
+                'nextPage' => null,
+                'blogTitle' => null,
+                'blogDesc' => null,
+                'aboutText' => null
+            ]
         );
     }
 
@@ -70,7 +77,14 @@ class PostViewingControllerTest extends TestCase
 
         Phake::verify($this->twig)->display(
             'posts/list.twig',
-            ['posts' => $posts, 'previousPage' => null, 'nextPage' => null, 'blogTitle' => null, 'blogDesc' => null]
+            [
+                'posts' => $posts,
+                'previousPage' => null,
+                'nextPage' => null,
+                'blogTitle' => null,
+                'blogDesc' => null,
+                'aboutText' => null
+            ]
         );
     }
 

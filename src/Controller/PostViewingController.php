@@ -59,6 +59,7 @@ class PostViewingController
         $nextPage = $this->postViewingService->getNextPage($page, count($posts));
         $blogTitle = $this->blogInfoService->getBlogTitle();
         $blogDesc = $this->blogInfoService->getBlogDescription();
+        $aboutText = $this->blogInfoService->getAboutText();
 
         $this->twig->display(
             'posts/list.twig',
@@ -67,7 +68,8 @@ class PostViewingController
                 'previousPage' => $previousPage,
                 'nextPage' => $nextPage,
                 'blogTitle' => $blogTitle,
-                'blogDesc' => $blogDesc
+                'blogDesc' => $blogDesc,
+                'aboutText' => $aboutText
             ]
         );
     }
