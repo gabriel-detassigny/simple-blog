@@ -9,6 +9,7 @@ use GabrielDeTassigny\Blog\Controller\PostViewingController;
 use GabrielDeTassigny\Blog\Entity\Post;
 use GabrielDeTassigny\Blog\Repository\PostRepository;
 use GabrielDeTassigny\Blog\Service\BlogInfoService;
+use GabrielDeTassigny\Blog\Service\ExternalLinkService;
 use GabrielDeTassigny\Blog\Service\PostNotFoundException;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
 use Phake;
@@ -33,6 +34,9 @@ class PostViewingControllerTest extends TestCase
     /** @var BlogInfoService|Phake_IMock */
     private $blogInfoService;
 
+    /** @var ExternalLinkService|Phake_IMock */
+    private $externalLinkService;
+
     /**
      * {@inheritdoc}
      */
@@ -41,10 +45,17 @@ class PostViewingControllerTest extends TestCase
         $this->twig = Phake::mock(Twig_Environment::class);
         $this->postService = Phake::mock(PostViewingService::class);
         $this->blogInfoService = Phake::mock(BlogInfoService::class);
-        $this->controller = new PostViewingController($this->twig, $this->postService, $this->blogInfoService);
+        $this->externalLinkService = Phake::mock(ExternalLinkService::class);
+        $this->controller = new PostViewingController(
+            $this->twig,
+            $this->postService,
+            $this->blogInfoService,
+            $this->externalLinkService
+        );
 
         Phake::when($this->postService)->getPreviousPage(Phake::anyParameters())->thenReturn(null);
         Phake::when($this->postService)->getNextPage(Phake::anyParameters())->thenReturn(null);
+        Phake::when($this->externalLinkService)->getExternalLinks()->thenReturn([]);
     }
 
     public function testIndexWillDisplayTwigView(): void
@@ -62,7 +73,8 @@ class PostViewingControllerTest extends TestCase
                 'nextPage' => null,
                 'blogTitle' => null,
                 'blogDesc' => null,
-                'aboutText' => null
+                'aboutText' => null,
+                'externalLinks' => []
             ]
         );
     }
@@ -83,7 +95,8 @@ class PostViewingControllerTest extends TestCase
                 'nextPage' => null,
                 'blogTitle' => null,
                 'blogDesc' => null,
-                'aboutText' => null
+                'aboutText' => null,
+                'externalLinks' => []
             ]
         );
     }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GabrielDeTassigny\Blog\Controller;
 
 use GabrielDeTassigny\Blog\Service\BlogInfoService;
+use GabrielDeTassigny\Blog\Service\ExternalLinkService;
 use GabrielDeTassigny\Blog\Service\PostNotFoundException;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
 use GabrielDeTassigny\Blog\ValueObject\InvalidPageException;
@@ -25,11 +26,19 @@ class PostViewingController
     /** @var BlogInfoService */
     private $blogInfoService;
 
-    public function __construct(Twig_Environment $twig, PostViewingService $postViewingService, BlogInfoService $blogInfoService)
-    {
+    /** @var ExternalLinkService */
+    private $externalLinkService;
+
+    public function __construct(
+        Twig_Environment $twig,
+        PostViewingService $postViewingService,
+        BlogInfoService $blogInfoService,
+        ExternalLinkService $externalLinkService
+    ) {
         $this->twig = $twig;
         $this->postViewingService = $postViewingService;
         $this->blogInfoService = $blogInfoService;
+        $this->externalLinkService = $externalLinkService;
     }
 
     /**
@@ -60,6 +69,7 @@ class PostViewingController
         $blogTitle = $this->blogInfoService->getBlogTitle();
         $blogDesc = $this->blogInfoService->getBlogDescription();
         $aboutText = $this->blogInfoService->getAboutText();
+        $externalLinks = $this->externalLinkService->getExternalLinks();
 
         $this->twig->display(
             'posts/list.twig',
@@ -69,7 +79,8 @@ class PostViewingController
                 'nextPage' => $nextPage,
                 'blogTitle' => $blogTitle,
                 'blogDesc' => $blogDesc,
-                'aboutText' => $aboutText
+                'aboutText' => $aboutText,
+                'externalLinks' => $externalLinks
             ]
         );
     }

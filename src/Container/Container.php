@@ -24,7 +24,7 @@ class Container implements ContainerInterface
     private const DEPENDENCIES = [
         'post_viewing_controller' => [
             'name' => PostViewingController::class,
-            'dependencies' => ['twig', 'post_viewing_service', 'blog_info_service']
+            'dependencies' => ['twig', 'post_viewing_service', 'blog_info_service', 'external_link_service']
         ],
         'post_writing_controller' => [
             'name' => PostWritingController::class,
