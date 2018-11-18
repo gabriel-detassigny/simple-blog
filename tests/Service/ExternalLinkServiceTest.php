@@ -37,6 +37,8 @@ class ExternalLinkServiceTest extends TestCase
         $result = $this->externalLinkService->getExternalLinks();
 
         $this->assertSame($entities, $result);
+        $this->assertSame('Github', $result[0]->getName());
+        $this->assertSame('https://github.com/some-user', $result[0]->getUrl());
     }
 
     private function getExternalLinksEntities(): array
