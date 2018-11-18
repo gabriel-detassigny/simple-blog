@@ -13,6 +13,7 @@ use GabrielDeTassigny\Blog\Renderer\ErrorRenderer;
 use GabrielDeTassigny\Blog\Renderer\JsonRenderer;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\BlogInfoService;
+use GabrielDeTassigny\Blog\Service\ExternalLinkService;
 use GabrielDeTassigny\Blog\Service\ImageService;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
 use GabrielDeTassigny\Blog\Service\PostWritingService;
@@ -52,6 +53,10 @@ class Container implements ContainerInterface
         'blog_info_service' => [
             'name' => BlogInfoService::class,
             'dependencies' => ['blog_info_repository']
+        ],
+        'external_link_service' => [
+            'name' => ExternalLinkService::class,
+            'dependencies' => ['external_link_repository']
         ],
         'json_renderer' => [
             'name' => JsonRenderer::class,
