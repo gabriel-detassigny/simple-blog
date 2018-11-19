@@ -2,11 +2,13 @@
 {% block title %}{{ blogTitle }} | Simple Blog{% endblock %}
 
 {% block content %}
-    <div class="blog-header">
-        <h1>{{ post.getTitle }}</h1>
-        <p class="lead blog-description">{{ post.getSubtitle }}</p>
-    </div>
-    <div class="row">
-        <p>{{ post.getText | raw }}</p>
+    <div class="blog-post">
+        <div class="blog-header post-header">
+            <h1>{{ post.getTitle }}</h1>
+            <p class="lead blog-description post-description">{{ post.getSubtitle }}</p>
+        </div>
+        <div class="row post-content">
+            <p>{{ post.getText | raw }}</p>
+        </div>
     </div>
 {% endblock %}

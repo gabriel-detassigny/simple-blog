@@ -1,0 +1,17 @@
+.blog-post {
+    margin: 0 8% 0 8%;
+}
+
+.blog-post .post-header h1 {
+    margin-top: 2%;
+    font-size: 60px;
+}
+
+.blog-post .post-header .post-description {
+    font-size: 32px;
+}
+
+.blog-post .post-content {
+    font-size: 20px;
+    line-height: 32px;
+}
