@@ -9,6 +9,7 @@ use GabrielDeTassigny\Blog\Container\ServiceProvider\Doctrine\RepositoryProvider
 use GabrielDeTassigny\Blog\Container\ServiceProvider\LogProvider;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\ServerRequestProvider;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\TwigProvider;
+use GabrielDeTassigny\Blog\Entity\Author;
 use GabrielDeTassigny\Blog\Entity\BlogInfo;
 use GabrielDeTassigny\Blog\Entity\ExternalLink;
 use GabrielDeTassigny\Blog\Entity\Post;
@@ -25,6 +26,7 @@ class WebContainerProvider
         $container->registerService('post_repository', new RepositoryProvider($container, Post::class));
         $container->registerService('blog_info_repository', new RepositoryProvider($container, BlogInfo::class));
         $container->registerService('external_link_repository', new RepositoryProvider($container, ExternalLink::class));
+        $container->registerService('author_repository', new RepositoryProvider($container, Author::class));
         $container->registerService('log', new LogProvider('app-errors'));
 
         return $container;

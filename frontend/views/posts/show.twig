@@ -1,5 +1,5 @@
 {% extends "base.twig" %}
-{% block title %}{{ blogTitle }} | Simple Blog{% endblock %}
+{% block title %}{{ post.getTitle }} | Simple Blog{% endblock %}
 
 {% block content %}
     <div class="blog-post">
@@ -10,5 +10,7 @@
         <div class="row post-content">
             <p>{{ post.getText | raw }}</p>
         </div>
+        <br />
+        <p class="blog-post-meta">{{ post.getCreatedAt|date('F jS, Y') }} | Written by {{ post.getAuthor.getName }}</p>
     </div>
 {% endblock %}
