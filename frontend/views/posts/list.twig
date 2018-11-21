@@ -12,10 +12,11 @@
         <div class="col-sm-8 blog-main">
 
             {% for post in posts %}
-                <div class="blog-post">
+                <div class="blog-post blog-post-overview">
                     <h2 class="blog-post-title"><a href="/posts/{{ post.getId }}">{{ post.getTitle }}</a></h2>
                     <p class="blog-post-meta">{{ post.getCreatedAt|date('F jS, Y') }} | {{ post.getAuthor.getName }}</p>
                     <p>{{ post.getSubtitle }}</p>
+                    <a class="blog-read-more" href="/posts/{{ post.getId }}">Read More</a>
                 </div>
             {% endfor %}
             <nav>
