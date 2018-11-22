@@ -37,7 +37,7 @@ class Container implements ContainerInterface
         ],
         'about_page_controller' => [
             'name' => AboutPageController::class,
-            'dependencies' => ['twig', 'blog_info_service']
+            'dependencies' => ['twig', 'blog_info_service', 'external_link_service']
         ],
         'post_viewing_service' => [
             'name' => PostViewingService::class,

@@ -6,6 +6,7 @@ namespace GabrielDeTassigny\Blog\Tests\Controller;
 
 use GabrielDeTassigny\Blog\Controller\AboutPageController;
 use GabrielDeTassigny\Blog\Service\BlogInfoService;
+use GabrielDeTassigny\Blog\Service\ExternalLinkService;
 use Phake;
 use Phake_IMock;
 use PHPUnit\Framework\TestCase;
@@ -21,6 +22,9 @@ class AboutPageControllerTest extends TestCase
     /** @var BlogInfoService|Phake_IMock */
     private $blogInfoService;
 
+    /** @var ExternalLinkService|Phake_IMock */
+    private $externalLinkService;
+
     /** @var Twig_Environment|Phake_IMock */
     private $twig;
 
@@ -29,15 +33,17 @@ class AboutPageControllerTest extends TestCase
         parent::setUp();
         $this->blogInfoService = Phake::mock(BlogInfoService::class);
         $this->twig = Phake::mock(Twig_Environment::class);
-        $this->controller = new AboutPageController($this->twig, $this->blogInfoService);
+        $this->externalLinkService = Phake::mock(ExternalLinkService::class);
+        $this->controller = new AboutPageController($this->twig, $this->blogInfoService, $this->externalLinkService);
     }
 
-    public function testShowAboutPage()
+    public function testShowAboutPage(): void
     {
         Phake::when($this->blogInfoService)->getAboutText()->thenReturn(self::ABOUT_TEXT);
+        Phake::when($this->externalLinkService)->getExternalLinks()->thenReturn([]);
 
         $this->controller->showAboutPage();
 
-        Phake::verify($this->twig)->display('about.twig', ['aboutText' => self::ABOUT_TEXT]);
+        Phake::verify($this->twig)->display('about.twig', ['aboutText' => self::ABOUT_TEXT, 'externalLinks' => []]);
     }
 }
