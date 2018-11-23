@@ -62,8 +62,7 @@ class PostWritingController extends AdminController
     public function newPost(): void
     {
         $this->ensureAdminAuthentication();
-        $authors = $this->authorService->getAuthors();
-        $this->twig->display('posts/new.twig', ['authors' => $authors]);
+        $this->displayNewPostForm([]);
     }
 
     /**
@@ -80,7 +79,7 @@ class PostWritingController extends AdminController
         try {
             $this->postWritingService->createPost($body['post']);
         } catch (PostCreationException $e) {
-            $this->twig->display('posts/new.twig', ['error' => $e->getMessage()]);
+            $this->displayNewPostForm(['error' => $e->getMessage()]);
             return;
         }
         $this->twig->display('admin.twig', ['success' => 'Post successfully created']);
@@ -89,5 +88,11 @@ class PostWritingController extends AdminController
     protected function getAuthenticationService(): AuthenticationService
     {
         return $this->authenticationService;
+    }
+
+    private function displayNewPostForm(array $params): void
+    {
+        $authors = $this->authorService->getAuthors();
+        $this->twig->display('posts/new.twig', array_merge(['authors' => $authors], $params));
     }
 }

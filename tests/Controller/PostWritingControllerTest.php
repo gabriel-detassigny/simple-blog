@@ -103,10 +103,11 @@ class PostWritingControllerTest extends TestCase
         Phake::when($this->postWritingService)->createPost(self::BODY['post'])
             ->thenThrow(new PostCreationException(self::CREATION_ERROR));
         Phake::when($this->request)->getParsedBody()->thenReturn(self::BODY);
+        Phake::when($this->authorService)->getAuthors()->thenReturn([]);
 
         $this->controller->createPost();
 
-        Phake::verify($this->twig)->display('posts/new.twig', ['error' => self::CREATION_ERROR]);
+        Phake::verify($this->twig)->display('posts/new.twig', ['error' => self::CREATION_ERROR, 'authors' => []]);
     }
 
     public function testCreatePost()
