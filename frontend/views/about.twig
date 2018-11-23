@@ -8,13 +8,15 @@
         <p class="lead">{{ aboutText }}</p>
     </div>
 
-    <div class="row">
-        <h2>Elsewhere</h2>
-        <p>You can find me using the following links:</p>
-        <ul>
-            {% for link in externalLinks %}
-                <li><a target="_blank" rel="noopener noreferrer" href="{{ link.getUrl }}">{{ link.getName }}</a></li>
-            {% endfor %}
-        </ul>
-    </div>
+    {% if externalLinks is not empty %}
+        <div class="row">
+            <h2>Elsewhere</h2>
+            <p>You can find me using the following links:</p>
+            <ul>
+                {% for link in externalLinks %}
+                    <li><a target="_blank" rel="noopener noreferrer" href="{{ link.getUrl }}">{{ link.getName }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
 {% endblock %}
