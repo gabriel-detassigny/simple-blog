@@ -13,3 +13,7 @@
         <p class="blog-post-meta">{{ post.getCreatedAt|date('F jS, Y') }} | Written by {{ post.getAuthor.getName }}</p>
     </div>
 {% endblock %}
+
+{% block css %}<link rel="stylesheet" href="/css/prism.css">{% endblock %}
+
+{% block javascript %}<script src="/js/prism.js"></script>{% endblock %}

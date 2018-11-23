@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/blog.css">
         <link rel="stylesheet" href="/css/simple-blog.css">
+        {% block css %}{% endblock %}
     </head>
     {% set isAboutPage = 'About' in pageTitle %}
     <body>

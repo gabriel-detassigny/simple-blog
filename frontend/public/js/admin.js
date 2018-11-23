@@ -1,8 +1,8 @@
 $(document).ready(function () {
     tinymce.init({
         selector:'.wysiwyg-input',
-        toolbar: 'image',
-        plugins: 'image imagetools',
+        toolbar: 'image codesample',
+        plugins: 'image imagetools codesample',
         images_upload_credentials: true,
         images_upload_handler: function (blobInfo, success, failure) {
             var formData = new FormData();
