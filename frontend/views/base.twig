@@ -12,15 +12,15 @@
         <link rel="stylesheet" href="/css/blog.css">
         <link rel="stylesheet" href="/css/simple-blog.css">
     </head>
-
+    {% set isAboutPage = 'About' in pageTitle %}
     <body>
         <!-- Navbar -->
         <div class="blog-masthead">
             <div class="container">
                 <nav class="blog-nav">
                     <a class="blog-nav-brand" href="/">{{ blogTitle|default('Simple Blog') }}</a>
-                    <a class="blog-nav-item active" href="/">Home</a>
-                    <a class="blog-nav-item" href="/about">About</a>
+                    <a class="blog-nav-item {% if not isAboutPage %}active{% endif %}" href="/">Home</a>
+                    <a class="blog-nav-item {% if isAboutPage %}active{% endif %}" href="/about">About</a>
                 </nav>
             </div>
         </div>
