@@ -30,7 +30,7 @@ class Container implements ContainerInterface
         ],
         'post_writing_controller' => [
             'name' => PostWritingController::class,
-            'dependencies' => ['twig', 'authentication_service', 'server_request', 'post_writing_service']
+            'dependencies' => ['twig', 'authentication_service', 'server_request', 'post_writing_service', 'author_service']
         ],
         'image_controller' => [
             'name' => ImageController::class,
@@ -50,7 +50,7 @@ class Container implements ContainerInterface
         ],
         'post_writing_service' => [
             'name' => PostWritingService::class,
-            'dependencies' => ['entity_manager']
+            'dependencies' => ['entity_manager', 'author_service']
         ],
         'image_service' => [
             'name' => ImageService::class,

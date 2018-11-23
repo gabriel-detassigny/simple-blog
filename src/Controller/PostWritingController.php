@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GabrielDeTassigny\Blog\Controller;
 
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
+use GabrielDeTassigny\Blog\Service\AuthorService;
 use GabrielDeTassigny\Blog\Service\PostCreationException;
 use GabrielDeTassigny\Blog\Service\PostWritingService;
 use Psr\Http\Message\ServerRequestInterface;
@@ -27,16 +28,21 @@ class PostWritingController extends AdminController
     /** @var PostWritingService */
     private $postWritingService;
 
+    /** @var AuthorService */
+    private $authorService;
+
     public function __construct(
         Twig_Environment $twig,
         AuthenticationService $authenticationService,
         ServerRequestInterface $request,
-        PostWritingService $postWritingService
+        PostWritingService $postWritingService,
+        AuthorService $authorService
     ) {
         $this->twig = $twig;
         $this->authenticationService = $authenticationService;
         $this->request = $request;
         $this->postWritingService = $postWritingService;
+        $this->authorService = $authorService;
     }
 
     /**
@@ -56,7 +62,8 @@ class PostWritingController extends AdminController
     public function newPost(): void
     {
         $this->ensureAdminAuthentication();
-        $this->twig->display('posts/new.twig');
+        $authors = $this->authorService->getAuthors();
+        $this->twig->display('posts/new.twig', ['authors' => $authors]);
     }
 
     /**

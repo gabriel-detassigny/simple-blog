@@ -24,4 +24,19 @@ class AuthorService
     {
         return $this->authorRepository->findAll();
     }
+
+    /**
+     * @param int $id
+     * @return Author
+     * @throws AuthorNotFoundException
+     */
+    public function getAuthorById(int $id): Author
+    {
+        /** @var Author $author */
+        $author = $this->authorRepository->find($id);
+        if (!$author) {
+            throw new AuthorNotFoundException("Could not find author with ID {$id}");
+        }
+        return $author;
+    }
 }

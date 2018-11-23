@@ -14,9 +14,13 @@ class PostWritingService
     /** @var EntityManager */
     private $entityManager;
 
-    public function __construct(EntityManager $entityManager)
+    /** @var AuthorService */
+    private $authorService;
+
+    public function __construct(EntityManager $entityManager, AuthorService $authorService)
     {
         $this->entityManager = $entityManager;
+        $this->authorService = $authorService;
     }
 
     /**
@@ -30,6 +34,7 @@ class PostWritingService
         $post->setSubtitle($request['subtitle']);
         $post->setTitle($request['title']);
         $post->setCreatedAt(new DateTime());
+        $this->findAndSetAuthor($post, (int)$request['author']);
 
         try {
             $this->entityManager->persist($post);
@@ -37,5 +42,21 @@ class PostWritingService
         } catch (Exception $e) {
             throw new PostCreationException('Error on post creation : ' . $e->getMessage());
         }
+    }
+
+    /**
+     * @param Post $post
+     * @param int $authorId
+     * @throws PostCreationException
+     * @return void
+     */
+    private function findAndSetAuthor(Post $post, int $authorId): void
+    {
+        try {
+            $author = $this->authorService->getAuthorById($authorId);
+        } catch (AuthorNotFoundException $e) {
+            throw new PostCreationException($e->getMessage());
+        }
+        $post->setAuthor($author);
     }
 }

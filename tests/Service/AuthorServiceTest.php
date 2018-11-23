@@ -6,6 +6,7 @@ namespace GabrielDeTassigny\Blog\Tests\Service;
 
 use GabrielDeTassigny\Blog\Entity\Author;
 use GabrielDeTassigny\Blog\Repository\AuthorRepository;
+use GabrielDeTassigny\Blog\Service\AuthorNotFoundException;
 use GabrielDeTassigny\Blog\Service\AuthorService;
 use Phake;
 use Phake_IMock;
@@ -18,6 +19,8 @@ class AuthorServiceTest extends TestCase
 
     /** @var AuthorService */
     private $service;
+
+    const ID = 1;
 
     public function setUp()
     {
@@ -36,6 +39,23 @@ class AuthorServiceTest extends TestCase
         $this->assertCount(2, $authors);
         $this->assertSame('Stephen King', $authors[0]->getName());
         $this->assertSame('Robin Hobb', $authors[1]->getName());
+    }
+
+    public function testGetAuthorById(): void
+    {
+        Phake::when($this->authorRepository)->find(self::ID)->thenReturn($this->getAuthorEntity('Stephen King'));
+
+        $author = $this->service->getAuthorById(self::ID);
+
+        $this->assertSame('Stephen King', $author->getName());
+    }
+
+    public function testGetAuthorById_NotFound(): void
+    {
+        $this->expectException(AuthorNotFoundException::class);
+        Phake::when($this->authorRepository)->find(self::ID)->thenReturn(null);
+
+        $this->service->getAuthorById(self::ID);
     }
 
     private function getAuthorEntity(string $name): Author

@@ -20,6 +20,14 @@
             <label for="post-text">Text</label>
             <textarea class="form-control wysiwyg-input" rows="20" id="post-text" name="post[text]"></textarea>
         </div>
+        <div class="form-group">
+            <label for="post-author">Author</label>
+            <select class="form-control" id="post-author" name="post[author]">
+                {% for author in authors %}
+                    <option value="{{ author.getId }}">{{ author.getName }}</option>
+                {% endfor %}
+            </select>
+        </div>
         <button type="submit" class="btn btn-default">Submit</button>
     </form>
 {% endblock %}

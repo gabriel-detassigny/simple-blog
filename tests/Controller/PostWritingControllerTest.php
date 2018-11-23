@@ -6,6 +6,7 @@ namespace GabrielDeTassigny\Blog\Tests\Controller;
 
 use GabrielDeTassigny\Blog\Controller\PostWritingController;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
+use GabrielDeTassigny\Blog\Service\AuthorService;
 use GabrielDeTassigny\Blog\Service\PostCreationException;
 use GabrielDeTassigny\Blog\Service\PostWritingService;
 use Phake;
@@ -36,6 +37,9 @@ class PostWritingControllerTest extends TestCase
     /** @var PostWritingService|Phake_IMock */
     private $postWritingService;
 
+    /** @var AuthorService|Phake_IMock */
+    private $authorService;
+
     /**
      * {@inheritdoc}
      */
@@ -46,21 +50,25 @@ class PostWritingControllerTest extends TestCase
         $this->request = Phake::mock(ServerRequestInterface::class);
         Phake::when($this->request)->getParsedBody()->thenReturn([]);
         $this->postWritingService = Phake::mock(PostWritingService::class);
+        $this->authorService = Phake::mock(AuthorService::class);
 
         $this->controller = new PostWritingController(
             $this->twig,
             $this->authenticationService,
             $this->request,
-            $this->postWritingService
+            $this->postWritingService,
+            $this->authorService
         );
     }
 
     public function testNewPost()
     {
         Phake::when($this->authenticationService)->authenticateAsAdmin()->thenReturn(true);
+        Phake::when($this->authorService)->getAuthors()->thenReturn([]);
+
         $this->controller->newPost();
 
-        Phake::verify($this->twig)->display('posts/new.twig');
+        Phake::verify($this->twig)->display('posts/new.twig', ['authors' => []]);
     }
 
     public function testNewPost_ForbiddenAccess()
