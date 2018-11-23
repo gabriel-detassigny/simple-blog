@@ -1,7 +1,8 @@
 $(document).ready(function () {
     tinymce.init({
         selector:'.wysiwyg-input',
-        plugins: "image",
+        toolbar: 'image',
+        plugins: 'image imagetools',
         images_upload_credentials: true,
         images_upload_handler: function (blobInfo, success, failure) {
             var formData = new FormData();
@@ -13,7 +14,9 @@ $(document).ready(function () {
                 processData: false,
                 contentType: false,
                 error: function (xhr) {
-                    failure('HTTP Error: ' + xhr.status);
+                    if (xhr.status !== 200) {
+                        failure('HTTP Error: ' + xhr.status);
+                    }
                 },
                 success: function (data) {
                     success(data.location);

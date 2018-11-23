@@ -26,7 +26,10 @@ class ImageService
         $this->logger->info('Uploading file ' . $uploadedFile->getClientFilename());
 
         $imageInfo = pathinfo($uploadedFile->getClientFilename());
-        $newFilename = $imageInfo['filename'] . '-' . $time->getTimestamp() . '.' . $imageInfo['extension'];
+        $newFilename = $imageInfo['filename'] . '-' . $time->getTimestamp();
+        if (isset($imageInfo['extension'])) {
+            $newFilename .= '.' . $imageInfo['extension'];
+        }
 
         $this->logger->info('Moving file to ' . $newFilename);
         $uploadedFile->moveTo(self::PUBLIC_DIRECTORY . self::UPLOAD_PATH . $newFilename);
