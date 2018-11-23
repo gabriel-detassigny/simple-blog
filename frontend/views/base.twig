@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <title>{% block title %}Simple Blog{% endblock %}</title>
+        <title>{{ pageTitle|default('Simple Blog') }}</title>
 
         <!-- Required meta tags -->
         <meta charset="utf-8">
@@ -18,6 +18,7 @@
         <div class="blog-masthead">
             <div class="container">
                 <nav class="blog-nav">
+                    <a class="blog-nav-brand" href="/">{{ blogTitle|default('Simple Blog') }}</a>
                     <a class="blog-nav-item active" href="/">Home</a>
                     <a class="blog-nav-item" href="/about">About</a>
                 </nav>

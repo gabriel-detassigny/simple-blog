@@ -1,6 +1,5 @@
+{% set pageTitle = post.getTitle ~ ' | ' ~ blogTitle %}
 {% extends "base.twig" %}
-{% block title %}{{ post.getTitle }} | Simple Blog{% endblock %}
-
 {% block content %}
     <div class="blog-post blog-post-show">
         <div class="blog-header post-header">

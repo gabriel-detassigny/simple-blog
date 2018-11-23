@@ -15,6 +15,7 @@ use Twig_Environment;
 class AboutPageControllerTest extends TestCase
 {
     private const ABOUT_TEXT = 'this blog is about...';
+    private const BLOG_TITLE = 'Blog Title';
 
     /** @var AboutPageController */
     private $controller;
@@ -27,6 +28,7 @@ class AboutPageControllerTest extends TestCase
 
     /** @var Twig_Environment|Phake_IMock */
     private $twig;
+
 
     public function setUp()
     {
@@ -41,9 +43,13 @@ class AboutPageControllerTest extends TestCase
     {
         Phake::when($this->blogInfoService)->getAboutText()->thenReturn(self::ABOUT_TEXT);
         Phake::when($this->externalLinkService)->getExternalLinks()->thenReturn([]);
+        Phake::when($this->blogInfoService)->getBlogTitle()->thenReturn(self::BLOG_TITLE);
 
         $this->controller->showAboutPage();
 
-        Phake::verify($this->twig)->display('about.twig', ['aboutText' => self::ABOUT_TEXT, 'externalLinks' => []]);
+        Phake::verify($this->twig)->display(
+            'about.twig',
+            ['aboutText' => self::ABOUT_TEXT, 'externalLinks' => [], 'blogTitle' => self::BLOG_TITLE]
+        );
     }
 }

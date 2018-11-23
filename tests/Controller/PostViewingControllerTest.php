@@ -125,6 +125,6 @@ class PostViewingControllerTest extends TestCase
 
         $this->controller->showPost(['id' => self::POST_ID]);
 
-        Phake::verify($this->twig)->display('posts/show.twig', ['post' => $post]);
+        Phake::verify($this->twig)->display('posts/show.twig', ['post' => $post, 'blogTitle' => null]);
     }
 }

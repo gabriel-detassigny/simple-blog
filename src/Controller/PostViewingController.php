@@ -97,6 +97,8 @@ class PostViewingController
         } catch (PostNotFoundException $e) {
             throw new HttpException('Post not found', StatusCode::NOT_FOUND);
         }
-        $this->twig->display('posts/show.twig', ['post' => $post]);
+        $blogTitle = $this->blogInfoService->getBlogTitle();
+
+        $this->twig->display('posts/show.twig', ['post' => $post, 'blogTitle' => $blogTitle]);
     }
 }

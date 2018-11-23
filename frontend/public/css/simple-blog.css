@@ -20,3 +20,11 @@
     font-size: 14px;
     text-decoration: underline;
 }
+
+nav.blog-nav a.blog-nav-brand {
+    float: right;
+    font-size: 18px;
+    line-height: 20px;
+    color: white;
+    padding: 9px;
+}
