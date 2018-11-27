@@ -8,6 +8,7 @@ use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceCreationException;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceProvider;
 use GabrielDeTassigny\Blog\Controller\AboutPageController;
 use GabrielDeTassigny\Blog\Controller\AdminIndexController;
+use GabrielDeTassigny\Blog\Controller\BlogInfoController;
 use GabrielDeTassigny\Blog\Controller\ImageController;
 use GabrielDeTassigny\Blog\Controller\PostViewingController;
 use GabrielDeTassigny\Blog\Controller\PostWritingController;
@@ -56,6 +57,10 @@ class Container implements ContainerInterface
                 'author_service',
                 'blog_info_service'
             ]
+        ],
+        'blog_info_controller' => [
+            'name' => BlogInfoController::class,
+            'dependencies' => ['twig', 'blog_info_service', 'authentication_service']
         ],
         'post_viewing_service' => [
             'name' => PostViewingService::class,

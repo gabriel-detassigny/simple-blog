@@ -1,0 +1,25 @@
+{% extends "base.twig" %}
+{% block content %}
+    <h1>Update Blog Info</h1>
+    {% if success is defined %}
+        <div class="alert alert-success" role="alert">
+            {{ success }}
+        </div>
+    {% endif %}
+    <form method="post" action="/admin/info/update">
+        <div class="form-group">
+            <label for="blog-title">Blog Title</label>
+            <input type="text" class="form-control" id="blog-title" name="blog[title]" value="{{ blogTitle }}">
+        </div>
+        <div class="form-group">
+            <label for="blog-description">Blog Description</label>
+            <input type="text" class="form-control" id="blog-description" name="blog[description]" value="{{ blogDescription }}">
+        </div>
+        <div class="form-group">
+            <label for="blog-about">About Text</label>
+            <input type="text" class="form-control" id="blog-about" name="blog[about]" value="{{ aboutText }}">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a href="/admin" class="btn btn-default">Cancel</a>
+    </form>
+{% endblock %}
