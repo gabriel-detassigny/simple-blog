@@ -1,5 +1,4 @@
-{% set pageTitle = 'Admin | Simple Blog' %}
-{% extends "base.twig" %}
+{% extends "admin-base.twig" %}
 {% block content %}
     <div class="blog-header">
         <h1>Admin Index</h1>
@@ -15,7 +14,7 @@
         {% if blogTitle is empty %}
             <div class="alert alert-warning" role="alert">
                 <h4 class="alert-heading">Blog configuration is not fully done</h4>
-                <p>Note: You should probably configure your blog info before starting anything else.</p>
+                <p>Note: You should probably configure this before anything else!</p>
             </div>
         {% endif %}
         <h2 class="admin-section">Authors</h2>

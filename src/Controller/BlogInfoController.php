@@ -53,7 +53,7 @@ class BlogInfoController extends AdminController
 
         $this->twig->display(
             'blog-info/edit.twig',
-            ['blogTitle' => $blogTitle, 'blogDescription' => $blogDescription, 'aboutText' => $aboutText]
+            ['title' => $blogTitle, 'description' => $blogDescription, 'about' => $aboutText]
         );
     }
 
@@ -71,9 +71,9 @@ class BlogInfoController extends AdminController
         $this->twig->display(
             'blog-info/edit.twig',
             [
-                'blogTitle' => $blog['title'],
-                'blogDescription' => $blog['description'],
-                'aboutText' => $blog['about'],
+                'title' => $blog['title'],
+                'description' => $blog['description'],
+                'about' => $blog['about'],
                 'success' => self::SUCCESS_MESSAGE
             ]
         );

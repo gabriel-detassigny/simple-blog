@@ -1,4 +1,4 @@
-{% extends "base.twig" %}
+{% extends "admin-base.twig" %}
 {% block content %}
     <h1>Update Blog Configuration</h1>
     {% if success is defined %}
@@ -9,15 +9,15 @@
     <form method="post" action="/admin/info/update">
         <div class="form-group">
             <label for="blog-title">Blog Title</label>
-            <input type="text" class="form-control" id="blog-title" name="blog[title]" value="{{ blogTitle }}">
+            <input type="text" class="form-control" id="blog-title" name="blog[title]" value="{{ title }}">
         </div>
         <div class="form-group">
             <label for="blog-description">Blog Description</label>
-            <input type="text" class="form-control" id="blog-description" name="blog[description]" value="{{ blogDescription }}">
+            <input type="text" class="form-control" id="blog-description" name="blog[description]" value="{{ description }}">
         </div>
         <div class="form-group">
             <label for="blog-about">About Text</label>
-            <input type="text" class="form-control" id="blog-about" name="blog[about]" value="{{ aboutText }}">
+            <input type="text" class="form-control" id="blog-about" name="blog[about]" value="{{ about }}">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
         <a href="/admin" class="btn btn-default">Cancel</a>

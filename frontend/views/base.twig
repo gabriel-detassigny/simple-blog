@@ -19,7 +19,7 @@
         <div class="blog-masthead">
             <div class="container">
                 <nav class="blog-nav">
-                    <a class="blog-nav-brand" href="/">{{ blogTitle|default('Simple Blog') }}</a>
+                    <a class="blog-nav-brand" href="{{ homePath|default('/') }}">{{ blogTitle|default('Simple Blog') }}</a>
                     <a class="blog-nav-item {% if not isAboutPage %}active{% endif %}" href="/">Home</a>
                     <a class="blog-nav-item {% if isAboutPage %}active{% endif %}" href="/about">About</a>
                 </nav>

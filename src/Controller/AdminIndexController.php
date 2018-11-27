@@ -54,7 +54,7 @@ class AdminIndexController extends AdminController
         $posts = $this->postViewingService->findPageOfLatestPosts(new Page(1));
         $authors = $this->authorService->getAuthors();
         $blogTitle = $this->blogInfoService->getBlogTitle();
-        $this->twig->display('admin.twig', ['posts' => $posts, 'authors' => $authors, 'blogTitle' => $blogTitle]);
+        $this->twig->display('admin-index.twig', ['posts' => $posts, 'authors' => $authors, 'blogTitle' => $blogTitle]);
     }
 
     protected function getAuthenticationService(): AuthenticationService

@@ -66,7 +66,7 @@ class BlogInfoControllerTest extends TestCase
 
         Phake::verify($this->twig)->display(
             'blog-info/edit.twig',
-            ['blogTitle' => self::BLOG_TITLE, 'blogDescription' => self::BLOG_DESCRIPTION, 'aboutText' => self::ABOUT_TEXT]
+            ['title' => self::BLOG_TITLE, 'description' => self::BLOG_DESCRIPTION, 'about' => self::ABOUT_TEXT]
         );
     }
 
@@ -114,9 +114,9 @@ class BlogInfoControllerTest extends TestCase
         Phake::verify($this->twig)->display(
             'blog-info/edit.twig',
             [
-                'blogTitle' => self::BLOG_TITLE,
-                'blogDescription' => self::BLOG_DESCRIPTION,
-                'aboutText' => self::ABOUT_TEXT,
+                'title' => self::BLOG_TITLE,
+                'description' => self::BLOG_DESCRIPTION,
+                'about' => self::ABOUT_TEXT,
                 'success' => self::SUCCESS_MESSAGE
             ]
         );
