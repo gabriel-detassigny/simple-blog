@@ -67,7 +67,7 @@ class PostWritingController extends AdminController
     {
         $this->ensureAdminAuthentication();
         $body = $this->request->getParsedBody();
-        if (!array_key_exists('post', $body) || !is_array($body['post'])) {
+        if (!is_array($body) || !array_key_exists('post', $body) || !is_array($body['post'])) {
             throw new HttpException('Invalid form parameters', StatusCode::BAD_REQUEST);
         }
         try {

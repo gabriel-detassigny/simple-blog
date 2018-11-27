@@ -78,9 +78,11 @@ class BlogInfoService
         } else {
             if (empty($value)) {
                 $this->entityManager->remove($blogInfo);
+                $this->entityManager->flush();
             } else {
                 $blogInfo->setValue($value);
                 $this->entityManager->persist($blogInfo);
+                $this->entityManager->flush();
             }
         }
     }
@@ -97,5 +99,6 @@ class BlogInfoService
         $blogInfo->setKey($key);
         $blogInfo->setValue($value);
         $this->entityManager->persist($blogInfo);
+        $this->entityManager->flush();
     }
 }

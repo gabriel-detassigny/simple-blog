@@ -60,7 +60,7 @@ class Container implements ContainerInterface
         ],
         'blog_info_controller' => [
             'name' => BlogInfoController::class,
-            'dependencies' => ['twig', 'blog_info_service', 'authentication_service']
+            'dependencies' => ['twig', 'blog_info_service', 'authentication_service', 'server_request']
         ],
         'post_viewing_service' => [
             'name' => PostViewingService::class,

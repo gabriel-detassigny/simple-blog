@@ -10,12 +10,12 @@
                 {{ success }}
             </div>
         {% endif %}
-        <h2 class="admin-section">Blog Info</h2>
-        <a class="admin-action btn btn-primary" href="/admin/info/edit">Update Blog Info</a>
+        <h2 class="admin-section">Blog Configuration</h2>
+        <a class="admin-action btn btn-primary" href="/admin/info/edit">Update Blog Configuration</a>
         {% if blogTitle is empty %}
             <div class="alert alert-warning" role="alert">
-                <h4 class="alert-heading">Blog info are not all set</h4>
-                <p>You should probably configure your blog info before starting anything else.</p>
+                <h4 class="alert-heading">Blog configuration is not fully done</h4>
+                <p>Note: You should probably configure your blog info before starting anything else.</p>
             </div>
         {% endif %}
         <h2 class="admin-section">Authors</h2>
