@@ -9,10 +9,7 @@ use GabrielDeTassigny\Blog\Container\ContainerException;
 use GabrielDeTassigny\Blog\Container\NotFoundException;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceCreationException;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceProvider;
-use GabrielDeTassigny\Blog\Controller\PostViewingController;
-use GabrielDeTassigny\Blog\Repository\BlogInfoRepository;
-use GabrielDeTassigny\Blog\Repository\ExternalLinkRepository;
-use GabrielDeTassigny\Blog\Repository\PostRepository;
+use GabrielDeTassigny\Blog\Renderer\ErrorRenderer;
 use Phake;
 use PHPUnit\Framework\TestCase;
 use Twig_Environment;
@@ -31,19 +28,6 @@ class ContainerTest extends TestCase
         $mockTwigProvider = Phake::mock(ServiceProvider::class);
         Phake::when($mockTwigProvider)->getService()->thenReturn(Phake::mock(Twig_Environment::class));
         $this->container->registerService('twig', $mockTwigProvider);
-
-        $mockPostRepositoryProvider = Phake::mock(ServiceProvider::class);
-        Phake::when($mockPostRepositoryProvider)->getService()->thenReturn(Phake::mock(PostRepository::class));
-        $this->container->registerService('post_repository', $mockPostRepositoryProvider);
-
-        $mockBlogInfoRepositoryProvider = Phake::mock(ServiceProvider::class);
-        Phake::when($mockBlogInfoRepositoryProvider)->getService()->thenReturn(Phake::mock(BlogInfoRepository::class));
-        $this->container->registerService('blog_info_repository', $mockBlogInfoRepositoryProvider);
-
-        $mockExternalLinksRepositoryProvider = Phake::mock(ServiceProvider::class);
-        $externalLinkRepository = Phake::mock(ExternalLinkRepository::class);
-        Phake::when($mockExternalLinksRepositoryProvider)->getService()->thenReturn($externalLinkRepository);
-        $this->container->registerService('external_link_repository', $mockExternalLinksRepositoryProvider);
     }
 
     public function testHasMethodIsTrue()
@@ -65,9 +49,9 @@ class ContainerTest extends TestCase
 
     public function testGetFromIdentifier()
     {
-        $controller = $this->container->get('post_viewing_controller');
+        $controller = $this->container->get('error_renderer');
 
-        $this->assertInstanceOf(PostViewingController::class, $controller);
+        $this->assertInstanceOf(ErrorRenderer::class, $controller);
     }
 
     public function testHasRegisteredService()
@@ -89,8 +73,8 @@ class ContainerTest extends TestCase
 
     public function testGetSameObjectOnSuccessiveCalls()
     {
-        $controller = $this->container->get('post_viewing_controller');
+        $controller = $this->container->get('json_renderer');
 
-        $this->assertSame($controller, $this->container->get('post_viewing_controller'));
+        $this->assertSame($controller, $this->container->get('json_renderer'));
     }
 }

@@ -80,7 +80,7 @@ class Container implements ContainerInterface
         ],
         'blog_info_service' => [
             'name' => BlogInfoService::class,
-            'dependencies' => ['blog_info_repository']
+            'dependencies' => ['blog_info_repository', 'entity_manager']
         ],
         'external_link_service' => [
             'name' => ExternalLinkService::class,
