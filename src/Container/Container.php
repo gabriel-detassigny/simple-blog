@@ -49,7 +49,13 @@ class Container implements ContainerInterface
         ],
         'admin_index_controller' => [
             'name' => AdminIndexController::class,
-            'dependencies' => ['twig', 'authentication_service', 'post_viewing_service', 'author_service']
+            'dependencies' => [
+                'twig',
+                'authentication_service',
+                'post_viewing_service',
+                'author_service',
+                'blog_info_service'
+            ]
         ],
         'post_viewing_service' => [
             'name' => PostViewingService::class,

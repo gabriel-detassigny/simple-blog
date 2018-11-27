@@ -6,6 +6,7 @@ namespace GabrielDeTassigny\Blog\Controller;
 
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\AuthorService;
+use GabrielDeTassigny\Blog\Service\BlogInfoService;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
 use GabrielDeTassigny\Blog\ValueObject\Page;
 use Teapot\HttpException;
@@ -26,16 +27,21 @@ class AdminIndexController extends AdminController
     /** @var Twig_Environment */
     private $twig;
 
+    /** @var BlogInfoService */
+    private $blogInfoService;
+
     public function __construct(
         Twig_Environment $twig,
         AuthenticationService $authenticationService,
         PostViewingService $postViewingService,
-        AuthorService $authorService
+        AuthorService $authorService,
+        BlogInfoService $blogInfoService
     ) {
         $this->authenticationService = $authenticationService;
         $this->postViewingService = $postViewingService;
         $this->authorService = $authorService;
         $this->twig = $twig;
+        $this->blogInfoService = $blogInfoService;
     }
 
     /**
@@ -47,7 +53,8 @@ class AdminIndexController extends AdminController
         $this->ensureAdminAuthentication();
         $posts = $this->postViewingService->findPageOfLatestPosts(new Page(1));
         $authors = $this->authorService->getAuthors();
-        $this->twig->display('admin.twig', ['posts' => $posts, 'authors' => $authors]);
+        $blogTitle = $this->blogInfoService->getBlogTitle();
+        $this->twig->display('admin.twig', ['posts' => $posts, 'authors' => $authors, 'blogTitle' => $blogTitle]);
     }
 
     protected function getAuthenticationService(): AuthenticationService

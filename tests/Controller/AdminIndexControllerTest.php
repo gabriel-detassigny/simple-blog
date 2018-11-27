@@ -8,6 +8,7 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 use GabrielDeTassigny\Blog\Controller\AdminIndexController;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\AuthorService;
+use GabrielDeTassigny\Blog\Service\BlogInfoService;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
 use GabrielDeTassigny\Blog\ValueObject\Page;
 use Phake;
@@ -19,6 +20,8 @@ use Twig_Environment;
 
 class AdminIndexControllerTest extends TestCase
 {
+    private const BLOG_TITLE = 'Blog Title';
+
     /** @var AdminIndexController */
     private $controller;
 
@@ -34,6 +37,9 @@ class AdminIndexControllerTest extends TestCase
     /** @var AuthorService|Phake_IMock */
     private $authorService;
 
+    /** @var BlogInfoService|Phake_IMock */
+    private $blogInfoService;
+
     /**
      * {@inheritdoc}
      */
@@ -43,12 +49,14 @@ class AdminIndexControllerTest extends TestCase
         $this->authenticationService = Phake::mock(AuthenticationService::class);
         $this->authorService = Phake::mock(AuthorService::class);
         $this->postViewingService = Phake::mock(PostViewingService::class);
+        $this->blogInfoService = Phake::mock(BlogInfoService::class);
 
         $this->controller = new AdminIndexController(
             $this->twig,
             $this->authenticationService,
             $this->postViewingService,
-            $this->authorService
+            $this->authorService,
+            $this->blogInfoService
         );
     }
 
@@ -59,8 +67,14 @@ class AdminIndexControllerTest extends TestCase
         Phake::when($this->postViewingService)->findPageOfLatestPosts(new Page(1))
             ->thenReturn($posts);
         Phake::when($this->authorService)->getAuthors()->thenReturn([]);
+        Phake::when($this->blogInfoService)->getBlogTitle()->thenReturn(self::BLOG_TITLE);
+
         $this->controller->index();
-        Phake::verify($this->twig)->display('admin.twig', ['posts' => $posts, 'authors' => []]);
+
+        Phake::verify($this->twig)->display(
+            'admin.twig',
+            ['posts' => $posts, 'authors' => [], 'blogTitle' => self::BLOG_TITLE]
+        );
     }
 
     public function testIndex_ForbiddenAccess()
