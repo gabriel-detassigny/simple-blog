@@ -28,3 +28,12 @@ nav.blog-nav a.blog-nav-brand {
     color: white;
     padding: 9px;
 }
+
+h2.admin-section {
+    margin-top: 50px;
+}
+
+a.admin-action {
+    float: right;
+    margin-bottom: 20px;
+}

@@ -7,7 +7,9 @@ namespace GabrielDeTassigny\Blog\Controller;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\AuthorService;
 use GabrielDeTassigny\Blog\Service\PostCreationException;
+use GabrielDeTassigny\Blog\Service\PostViewingService;
 use GabrielDeTassigny\Blog\Service\PostWritingService;
+use GabrielDeTassigny\Blog\ValueObject\Page;
 use Psr\Http\Message\ServerRequestInterface;
 use Teapot\HttpException;
 use Teapot\StatusCode;
@@ -31,18 +33,23 @@ class PostWritingController extends AdminController
     /** @var AuthorService */
     private $authorService;
 
+    /** @var PostViewingService */
+    private $postViewingService;
+
     public function __construct(
         Twig_Environment $twig,
         AuthenticationService $authenticationService,
         ServerRequestInterface $request,
         PostWritingService $postWritingService,
-        AuthorService $authorService
+        AuthorService $authorService,
+        PostViewingService $postViewingService
     ) {
         $this->twig = $twig;
         $this->authenticationService = $authenticationService;
         $this->request = $request;
         $this->postWritingService = $postWritingService;
         $this->authorService = $authorService;
+        $this->postViewingService = $postViewingService;
     }
 
     /**
@@ -52,7 +59,9 @@ class PostWritingController extends AdminController
     public function index(): void
     {
         $this->ensureAdminAuthentication();
-        $this->twig->display('admin.twig');
+        $posts = $this->postViewingService->findPageOfLatestPosts(new Page(1));
+        $authors = $this->authorService->getAuthors();
+        $this->twig->display('admin.twig', ['posts' => $posts, 'authors' => $authors]);
     }
 
     /**

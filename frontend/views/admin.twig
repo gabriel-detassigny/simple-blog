@@ -3,7 +3,7 @@
 {% block title %}Simple Blog - Admin{% endblock %}
 {% block content %}
     <div class="blog-header">
-        <h1 class="blog-title">Admin</h1>
+        <h1>Admin Index</h1>
     </div>
     <div class="row">
         {% if success is defined %}
@@ -11,6 +11,35 @@
                 {{ success }}
             </div>
         {% endif %}
-        <a href="/posts/new" class="btn btn-primary">New Post</a>
+        <h2 class="admin-section">Blog Info</h2>
+        <a class="admin-action btn btn-primary" href="/admin/info/edit">Update Blog Info</a>
+        <div class="alert alert-warning" role="alert">
+            <h4 class="alert-heading">Blog info are not all set</h4>
+            <p>You should probably configure your blog info before starting anything else.</p>
+        </div>
+
+        <h2 class="admin-section">Authors</h2>
+        <a href="/authors/new" class="admin-action btn btn-primary">Add Author</a>
+        {% if authors is empty %}
+            <div class="alert alert-warning" role="alert">
+                <h4 class="alert-heading">No Author</h4>
+                <p>You need to add at least one author before writing blog posts</p>
+            </div>
+        {% else %}
+            <ul>
+                {% for author in authors %}
+                    <li>{{ author.getName }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <h2 class="admin-section">Latest Blog Posts</h2>
+        <a href="/posts/new" class="admin-action btn btn-primary">Write New Post</a>
+        <ul>
+            {% for post in posts %}
+                <li><a href="/posts/{{ post.getId }}/edit">{{ post.getTitle }}</a></li>
+            {% endfor %}
+        </ul>
+
     </div>
 {% endblock %}
