@@ -18,6 +18,8 @@ use Twig_Error;
 
 class PostWritingController extends AdminController
 {
+    private const POST_CREATION_SUCCESS = 'Post was successfully created';
+
     /** @var Twig_Environment */
     private $twig;
 
@@ -33,35 +35,18 @@ class PostWritingController extends AdminController
     /** @var AuthorService */
     private $authorService;
 
-    /** @var PostViewingService */
-    private $postViewingService;
-
     public function __construct(
         Twig_Environment $twig,
         AuthenticationService $authenticationService,
         ServerRequestInterface $request,
         PostWritingService $postWritingService,
-        AuthorService $authorService,
-        PostViewingService $postViewingService
+        AuthorService $authorService
     ) {
         $this->twig = $twig;
         $this->authenticationService = $authenticationService;
         $this->request = $request;
         $this->postWritingService = $postWritingService;
         $this->authorService = $authorService;
-        $this->postViewingService = $postViewingService;
-    }
-
-    /**
-     * @throws Twig_Error
-     * @throws HttpException
-     */
-    public function index(): void
-    {
-        $this->ensureAdminAuthentication();
-        $posts = $this->postViewingService->findPageOfLatestPosts(new Page(1));
-        $authors = $this->authorService->getAuthors();
-        $this->twig->display('admin.twig', ['posts' => $posts, 'authors' => $authors]);
     }
 
     /**
@@ -87,11 +72,10 @@ class PostWritingController extends AdminController
         }
         try {
             $this->postWritingService->createPost($body['post']);
+            $this->displayNewPostForm(['success' => self::POST_CREATION_SUCCESS]);
         } catch (PostCreationException $e) {
             $this->displayNewPostForm(['error' => $e->getMessage()]);
-            return;
         }
-        $this->twig->display('admin.twig', ['success' => 'Post successfully created']);
     }
 
     protected function getAuthenticationService(): AuthenticationService
@@ -99,6 +83,11 @@ class PostWritingController extends AdminController
         return $this->authenticationService;
     }
 
+    /**
+     * @param array $params
+     * @return void
+     * @throws Twig_Error
+     */
     private function displayNewPostForm(array $params): void
     {
         $authors = $this->authorService->getAuthors();

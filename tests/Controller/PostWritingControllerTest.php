@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Tests\Controller;
 
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use GabrielDeTassigny\Blog\Controller\PostWritingController;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\AuthorService;
 use GabrielDeTassigny\Blog\Service\PostCreationException;
-use GabrielDeTassigny\Blog\Service\PostViewingService;
 use GabrielDeTassigny\Blog\Service\PostWritingService;
-use GabrielDeTassigny\Blog\ValueObject\Page;
 use Phake;
 use Phake_IMock;
 use PHPUnit\Framework\TestCase;
@@ -24,6 +21,7 @@ class PostWritingControllerTest extends TestCase
 {
     private const BODY = ['post' => []];
     private const CREATION_ERROR = 'Error when creating post';
+    private const POST_CREATION_SUCCESS = 'Post was successfully created';
 
     /** @var PostWritingController */
     private $controller;
@@ -43,9 +41,6 @@ class PostWritingControllerTest extends TestCase
     /** @var AuthorService|Phake_IMock */
     private $authorService;
 
-    /** @var PostViewingService|Phake_IMock */
-    private $postViewingService;
-
     /**
      * {@inheritdoc}
      */
@@ -57,15 +52,13 @@ class PostWritingControllerTest extends TestCase
         Phake::when($this->request)->getParsedBody()->thenReturn([]);
         $this->postWritingService = Phake::mock(PostWritingService::class);
         $this->authorService = Phake::mock(AuthorService::class);
-        $this->postViewingService = Phake::mock(PostViewingService::class);
 
         $this->controller = new PostWritingController(
             $this->twig,
             $this->authenticationService,
             $this->request,
             $this->postWritingService,
-            $this->authorService,
-            $this->postViewingService
+            $this->authorService
         );
     }
 
@@ -122,28 +115,13 @@ class PostWritingControllerTest extends TestCase
     {
         Phake::when($this->authenticationService)->authenticateAsAdmin()->thenReturn(true);
         Phake::when($this->request)->getParsedBody()->thenReturn(self::BODY);
+        Phake::when($this->authorService)->getAuthors()->thenReturn([]);
 
         $this->controller->createPost();
 
-        Phake::verify($this->twig)->display('admin.twig', Phake::ignoreRemaining());
-    }
-
-    public function testIndex()
-    {
-        Phake::when($this->authenticationService)->authenticateAsAdmin()->thenReturn(true);
-        $posts = Phake::mock(Paginator::class);
-        Phake::when($this->postViewingService)->findPageOfLatestPosts(new Page(1))
-            ->thenReturn($posts);
-        Phake::when($this->authorService)->getAuthors()->thenReturn([]);
-        $this->controller->index();
-        Phake::verify($this->twig)->display('admin.twig', ['posts' => $posts, 'authors' => []]);
-    }
-
-    public function testIndex_ForbiddenAccess()
-    {
-        $this->expectException(HttpException::class);
-        $this->expectExceptionCode(StatusCode::UNAUTHORIZED);
-
-        $this->controller->index();
+        Phake::verify($this->twig)->display(
+            'posts/new.twig',
+            ['success' => self::POST_CREATION_SUCCESS, 'authors' => []]
+        );
     }
 }
