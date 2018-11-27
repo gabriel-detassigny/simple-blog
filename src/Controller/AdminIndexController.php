@@ -7,6 +7,7 @@ namespace GabrielDeTassigny\Blog\Controller;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\AuthorService;
 use GabrielDeTassigny\Blog\Service\BlogInfoService;
+use GabrielDeTassigny\Blog\Service\ExternalLinkService;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
 use GabrielDeTassigny\Blog\ValueObject\Page;
 use Teapot\HttpException;
@@ -30,18 +31,23 @@ class AdminIndexController extends AdminController
     /** @var BlogInfoService */
     private $blogInfoService;
 
+    /** @var ExternalLinkService */
+    private $externalLinkService;
+
     public function __construct(
         Twig_Environment $twig,
         AuthenticationService $authenticationService,
         PostViewingService $postViewingService,
         AuthorService $authorService,
-        BlogInfoService $blogInfoService
+        BlogInfoService $blogInfoService,
+        ExternalLinkService $externalLinkService
     ) {
         $this->authenticationService = $authenticationService;
         $this->postViewingService = $postViewingService;
         $this->authorService = $authorService;
         $this->twig = $twig;
         $this->blogInfoService = $blogInfoService;
+        $this->externalLinkService = $externalLinkService;
     }
 
     /**
@@ -54,7 +60,11 @@ class AdminIndexController extends AdminController
         $posts = $this->postViewingService->findPageOfLatestPosts(new Page(1));
         $authors = $this->authorService->getAuthors();
         $blogTitle = $this->blogInfoService->getBlogTitle();
-        $this->twig->display('admin-index.twig', ['posts' => $posts, 'authors' => $authors, 'blogTitle' => $blogTitle]);
+        $externalLinks = $this->externalLinkService->getExternalLinks();
+        $this->twig->display(
+            'admin-index.twig',
+            ['posts' => $posts, 'authors' => $authors, 'blogTitle' => $blogTitle, 'externalLinks' => $externalLinks]
+        );
     }
 
     protected function getAuthenticationService(): AuthenticationService

@@ -40,5 +40,18 @@
             {% endfor %}
         </ul>
 
+        <h2 class="admin-section">External Links</h2>
+        <a href="/external-links/new" class="admin-action btn btn-primary">Add External Link</a>
+        <ul>
+            {% for externalLink in externalLinks %}
+                <li>
+                    {{ externalLink.getName }}: {{ externalLink.getUrl }}
+                    <button id="delete-link-{{ externalLink.getId }}" class="btn btn-xs btn-danger delete-link">
+                        Delete
+                    </button>
+                </li>
+            {% endfor %}
+        </ul>
+
     </div>
 {% endblock %}

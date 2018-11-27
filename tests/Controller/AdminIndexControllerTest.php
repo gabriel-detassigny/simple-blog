@@ -9,6 +9,7 @@ use GabrielDeTassigny\Blog\Controller\AdminIndexController;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\AuthorService;
 use GabrielDeTassigny\Blog\Service\BlogInfoService;
+use GabrielDeTassigny\Blog\Service\ExternalLinkService;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
 use GabrielDeTassigny\Blog\ValueObject\Page;
 use Phake;
@@ -40,6 +41,9 @@ class AdminIndexControllerTest extends TestCase
     /** @var BlogInfoService|Phake_IMock */
     private $blogInfoService;
 
+    /** @var ExternalLinkService|Phake_IMock */
+    private $externalLinkService;
+
     /**
      * {@inheritdoc}
      */
@@ -50,13 +54,15 @@ class AdminIndexControllerTest extends TestCase
         $this->authorService = Phake::mock(AuthorService::class);
         $this->postViewingService = Phake::mock(PostViewingService::class);
         $this->blogInfoService = Phake::mock(BlogInfoService::class);
+        $this->externalLinkService = Phake::mock(ExternalLinkService::class);
 
         $this->controller = new AdminIndexController(
             $this->twig,
             $this->authenticationService,
             $this->postViewingService,
             $this->authorService,
-            $this->blogInfoService
+            $this->blogInfoService,
+            $this->externalLinkService
         );
     }
 
@@ -68,12 +74,13 @@ class AdminIndexControllerTest extends TestCase
             ->thenReturn($posts);
         Phake::when($this->authorService)->getAuthors()->thenReturn([]);
         Phake::when($this->blogInfoService)->getBlogTitle()->thenReturn(self::BLOG_TITLE);
+        Phake::when($this->externalLinkService)->getExternalLinks()->thenReturn([]);
 
         $this->controller->index();
 
         Phake::verify($this->twig)->display(
             'admin-index.twig',
-            ['posts' => $posts, 'authors' => [], 'blogTitle' => self::BLOG_TITLE]
+            ['posts' => $posts, 'authors' => [], 'blogTitle' => self::BLOG_TITLE, 'externalLinks' => []]
         );
     }
 

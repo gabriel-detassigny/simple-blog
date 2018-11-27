@@ -55,7 +55,8 @@ class Container implements ContainerInterface
                 'authentication_service',
                 'post_viewing_service',
                 'author_service',
-                'blog_info_service'
+                'blog_info_service',
+                'external_link_service'
             ]
         ],
         'blog_info_controller' => [
