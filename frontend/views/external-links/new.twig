@@ -1,0 +1,25 @@
+{% extends "admin-base.twig" %}
+{% block content %}
+    <h1>New External Link</h1>
+    {% if error is defined %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+    {% elseif success is defined %}
+        <div class="alert alert-success" role="alert">
+            {{ success }}
+        </div>
+    {% endif %}
+    <form method="post" action="/external-links">
+        <div class="form-group">
+            <label for="link-name">Name</label>
+            <input type="text" class="form-control" id="link-name" name="link[name]">
+        </div>
+        <div class="form-group">
+            <label for="link-url">Name</label>
+            <input type="text" class="form-control" id="link-url" name="link[url]">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a href="/admin" class="btn btn-default">Cancel</a>
+    </form>
+{% endblock %}

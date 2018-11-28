@@ -9,6 +9,7 @@ use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceProvider;
 use GabrielDeTassigny\Blog\Controller\AboutPageController;
 use GabrielDeTassigny\Blog\Controller\AdminIndexController;
 use GabrielDeTassigny\Blog\Controller\BlogInfoController;
+use GabrielDeTassigny\Blog\Controller\ExternalLinkController;
 use GabrielDeTassigny\Blog\Controller\ImageController;
 use GabrielDeTassigny\Blog\Controller\PostViewingController;
 use GabrielDeTassigny\Blog\Controller\PostWritingController;
@@ -62,6 +63,16 @@ class Container implements ContainerInterface
         'blog_info_controller' => [
             'name' => BlogInfoController::class,
             'dependencies' => ['twig', 'blog_info_service', 'authentication_service', 'server_request']
+        ],
+        'external_link_controller' => [
+            'name' => ExternalLinkController::class,
+            'dependencies' => [
+                'authentication_service',
+                'twig',
+                'json_renderer',
+                'external_link_service',
+                'server_request'
+            ]
         ],
         'post_viewing_service' => [
             'name' => PostViewingService::class,
