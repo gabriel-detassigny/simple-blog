@@ -69,9 +69,9 @@ class Container implements ContainerInterface
             'dependencies' => [
                 'authentication_service',
                 'twig',
-                'json_renderer',
                 'external_link_service',
-                'server_request'
+                'server_request',
+                'error_renderer'
             ]
         ],
         'post_viewing_service' => [

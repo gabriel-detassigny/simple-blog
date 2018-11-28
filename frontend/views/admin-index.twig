@@ -46,7 +46,7 @@
             {% for externalLink in externalLinks %}
                 <li>
                     {{ externalLink.getName }}: {{ externalLink.getUrl }}
-                    <button id="delete-link-{{ externalLink.getId }}" class="btn btn-xs btn-danger delete-link">
+                    <button data-id="{{ externalLink.getId }}" class="btn btn-xs btn-danger delete-link">
                         Delete
                     </button>
                 </li>
@@ -54,4 +54,8 @@
         </ul>
 
     </div>
+{% endblock %}
+
+{% block javascript %}
+<script src="/js/admin-index.js"></script>
 {% endblock %}

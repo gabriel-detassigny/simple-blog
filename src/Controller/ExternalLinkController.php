@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Controller;
 
-use GabrielDeTassigny\Blog\Renderer\JsonRenderer;
+use GabrielDeTassigny\Blog\Renderer\ErrorRenderer;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\ExternalLinkException;
 use GabrielDeTassigny\Blog\Service\ExternalLinkService;
@@ -23,27 +23,27 @@ class ExternalLinkController extends AdminController
     /** @var Twig_Environment */
     private $twig;
 
-    /** @var JsonRenderer */
-    private $renderer;
-
     /** @var ExternalLinkService */
     private $externalLinkService;
 
     /** @var ServerRequestInterface */
     private $request;
 
+    /** @var ErrorRenderer */
+    private $errorRenderer;
+
     public function __construct(
         AuthenticationService $authenticationService,
         Twig_Environment $twig,
-        JsonRenderer $renderer,
         ExternalLinkService $externalLinkService,
-        ServerRequestInterface $request
+        ServerRequestInterface $request,
+        ErrorRenderer $errorRenderer
     ) {
         $this->authenticationService = $authenticationService;
         $this->twig = $twig;
-        $this->renderer = $renderer;
         $this->externalLinkService = $externalLinkService;
         $this->request = $request;
+        $this->errorRenderer = $errorRenderer;
     }
 
     public function newExternalLink(): void
@@ -64,6 +64,17 @@ class ExternalLinkController extends AdminController
             $this->twig->display('external-links/new.twig', ['success' => self::SUCCESS_MESSAGE]);
         } catch (ExternalLinkException $e) {
             $this->twig->display('external-links/new.twig', ['error' => $e->getMessage()]);
+        }
+    }
+
+    public function deleteExternalLink(array $vars): void
+    {
+        $this->ensureAdminAuthentication();
+        try {
+            $this->externalLinkService->deleteExternalLink((int) $vars['id']);
+        } catch (ExternalLinkException $e) {
+            $this->errorRenderer->setContentTypeToJson();
+            $this->errorRenderer->renderError(StatusCode::BAD_REQUEST, $e->getMessage());
         }
     }
 

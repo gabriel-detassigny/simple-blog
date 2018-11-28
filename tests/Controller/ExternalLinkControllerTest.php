@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace GabrielDeTassigny\Blog\Tests\Controller;
 
 use GabrielDeTassigny\Blog\Controller\ExternalLinkController;
-use GabrielDeTassigny\Blog\Renderer\JsonRenderer;
+use GabrielDeTassigny\Blog\Renderer\ErrorRenderer;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\ExternalLinkException;
 use GabrielDeTassigny\Blog\Service\ExternalLinkService;
@@ -27,14 +27,14 @@ class ExternalLinkControllerTest extends TestCase
     /** @var Twig_Environment|Phake_IMock */
     private $twig;
 
-    /** @var JsonRenderer|Phake_IMock */
-    private $renderer;
-
     /** @var ExternalLinkService|Phake_IMock */
     private $externalLinkService;
 
     /** @var ServerRequestInterface|Phake_IMock */
     private $request;
+
+    /** @var ErrorRenderer|Phake_IMock */
+    private $errorRenderer;
 
     /** @var ExternalLinkController */
     private $controller;
@@ -47,16 +47,16 @@ class ExternalLinkControllerTest extends TestCase
         parent::setUp();
         $this->authenticationService = Phake::mock(AuthenticationService::class);
         $this->twig = Phake::mock(Twig_Environment::class);
-        $this->renderer = Phake::mock(JsonRenderer::class);
         $this->externalLinkService = Phake::mock(ExternalLinkService::class);
         $this->request = Phake::mock(ServerRequestInterface::class);
+        $this->errorRenderer = Phake::mock(ErrorRenderer::class);
 
         $this->controller = new ExternalLinkController(
             $this->authenticationService,
             $this->twig,
-            $this->renderer,
             $this->externalLinkService,
-            $this->request
+            $this->request,
+            $this->errorRenderer
         );
     }
 
@@ -110,5 +110,27 @@ class ExternalLinkControllerTest extends TestCase
         $this->controller->createExternalLink();
 
         Phake::verify($this->twig)->display('external-links/new.twig', ['error' => 'Creation failed!']);
+    }
+
+    public function testDeleteExternalLink(): void
+    {
+        Phake::when($this->authenticationService)->authenticateAsAdmin()->thenReturn(true);
+
+        $this->controller->deleteExternalLink(['id' => '1']);
+
+        Phake::verify($this->externalLinkService)->deleteExternalLink(1);
+        Phake::verify($this->errorRenderer, Phake::never())->renderError(Phake::anyParameters());
+    }
+
+    public function testDeleteExternalLink_ServiceException(): void
+    {
+        Phake::when($this->authenticationService)->authenticateAsAdmin()->thenReturn(true);
+        Phake::when($this->externalLinkService)->deleteExternalLink(1)
+            ->thenThrow(new ExternalLinkException('Error deleting'));
+
+        $this->controller->deleteExternalLink(['id' => '1']);
+
+        Phake::verify($this->errorRenderer)->setContentTypeToJson();
+        Phake::verify($this->errorRenderer)->renderError(StatusCode::BAD_REQUEST, 'Error deleting');
     }
 }
