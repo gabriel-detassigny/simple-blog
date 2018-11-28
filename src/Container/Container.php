@@ -85,7 +85,7 @@ class Container implements ContainerInterface
         ],
         'external_link_service' => [
             'name' => ExternalLinkService::class,
-            'dependencies' => ['external_link_repository']
+            'dependencies' => ['external_link_repository', 'entity_manager']
         ],
         'author_service' => [
             'name' => AuthorService::class,
