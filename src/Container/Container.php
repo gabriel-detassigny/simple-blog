@@ -8,6 +8,7 @@ use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceCreationException;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceProvider;
 use GabrielDeTassigny\Blog\Controller\AboutPageController;
 use GabrielDeTassigny\Blog\Controller\AdminIndexController;
+use GabrielDeTassigny\Blog\Controller\AuthorController;
 use GabrielDeTassigny\Blog\Controller\BlogInfoController;
 use GabrielDeTassigny\Blog\Controller\ExternalLinkController;
 use GabrielDeTassigny\Blog\Controller\ImageController;
@@ -73,6 +74,10 @@ class Container implements ContainerInterface
                 'server_request',
                 'error_renderer'
             ]
+        ],
+        'author_controller' => [
+            'name' => AuthorController::class,
+            'dependencies' => ['author_service', 'authentication_service', 'twig', 'server_request']
         ],
         'post_viewing_service' => [
             'name' => PostViewingService::class,

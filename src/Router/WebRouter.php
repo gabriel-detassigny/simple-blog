@@ -30,7 +30,8 @@ class WebRouter
         ['POST', '/admin/info/update', 'blog_info_controller/update'],
         ['GET', '/external-links/new', 'external_link_controller/newExternalLink'],
         ['POST', '/external-links', 'external_link_controller/createExternalLink'],
-        ['DELETE', '/external-links/{id:\d+}', 'external_link_controller/deleteExternalLink']
+        ['DELETE', '/external-links/{id:\d+}', 'external_link_controller/deleteExternalLink'],
+        ['GET', '/authors/new', 'author_controller/newAuthor']
     ];
     private const EXCEPTION_MESSAGE = 'An unexpected exception occurred!';
 

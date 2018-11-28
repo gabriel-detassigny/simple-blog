@@ -1,0 +1,21 @@
+{% extends "admin-base.twig" %}
+{% block content %}
+    <h1>New Author</h1>
+    {% if error is defined %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+    {% elseif success is defined %}
+        <div class="alert alert-success" role="alert">
+            {{ success }}
+        </div>
+    {% endif %}
+    <form method="post" action="/authors">
+        <div class="form-group">
+            <label for="author-name">Name</label>
+            <input type="text" class="form-control" id="author-name" name="author[name]">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a href="/admin" class="btn btn-default">Cancel</a>
+    </form>
+{% endblock %}
