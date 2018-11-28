@@ -6,7 +6,8 @@ namespace GabrielDeTassigny\Blog\Service;
 
 use RuntimeException;
 
-class AuthorNotFoundException extends RuntimeException
+class AuthorException extends RuntimeException
 {
-
+    const FIND_ERROR = 1;
+    const CREATE_ERROR = 2;
 }

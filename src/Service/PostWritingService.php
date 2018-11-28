@@ -54,7 +54,7 @@ class PostWritingService
     {
         try {
             $author = $this->authorService->getAuthorById($authorId);
-        } catch (AuthorNotFoundException $e) {
+        } catch (AuthorException $e) {
             throw new PostCreationException($e->getMessage());
         }
         $post->setAuthor($author);

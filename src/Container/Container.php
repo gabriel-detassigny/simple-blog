@@ -100,7 +100,7 @@ class Container implements ContainerInterface
         ],
         'author_service' => [
             'name' => AuthorService::class,
-            'dependencies' => ['author_repository']
+            'dependencies' => ['author_repository', 'entity_manager']
         ],
         'json_renderer' => [
             'name' => JsonRenderer::class,

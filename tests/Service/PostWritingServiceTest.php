@@ -7,7 +7,7 @@ namespace GabrielDeTassigny\Blog\Tests\Service;
 use Doctrine\ORM\EntityManager;
 use Exception;
 use GabrielDeTassigny\Blog\Entity\Author;
-use GabrielDeTassigny\Blog\Service\AuthorNotFoundException;
+use GabrielDeTassigny\Blog\Service\AuthorException;
 use GabrielDeTassigny\Blog\Service\AuthorService;
 use GabrielDeTassigny\Blog\Service\PostCreationException;
 use GabrielDeTassigny\Blog\Service\PostWritingService;
@@ -65,7 +65,7 @@ class PostWritingServiceTest extends TestCase
         $this->expectException(PostCreationException::class);
 
         $request = ['text' => 'example of text', 'title' => 'Title', 'subtitle' => 'Subtitle', 'author' => 1];
-        Phake::when($this->authorService)->getAuthorById(1)->thenThrow(new AuthorNotFoundException());
+        Phake::when($this->authorService)->getAuthorById(1)->thenThrow(new AuthorException());
 
         $this->service->createPost($request);
     }
