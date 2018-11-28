@@ -6,6 +6,7 @@ namespace GabrielDeTassigny\Blog\Tests\Controller;
 
 use GabrielDeTassigny\Blog\Controller\AuthorController;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
+use GabrielDeTassigny\Blog\Service\AuthorException;
 use GabrielDeTassigny\Blog\Service\AuthorService;
 use Phake;
 use Phake_IMock;
@@ -17,6 +18,8 @@ use Twig_Environment;
 
 class AuthorControllerTest extends TestCase
 {
+    private const SUCCESS_MESSAGE = 'Author successfully created';
+
     /** @var AuthorService|Phake_IMock */
     private $authorService;
 
@@ -47,7 +50,7 @@ class AuthorControllerTest extends TestCase
         );
     }
 
-    public function testNewPost()
+    public function testNewAuthor(): void
     {
         Phake::when($this->authenticationService)->authenticateAsAdmin()->thenReturn(true);
 
@@ -56,11 +59,43 @@ class AuthorControllerTest extends TestCase
         Phake::verify($this->twig)->display('authors/new.twig');
     }
 
-    public function testNewPost_Unauthorized()
+    public function testNewAuthor_Unauthorized(): void
     {
         $this->expectException(HttpException::class);
         $this->expectExceptionCode(StatusCode::UNAUTHORIZED);
 
         $this->controller->newAuthor();
+    }
+
+    public function testCreateAuthor(): void
+    {
+        Phake::when($this->authenticationService)->authenticateAsAdmin()->thenReturn(true);
+        Phake::when($this->request)->getParsedBody()->thenReturn(['author' => ['name' => 'Stephen King']]);
+
+        $this->controller->createAuthor();
+
+        Phake::verify($this->twig)->display('authors/new.twig', ['success' => self::SUCCESS_MESSAGE]);
+    }
+
+    public function testCreateAuthor_InvalidParams(): void
+    {
+        $this->expectException(HttpException::class);
+        $this->expectExceptionCode(StatusCode::BAD_REQUEST);
+
+        Phake::when($this->authenticationService)->authenticateAsAdmin()->thenReturn(true);
+        Phake::when($this->request)->getParsedBody()->thenReturn([]);
+
+        $this->controller->createAuthor();
+    }
+
+    public function testCreateAuthor_ServiceError(): void
+    {
+        Phake::when($this->authenticationService)->authenticateAsAdmin()->thenReturn(true);
+        Phake::when($this->request)->getParsedBody()->thenReturn(['author' => ['name' => 'Stephen King']]);
+        Phake::when($this->authorService)->createAuthor('Stephen King')->thenThrow(new AuthorException('Error!'));
+
+        $this->controller->createAuthor();
+
+        Phake::verify($this->twig)->display('authors/new.twig', ['error' => 'Error!']);
     }
 }
