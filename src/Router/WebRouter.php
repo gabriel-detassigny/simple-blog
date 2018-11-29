@@ -23,6 +23,7 @@ class WebRouter
         ['GET', '/posts/{id:\d+}', 'post_viewing_controller/showPost'],
         ['GET', '/posts/new', 'post_writing_controller/newPost'],
         ['POST', '/posts', 'post_writing_controller/createPost'],
+        ['GET', '/posts/{id:\d+}/edit', 'post_writing_controller/editPost'],
         ['GET', '/admin', 'admin_index_controller/index'],
         ['POST', '/admin/images/upload', 'image_controller/upload'],
         ['GET', '/about', 'about_page_controller/showAboutPage'],

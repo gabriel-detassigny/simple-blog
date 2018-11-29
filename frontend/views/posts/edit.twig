@@ -1,0 +1,46 @@
+{% extends "admin-base.twig" %}
+{% block content %}
+    <h1>Edit post #{{ post.getId }}</h1>
+    {% if error is defined %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+    {% elseif success is defined %}
+        <div class="alert alert-success" role="alert">
+            {{ success }}
+        </div>
+    {% endif %}
+    <form method="post" action="/posts/{{ post.getId }}/update">
+        <div class="form-group">
+            <label for="post-title">Title</label>
+            <input type="text" class="form-control" id="post-title" name="post[title]" value="{{ post.getTitle }}">
+        </div>
+        <div class="form-group">
+            <label for="post-subtitle">Subtitle</label>
+            <input type="text" class="form-control" id="post-subtitle" name="post[subtitle]" value="{{ post.getSubtitle }}">
+        </div>
+        <div class="form-group">
+            <label for="post-text">Text</label>
+            <textarea class="form-control wysiwyg-input" rows="20" id="post-text" name="post[text]">
+                {{ post.getText }}
+            </textarea>
+        </div>
+        <div class="form-group">
+            <label for="post-author">Author</label>
+            <select class="form-control" id="post-author" name="post[author]">
+                {% for author in authors %}
+                    <option value="{{ author.getId }}" {% if author == post.getAuthor %}selected{% endif %}>
+                        {{ author.getName }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a href="/admin" class="btn btn-default">Cancel</a>
+    </form>
+{% endblock %}
+
+{% block javascript %}
+<script src="/js/tinymce/tinymce.min.js"></script>
+    <script src="/js/admin-post-form.js"></script>
+{% endblock %}

@@ -7,6 +7,7 @@ namespace GabrielDeTassigny\Blog\Controller;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\AuthorService;
 use GabrielDeTassigny\Blog\Service\PostCreationException;
+use GabrielDeTassigny\Blog\Service\PostNotFoundException;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
 use GabrielDeTassigny\Blog\Service\PostWritingService;
 use GabrielDeTassigny\Blog\ValueObject\Page;
@@ -35,18 +36,23 @@ class PostWritingController extends AdminController
     /** @var AuthorService */
     private $authorService;
 
+    /** @var PostViewingService */
+    private $postViewingService;
+
     public function __construct(
         Twig_Environment $twig,
         AuthenticationService $authenticationService,
         ServerRequestInterface $request,
         PostWritingService $postWritingService,
-        AuthorService $authorService
+        AuthorService $authorService,
+        PostViewingService $postViewingService
     ) {
         $this->twig = $twig;
         $this->authenticationService = $authenticationService;
         $this->request = $request;
         $this->postWritingService = $postWritingService;
         $this->authorService = $authorService;
+        $this->postViewingService = $postViewingService;
     }
 
     /**
@@ -76,6 +82,18 @@ class PostWritingController extends AdminController
         } catch (PostCreationException $e) {
             $this->displayNewPostForm(['error' => $e->getMessage()]);
         }
+    }
+
+    public function editPost(array $vars): void
+    {
+        $this->ensureAdminAuthentication();
+        try {
+            $post = $this->postViewingService->getPost((int) $vars['id']);
+        } catch (PostNotFoundException $e) {
+            throw new HttpException('Could not find any post with ID ' . $vars['id'], StatusCode::NOT_FOUND);
+        }
+        $authors = $this->authorService->getAuthors();
+        $this->twig->display('posts/edit.twig', ['post' => $post, 'authors' => $authors]);
     }
 
     protected function getAuthenticationService(): AuthenticationService

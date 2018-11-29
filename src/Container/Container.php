@@ -39,7 +39,8 @@ class Container implements ContainerInterface
                 'authentication_service',
                 'server_request',
                 'post_writing_service',
-                'author_service'
+                'author_service',
+                'post_viewing_service'
             ]
         ],
         'image_controller' => [
