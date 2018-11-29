@@ -10,7 +10,7 @@
             {{ success }}
         </div>
     {% endif %}
-    <form method="post" action="/posts/{{ post.getId }}/update">
+    <form method="post" action="/posts/{{ post.getId }}">
         <div class="form-group">
             <label for="post-title">Title</label>
             <input type="text" class="form-control" id="post-title" name="post[title]" value="{{ post.getTitle }}">
