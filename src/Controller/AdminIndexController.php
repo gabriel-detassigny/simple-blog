@@ -63,7 +63,7 @@ class AdminIndexController extends AdminController
         $externalLinks = $this->externalLinkService->getExternalLinks();
         $this->twig->display(
             'admin-index.twig',
-            ['posts' => $posts, 'authors' => $authors, 'blogTitle' => $blogTitle, 'externalLinks' => $externalLinks]
+            ['posts' => $posts, 'authors' => $authors, 'title' => $blogTitle, 'externalLinks' => $externalLinks]
         );
     }
 

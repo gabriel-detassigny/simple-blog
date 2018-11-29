@@ -80,7 +80,7 @@ class AdminIndexControllerTest extends TestCase
 
         Phake::verify($this->twig)->display(
             'admin-index.twig',
-            ['posts' => $posts, 'authors' => [], 'blogTitle' => self::BLOG_TITLE, 'externalLinks' => []]
+            ['posts' => $posts, 'authors' => [], 'title' => self::BLOG_TITLE, 'externalLinks' => []]
         );
     }
 
