@@ -1,0 +1,10 @@
+# Force website to use HTTPS
+RewriteEngine On
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Authorize HTTP basic authentication
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
+
+# Set fallback resource for URLs
+FallbackResource /index.php
