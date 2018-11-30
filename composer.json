@@ -1,6 +1,6 @@
 {
     "require": {
-        "php": ">= 7.1",
+        "php": ">= 7.2",
         "guzzlehttp/psr7": "^1.4",
         "nikic/fast-route": "^1.2",
         "twig/twig": "^2.4",
