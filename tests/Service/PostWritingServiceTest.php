@@ -6,13 +6,11 @@ namespace GabrielDeTassigny\Blog\Tests\Service;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
-use Exception;
 use GabrielDeTassigny\Blog\Entity\Author;
 use GabrielDeTassigny\Blog\Entity\Post;
 use GabrielDeTassigny\Blog\Service\AuthorException;
 use GabrielDeTassigny\Blog\Service\AuthorService;
-use GabrielDeTassigny\Blog\Service\PostCreationException;
-use GabrielDeTassigny\Blog\Service\PostUpdatingException;
+use GabrielDeTassigny\Blog\Service\PostWritingException;
 use GabrielDeTassigny\Blog\Service\PostWritingService;
 use Phake;
 use Phake_IMock;
@@ -44,17 +42,18 @@ class PostWritingServiceTest extends TestCase
         $request = ['text' => 'example of text', 'title' => 'Title', 'subtitle' => 'Subtitle', 'author' => 1];
         Phake::when($this->authorService)->getAuthorById(1)->thenReturn(Phake::mock(Author::class));
 
-        $this->service->createPost($request);
+        $post = $this->service->createPost($request);
 
         Phake::inOrder(
-            Phake::verify($this->entityManager)->persist(Phake::anyParameters()),
+            Phake::verify($this->entityManager)->persist($post),
             Phake::verify($this->entityManager)->flush()
         );
     }
 
     public function testCreatePost_DoctrineException(): void
     {
-        $this->expectException(PostCreationException::class);
+        $this->expectException(PostWritingException::class);
+        $this->expectExceptionCode(PostWritingException::DB_ERROR);
 
         Phake::when($this->entityManager)->persist(Phake::anyParameters())->thenThrow(new ORMException());
         $request = ['text' => 'example of text', 'title' => 'Title', 'subtitle' => 'Subtitle', 'author' => 1];
@@ -65,7 +64,8 @@ class PostWritingServiceTest extends TestCase
 
     public function testCreatePost_AuthorNotFound(): void
     {
-        $this->expectException(PostCreationException::class);
+        $this->expectException(PostWritingException::class);
+        $this->expectExceptionCode(PostWritingException::AUTHOR_ERROR);
 
         $request = ['text' => 'example of text', 'title' => 'Title', 'subtitle' => 'Subtitle', 'author' => 1];
         Phake::when($this->authorService)->getAuthorById(1)->thenThrow(new AuthorException());
@@ -78,7 +78,7 @@ class PostWritingServiceTest extends TestCase
         $request = ['text' => 'example of text', 'title' => 'Title', 'subtitle' => 'Subtitle', 'author' => 1];
         $author = Phake::mock(Author::class);
         Phake::when($this->authorService)->getAuthorById(1)->thenReturn($author);
-        $post = Phake::mock(Post::class);
+        $post = Phake::partialMock(Post::class);
 
         $this->service->updatePost($post, $request);
 
@@ -92,12 +92,35 @@ class PostWritingServiceTest extends TestCase
 
     public function testUpdatePost_DoctrineException(): void
     {
-        $this->expectException(PostUpdatingException::class);
+        $this->expectException(PostWritingException::class);
+        $this->expectExceptionCode(PostWritingException::DB_ERROR);
 
-        $post = Phake::mock(Post::class);
+        $post = new Post();
         Phake::when($this->entityManager)->persist($post)->thenThrow(new ORMException());
         $request = ['text' => 'example of text', 'title' => 'Title', 'subtitle' => 'Subtitle', 'author' => 1];
         Phake::when($this->authorService)->getAuthorById(1)->thenReturn(Phake::mock(Author::class));
+
+        $this->service->updatePost($post, $request);
+    }
+
+    public function testUpdatePost_EmptyTitle(): void
+    {
+        $this->expectException(PostWritingException::class);
+        $this->expectExceptionCode(PostWritingException::TITLE_ERROR);
+
+        $request = ['text' => 'example of text', 'title' => '', 'subtitle' => 'Subtitle', 'author' => 1];
+        $post = new Post();
+
+        $this->service->updatePost($post, $request);
+    }
+
+    public function testUpdatePost_EmptyText(): void
+    {
+        $this->expectException(PostWritingException::class);
+        $this->expectExceptionCode(PostWritingException::TEXT_ERROR);
+
+        $request = ['text' => '', 'title' => 'Title', 'subtitle' => 'Subtitle', 'author' => 1];
+        $post = new Post();
 
         $this->service->updatePost($post, $request);
     }

@@ -8,9 +8,8 @@ use GabrielDeTassigny\Blog\Controller\PostWritingController;
 use GabrielDeTassigny\Blog\Entity\Post;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\AuthorService;
-use GabrielDeTassigny\Blog\Service\PostCreationException;
+use GabrielDeTassigny\Blog\Service\PostWritingException;
 use GabrielDeTassigny\Blog\Service\PostNotFoundException;
-use GabrielDeTassigny\Blog\Service\PostUpdatingException;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
 use GabrielDeTassigny\Blog\Service\PostWritingService;
 use Phake;
@@ -112,24 +111,29 @@ class PostWritingControllerTest extends TestCase
     {
         $this->mockAdminAuthentication();
         Phake::when($this->postWritingService)->createPost(self::BODY['post'])
-            ->thenThrow(new PostCreationException(self::CREATION_ERROR));
-        Phake::when($this->request)->getParsedBody()->thenReturn(self::BODY);
-
-        $this->controller->createPost();
-
-        Phake::verify($this->twig)->display('posts/new.twig', ['error' => self::CREATION_ERROR, 'authors' => []]);
-    }
-
-    public function testCreatePost(): void
-    {
-        $this->mockAdminAuthentication();
+            ->thenThrow(new PostWritingException(self::CREATION_ERROR));
         Phake::when($this->request)->getParsedBody()->thenReturn(self::BODY);
 
         $this->controller->createPost();
 
         Phake::verify($this->twig)->display(
             'posts/new.twig',
-            ['success' => self::POST_CREATION_SUCCESS, 'authors' => []]
+            ['error' => self::CREATION_ERROR, 'authors' => [], 'post' => []]
+        );
+    }
+
+    public function testCreatePost(): void
+    {
+        $this->mockAdminAuthentication();
+        Phake::when($this->request)->getParsedBody()->thenReturn(self::BODY);
+        $post = new Post();
+        Phake::when($this->postWritingService)->createPost(self::BODY['post'])->thenReturn($post);
+
+        $this->controller->createPost();
+
+        Phake::verify($this->twig)->display(
+            'posts/edit.twig',
+            ['success' => self::POST_CREATION_SUCCESS, 'authors' => [], 'post' => $post]
         );
     }
 
@@ -175,7 +179,7 @@ class PostWritingControllerTest extends TestCase
         $post = $this->getPostFromService();
         Phake::when($this->request)->getParsedBody()->thenReturn(self::BODY);
         Phake::when($this->postWritingService)->updatePost($post, self::BODY['post'])
-            ->thenThrow(new PostUpdatingException('error updating post'));
+            ->thenThrow(new PostWritingException('error updating post'));
 
         $this->controller->updatePost(['id' => (string)self::ID]);
 

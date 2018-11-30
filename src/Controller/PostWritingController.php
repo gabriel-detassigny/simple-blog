@@ -7,9 +7,8 @@ namespace GabrielDeTassigny\Blog\Controller;
 use GabrielDeTassigny\Blog\Entity\Post;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\AuthorService;
-use GabrielDeTassigny\Blog\Service\PostCreationException;
+use GabrielDeTassigny\Blog\Service\PostWritingException;
 use GabrielDeTassigny\Blog\Service\PostNotFoundException;
-use GabrielDeTassigny\Blog\Service\PostUpdatingException;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
 use GabrielDeTassigny\Blog\Service\PostWritingService;
 use Psr\Http\Message\ServerRequestInterface;
@@ -76,13 +75,19 @@ class PostWritingController extends AdminController
         $this->ensureAdminAuthentication();
         $formParams = $this->getFormParams();
         try {
-            $this->postWritingService->createPost($formParams);
-            $this->displayNewPostForm(['success' => self::POST_CREATION_SUCCESS]);
-        } catch (PostCreationException $e) {
-            $this->displayNewPostForm(['error' => $e->getMessage()]);
+            $post = $this->postWritingService->createPost($formParams);
+            $this->displayEditPostForm($post, ['success' => self::POST_CREATION_SUCCESS]);
+        } catch (PostWritingException $e) {
+            $this->displayNewPostForm(['error' => $e->getMessage(), 'post' => $formParams]);
         }
     }
 
+    /**
+     * @param array $vars
+     * @throws HttpException
+     * @throws Twig_Error
+     * @return void
+     */
     public function editPost(array $vars): void
     {
         $this->ensureAdminAuthentication();
@@ -90,6 +95,12 @@ class PostWritingController extends AdminController
         $this->displayEditPostForm($post, []);
     }
 
+    /**
+     * @param array $vars
+     * @throws HttpException
+     * @throws Twig_Error
+     * @return void
+     */
     public function updatePost(array $vars): void
     {
         $this->ensureAdminAuthentication();
@@ -98,7 +109,7 @@ class PostWritingController extends AdminController
         try {
             $this->postWritingService->updatePost($post, $formParams);
             $this->displayEditPostForm($post, ['success' => self::POST_UPDATING_SUCCESS]);
-        } catch (PostUpdatingException $e) {
+        } catch (PostWritingException $e) {
             $this->displayEditPostForm($post, ['error' => $e->getMessage()]);
         }
     }

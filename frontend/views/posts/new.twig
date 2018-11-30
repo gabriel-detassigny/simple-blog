@@ -13,21 +13,25 @@
     <form method="post" action="/posts">
         <div class="form-group">
             <label for="post-title">Title</label>
-            <input type="text" class="form-control" id="post-title" name="post[title]">
+            <input type="text" class="form-control" id="post-title" name="post[title]" value="{{ post['title']|default('') }}">
         </div>
         <div class="form-group">
             <label for="post-subtitle">Subtitle</label>
-            <input type="text" class="form-control" id="post-subtitle" name="post[subtitle]">
+            <input type="text" class="form-control" id="post-subtitle" name="post[subtitle]" value="{{ post['subtitle']|default('') }}">
         </div>
         <div class="form-group">
             <label for="post-text">Text</label>
-            <textarea class="form-control wysiwyg-input" rows="20" id="post-text" name="post[text]"></textarea>
+            <textarea class="form-control wysiwyg-input" rows="20" id="post-text" name="post[text]">
+                {{ post['text']|default('') }}
+            </textarea>
         </div>
         <div class="form-group">
             <label for="post-author">Author</label>
             <select class="form-control" id="post-author" name="post[author]">
                 {% for author in authors %}
-                    <option value="{{ author.getId }}">{{ author.getName }}</option>
+                    <option value="{{ author.getId }}" {% if post is defined and author.getId == post['author'] %}selected{% endif %}>
+                        {{ author.getName }}
+                    </option>
                 {% endfor %}
             </select>
         </div>
