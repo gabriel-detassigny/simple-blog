@@ -90,4 +90,9 @@ class Post
     {
         $this->author = $author;
     }
+
+    public function setUpdatedAt(DateTime $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
 }

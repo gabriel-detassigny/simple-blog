@@ -32,6 +32,7 @@ class PostWritingService
     {
         $post = new Post();
         $this->setPostFromRequest($post, $request);
+        $post->setCreatedAt(new DateTime());
 
         try {
             $this->entityManager->persist($post);
@@ -54,7 +55,7 @@ class PostWritingService
     public function updatePost(Post $post, array $request): void
     {
         $this->setPostFromRequest($post, $request);
-
+        $post->setUpdatedAt(new DateTime());
         try {
             $this->entityManager->persist($post);
             $this->entityManager->flush();
@@ -77,7 +78,6 @@ class PostWritingService
         $post->setText($request['text']);
         $post->setSubtitle($request['subtitle']);
         $post->setTitle($request['title']);
-        $post->setCreatedAt(new DateTime());
         $this->ensurePostIsValid($post);
         $this->findAndSetAuthor($post, (int)$request['author']);
     }
