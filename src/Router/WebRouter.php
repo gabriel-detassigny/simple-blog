@@ -20,10 +20,10 @@ class WebRouter
     private const ROUTES = [
         ['GET', '/', 'post_viewing_controller/index'],
         ['GET', '/posts/page/{page}', 'post_viewing_controller/getPosts'],
+        ['GET', '/posts/{id:\d+}/edit', 'post_writing_controller/editPost'],
         ['GET', '/posts/{id:\d+}/{slug}', 'post_viewing_controller/showPost'],
         ['GET', '/posts/new', 'post_writing_controller/newPost'],
         ['POST', '/posts', 'post_writing_controller/createPost'],
-        ['GET', '/posts/{id:\d+}/edit', 'post_writing_controller/editPost'],
         ['POST', '/posts/{id:\d+}', 'post_writing_controller/updatePost'],
         ['GET', '/admin', 'admin_index_controller/index'],
         ['POST', '/admin/images/upload', 'image_controller/upload'],
