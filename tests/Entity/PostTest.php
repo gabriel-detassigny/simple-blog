@@ -58,4 +58,18 @@ class PostTest extends TestCase
 
         $this->assertSame($author, $this->post->getAuthor());
     }
+
+    public function testGetSlug(): void
+    {
+        $this->post->setTitle('This is 1 test for @slug');
+
+        $this->assertSame('this-is-1-test-for-slug', $this->post->getSlug());
+    }
+
+    public function testGetSlug_UndefinedSlug(): void
+    {
+        $this->post->setTitle('"+_*');
+
+        $this->assertSame('n-a', $this->post->getSlug());
+    }
 }

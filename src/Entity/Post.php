@@ -15,6 +15,8 @@ use DateTime;
  */
 class Post
 {
+    private const UNDEFINED_SLUG = 'n-a';
+
     /** @Id @Column(type="integer") @GeneratedValue */
     private $id;
 
@@ -94,5 +96,17 @@ class Post
     public function setUpdatedAt(DateTime $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    public function getSlug(): string
+    {
+        $slug = trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $this->getTitle()), '-');
+        $slug = strtolower(preg_replace('/-+/', '-', $slug));
+
+        if (empty($slug)) {
+            return self::UNDEFINED_SLUG;
+        }
+
+        return $slug;
     }
 }
