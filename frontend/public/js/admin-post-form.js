@@ -3,7 +3,6 @@ $(document).ready(function () {
         selector:'.wysiwyg-input',
         toolbar: 'image codesample anchor link',
         plugins: 'image imagetools codesample anchor link',
-        menubar: 'insert',
         images_upload_credentials: true,
         images_upload_handler: function (blobInfo, success, failure) {
             var formData = new FormData();
