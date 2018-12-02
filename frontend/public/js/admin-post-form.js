@@ -4,6 +4,10 @@ $(document).ready(function () {
         toolbar: 'image codesample anchor link',
         plugins: 'image imagetools codesample anchor link',
         images_upload_credentials: true,
+        relative_urls: false,
+        remove_script_host: true,
+        document_base_url: '/',
+        convert_urls: true,
         images_upload_handler: function (blobInfo, success, failure) {
             var formData = new FormData();
             formData.append('file', blobInfo.blob());
