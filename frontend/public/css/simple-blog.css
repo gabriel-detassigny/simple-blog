@@ -4,11 +4,11 @@
 
 .blog-post.blog-post-show .post-header h1 {
     margin-top: 2%;
-    font-size: 60px;
+    font-size: calc(30px + 2vw);
 }
 
 .blog-post.blog-post-show .post-header .post-description {
-    font-size: 32px;
+    font-size: calc(18px + 1vw);
 }
 
 .blog-post.blog-post-show .post-content {
