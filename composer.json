@@ -9,7 +9,8 @@
         "doctrine/orm": "^2.6",
         "shrikeh/teapot": "^2.3",
         "monolog/monolog": "^1.0",
-        "saffyre/basic-http-authentication": "^1.0"
+        "saffyre/basic-http-authentication": "^1.0",
+        "ext-json": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.5",
