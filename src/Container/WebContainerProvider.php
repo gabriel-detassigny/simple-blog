@@ -23,6 +23,7 @@ use GabrielDeTassigny\Blog\Entity\ExternalLink;
 use GabrielDeTassigny\Blog\Entity\Post;
 use GabrielDeTassigny\Blog\Renderer\ErrorRenderer;
 use GabrielDeTassigny\Blog\Renderer\JsonRenderer;
+use GabrielDeTassigny\Blog\Renderer\RssRenderer;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\AuthorService;
 use GabrielDeTassigny\Blog\Service\BlogInfoService;
@@ -122,6 +123,10 @@ class WebContainerProvider
         'error_renderer' => [
             'name' => ErrorRenderer::class,
             'dependencies' => ['twig', 'json_renderer']
+        ],
+        'rss_renderer' => [
+            'name' => RssRenderer::class,
+            'dependencies' => []
         ]
     ];
 
