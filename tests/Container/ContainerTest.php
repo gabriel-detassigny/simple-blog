@@ -10,6 +10,7 @@ use GabrielDeTassigny\Blog\Container\NotFoundException;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceCreationException;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceProvider;
 use GabrielDeTassigny\Blog\Renderer\ErrorRenderer;
+use GabrielDeTassigny\Blog\Renderer\JsonRenderer;
 use Phake;
 use PHPUnit\Framework\TestCase;
 use Twig_Environment;
@@ -19,12 +20,23 @@ class ContainerTest extends TestCase
     /** @var Container */
     private $container;
 
+    private const DEPENDENCIES = [
+        'json_renderer' => [
+            'name' => JsonRenderer::class,
+            'dependencies' => []
+        ],
+        'error_renderer' => [
+            'name' => ErrorRenderer::class,
+            'dependencies' => ['twig', 'json_renderer']
+        ]
+    ];
+
     /**
      * {@inheritdoc}
      */
     public function setUp()
     {
-        $this->container = new Container();
+        $this->container = new Container(self::DEPENDENCIES);
         $mockTwigProvider = Phake::mock(ServiceProvider::class);
         Phake::when($mockTwigProvider)->getService()->thenReturn(Phake::mock(Twig_Environment::class));
         $this->container->registerService('twig', $mockTwigProvider);
@@ -32,7 +44,7 @@ class ContainerTest extends TestCase
 
     public function testHasMethodIsTrue()
     {
-        $this->assertTrue($this->container->has('post_viewing_controller'));
+        $this->assertTrue($this->container->has('json_renderer'));
     }
 
     public function testHasMethodIsFalse()
