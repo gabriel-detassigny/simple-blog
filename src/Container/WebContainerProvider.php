@@ -17,6 +17,7 @@ use GabrielDeTassigny\Blog\Controller\ExternalLinkController;
 use GabrielDeTassigny\Blog\Controller\ImageController;
 use GabrielDeTassigny\Blog\Controller\PostViewingController;
 use GabrielDeTassigny\Blog\Controller\PostWritingController;
+use GabrielDeTassigny\Blog\Controller\RssController;
 use GabrielDeTassigny\Blog\Entity\Author;
 use GabrielDeTassigny\Blog\Entity\BlogInfo;
 use GabrielDeTassigny\Blog\Entity\ExternalLink;
@@ -31,6 +32,7 @@ use GabrielDeTassigny\Blog\Service\ExternalLinkService;
 use GabrielDeTassigny\Blog\Service\ImageService;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
 use GabrielDeTassigny\Blog\Service\PostWritingService;
+use GabrielDeTassigny\Blog\Service\RssService;
 use Psr\Container\ContainerInterface;
 
 class WebContainerProvider
@@ -88,6 +90,10 @@ class WebContainerProvider
             'name' => AuthorController::class,
             'dependencies' => ['author_service', 'authentication_service', 'twig', 'server_request']
         ],
+        'rss_controller' => [
+            'name' => RssController::class,
+            'dependencies' => ['rss_service', 'rss_renderer']
+        ],
         'post_viewing_service' => [
             'name' => PostViewingService::class,
             'dependencies' => ['post_repository']
@@ -115,6 +121,10 @@ class WebContainerProvider
         'author_service' => [
             'name' => AuthorService::class,
             'dependencies' => ['author_repository', 'entity_manager']
+        ],
+        'rss_service' => [
+            'name' => RssService::class,
+            'dependencies' => ['blog_info_service', 'post_viewing_service', 'server_request']
         ],
         'json_renderer' => [
             'name' => JsonRenderer::class,

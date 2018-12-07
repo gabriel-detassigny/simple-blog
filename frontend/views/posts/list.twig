@@ -12,10 +12,10 @@
 
             {% for post in posts %}
                 <div class="blog-post blog-post-overview">
-                    <h2 class="blog-post-title"><a href="/posts/{{ post.getId }}/{{ post.getSlug }}">{{ post.getTitle }}</a></h2>
+                    <h2 class="blog-post-title"><a href="{{ post.getUrl }}">{{ post.getTitle }}</a></h2>
                     <p class="blog-post-meta">{{ post.getCreatedAt|date('F jS, Y') }} | {{ post.getAuthor.getName }}</p>
                     <p>{{ post.getSubtitle }}</p>
-                    <a class="blog-read-more" href="/posts/{{ post.getId }}/{{ post.getSlug }}">Read More</a>
+                    <a class="blog-read-more" href="{{ post.getUrl }}">Read More</a>
                 </div>
             {% endfor %}
             <nav>

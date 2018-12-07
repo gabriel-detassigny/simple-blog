@@ -34,7 +34,8 @@ class WebRouter
         ['POST', '/external-links', 'external_link_controller/createExternalLink'],
         ['DELETE', '/external-links/{id:\d+}', 'external_link_controller/deleteExternalLink'],
         ['GET', '/authors/new', 'author_controller/newAuthor'],
-        ['POST', '/authors', 'author_controller/createAuthor']
+        ['POST', '/authors', 'author_controller/createAuthor'],
+        ['GET', '/rss', 'rss_controller/showRss']
     ];
     private const EXCEPTION_MESSAGE = 'An unexpected exception occurred!';
 

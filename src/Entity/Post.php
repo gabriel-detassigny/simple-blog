@@ -109,4 +109,9 @@ class Post
 
         return $slug;
     }
+
+    public function getUrl(): string
+    {
+        return '/posts/' . $this->getId() . '/' . $this->getSlug();
+    }
 }
