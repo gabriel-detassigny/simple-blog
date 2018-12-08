@@ -12,6 +12,8 @@
         <link rel="stylesheet" href="/css/blog.css">
         <link rel="stylesheet" href="/css/simple-blog.css">
         {% block css %}{% endblock %}
+
+        <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="/rss">
     </head>
     {% set isAboutPage = 'About' in pageTitle %}
     <body>
