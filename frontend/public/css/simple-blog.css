@@ -11,6 +11,10 @@
     font-size: calc(18px + 1vw);
 }
 
+.blog-post.blog-post-show .blog-post-follow a {
+    float: right;
+}
+
 .blog-post.blog-post-show .post-content {
     font-size: 20px;
     line-height: 32px;
