@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GabrielDeTassigny\Blog\Renderer;
+namespace GabrielDeTassigny\Blog\Tests\Renderer;
 
+use GabrielDeTassigny\Blog\Renderer\RssRenderer;
 use Phake;
 use PHPUnit\Framework\TestCase;
 use Suin\RSSWriter\Feed;
