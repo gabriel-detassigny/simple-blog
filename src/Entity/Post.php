@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace GabrielDeTassigny\Blog\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @Entity(repositoryClass="GabrielDeTassigny\Blog\Repository\PostRepository")
@@ -37,6 +39,17 @@ class Post
 
     /** @ManyToOne(targetEntity="GabrielDeTassigny\Blog\Entity\Author") */
     private $author;
+
+    /**
+     * @OneToMany(targetEntity="GabrielDeTassigny\Blog\Entity\Comment", mappedBy="post")
+     * @OrderBy({"createdAt": "DESC"})
+     */
+    private $comments;
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+    }
 
     public function getId(): int
     {
@@ -113,5 +126,10 @@ class Post
     public function getUrl(): string
     {
         return '/posts/' . $this->getId() . '/' . $this->getSlug();
+    }
+
+    public function getComments(): Collection
+    {
+        return $this->comments;
     }
 }

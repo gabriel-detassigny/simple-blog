@@ -41,3 +41,35 @@ a.admin-action {
     float: right;
     margin-bottom: 20px;
 }
+
+#blog-post-comments {
+    margin-top: 30px;
+    border-top: #8b8b8b;
+}
+
+#blog-post-comments #comment-text {
+    height: 150px;
+}
+
+.required label:after {
+    content:" *";
+    color: red;
+}
+
+.comment-name {
+    color: rgb(66, 139, 202);
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.comment-date {
+    color: lightgrey;
+}
+
+.comment-show {
+    margin-top: 10px;
+}
+
+.comments-list {
+    margin-top: 25px;
+}
