@@ -8,6 +8,7 @@ use GabrielDeTassigny\Blog\Container\ServiceProvider\Doctrine\EntityManagerProvi
 use GabrielDeTassigny\Blog\Container\ServiceProvider\Doctrine\RepositoryProvider;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\LogProvider;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\ServerRequestProvider;
+use GabrielDeTassigny\Blog\Container\ServiceProvider\SessionProvider;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\TwigProvider;
 use GabrielDeTassigny\Blog\Controller\AboutPageController;
 use GabrielDeTassigny\Blog\Controller\AdminIndexController;
@@ -33,6 +34,7 @@ use GabrielDeTassigny\Blog\Service\ImageService;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
 use GabrielDeTassigny\Blog\Service\PostWritingService;
 use GabrielDeTassigny\Blog\Service\RssService;
+use Gregwar\Captcha\CaptchaBuilder;
 use Psr\Container\ContainerInterface;
 
 class WebContainerProvider
@@ -137,6 +139,10 @@ class WebContainerProvider
         'rss_renderer' => [
             'name' => RssRenderer::class,
             'dependencies' => []
+        ],
+        'CaptchaBuilder' => [
+            'name' => CaptchaBuilder::class,
+            'dependencies' => []
         ]
     ];
 
@@ -151,6 +157,7 @@ class WebContainerProvider
         $container->registerService('external_link_repository', new RepositoryProvider($container, ExternalLink::class));
         $container->registerService('author_repository', new RepositoryProvider($container, Author::class));
         $container->registerService('log', new LogProvider('app-errors'));
+        $container->registerService('session', new SessionProvider());
 
         return $container;
     }

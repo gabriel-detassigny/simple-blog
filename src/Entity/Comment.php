@@ -42,7 +42,7 @@ class Comment
         $this->createdAt = $createdAt;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -52,7 +52,7 @@ class Comment
         $this->name = $name;
     }
 
-    public function getText(): string
+    public function getText(): ?string
     {
         return $this->text;
     }
@@ -62,7 +62,7 @@ class Comment
         $this->text = $text;
     }
 
-    public function getPost(): Post
+    public function getPost(): ?Post
     {
         return $this->post;
     }
