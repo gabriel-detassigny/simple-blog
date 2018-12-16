@@ -14,6 +14,7 @@ use GabrielDeTassigny\Blog\Controller\AboutPageController;
 use GabrielDeTassigny\Blog\Controller\AdminIndexController;
 use GabrielDeTassigny\Blog\Controller\AuthorController;
 use GabrielDeTassigny\Blog\Controller\BlogInfoController;
+use GabrielDeTassigny\Blog\Controller\CommentController;
 use GabrielDeTassigny\Blog\Controller\ExternalLinkController;
 use GabrielDeTassigny\Blog\Controller\ImageController;
 use GabrielDeTassigny\Blog\Controller\PostViewingController;
@@ -29,6 +30,7 @@ use GabrielDeTassigny\Blog\Renderer\RssRenderer;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\AuthorService;
 use GabrielDeTassigny\Blog\Service\BlogInfoService;
+use GabrielDeTassigny\Blog\Service\CommentService;
 use GabrielDeTassigny\Blog\Service\ExternalLinkService;
 use GabrielDeTassigny\Blog\Service\ImageService;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
@@ -96,6 +98,10 @@ class WebContainerProvider
             'name' => RssController::class,
             'dependencies' => ['rss_service', 'rss_renderer']
         ],
+        'comment_controller' => [
+            'name' => CommentController::class,
+            'dependencies' => ['comment_service', 'server_request']
+        ],
         'post_viewing_service' => [
             'name' => PostViewingService::class,
             'dependencies' => ['post_repository']
@@ -128,6 +134,10 @@ class WebContainerProvider
             'name' => RssService::class,
             'dependencies' => ['blog_info_service', 'post_viewing_service', 'server_request']
         ],
+        'comment_service' => [
+            'name' => CommentService::class,
+            'dependencies' => ['captcha_builder', 'session', 'entity_manager', 'post_viewing_service']
+        ],
         'json_renderer' => [
             'name' => JsonRenderer::class,
             'dependencies' => []
@@ -140,7 +150,7 @@ class WebContainerProvider
             'name' => RssRenderer::class,
             'dependencies' => []
         ],
-        'CaptchaBuilder' => [
+        'captcha_builder' => [
             'name' => CaptchaBuilder::class,
             'dependencies' => []
         ]

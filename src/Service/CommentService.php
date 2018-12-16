@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Service;
 
+use DateTime;
 use Doctrine\ORM\EntityManager;
 use GabrielDeTassigny\Blog\Entity\Comment;
 use Gregwar\Captcha\CaptchaBuilder;
@@ -46,13 +47,17 @@ class CommentService
 
     public function createComment(array $request, int $postId): void
     {
-        if ($request['captcha'] !== $this->session[self::CAPTCHA_KEY]) {
-            throw new CommentException('Invalid Captcha', CommentException::CAPTCHA_ERROR);
-        }
+//        if ($request['captcha'] !== $this->session[self::CAPTCHA_KEY]) {
+//            throw new CommentException('Invalid Captcha', CommentException::CAPTCHA_ERROR);
+//        }
         $comment = new Comment();
         $comment->setText($request['text']);
         $comment->setName($request['name']);
+        $comment->setCreatedAt(new DateTime());
         $this->findAndSetPost($comment, $postId);
+
+        $this->entityManager->persist($comment);
+        $this->entityManager->flush();
     }
 
     private function findAndSetPost(Comment $comment, int $postId): void
