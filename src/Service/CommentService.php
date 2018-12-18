@@ -6,58 +6,46 @@ namespace GabrielDeTassigny\Blog\Service;
 
 use DateTime;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\ORMException;
 use GabrielDeTassigny\Blog\Entity\Comment;
-use Gregwar\Captcha\CaptchaBuilder;
 
 class CommentService
 {
-    private const CAPTCHA_KEY = 'captcha';
-
-    /** @var CaptchaBuilder */
-    private $captchaBuilder;
-
-    /** @var array */
-    private $session;
-
     /** @var EntityManager */
     private $entityManager;
 
     /** @var PostViewingService */
     private $postViewingService;
 
-    public function __construct(
-        CaptchaBuilder $captchaBuilder,
-        array $session,
-        EntityManager $entityManager,
-        PostViewingService $postViewingService
-    ) {
-        $this->captchaBuilder = $captchaBuilder;
-        $this->session = $session;
+    public function __construct(EntityManager $entityManager, PostViewingService $postViewingService)
+    {
         $this->entityManager = $entityManager;
         $this->postViewingService = $postViewingService;
     }
 
-    public function getCaptchaImage(): string
+    /**
+     * @param array $request
+     * @param int $postId
+     * @return Comment
+     * @throws CommentException
+     */
+    public function createComment(array $request, int $postId): Comment
     {
-        $this->captchaBuilder->build();
-        $this->session[self::CAPTCHA_KEY] = $this->captchaBuilder->getPhrase();
-
-        return $this->captchaBuilder->inline();
-    }
-
-    public function createComment(array $request, int $postId): void
-    {
-//        if ($request['captcha'] !== $this->session[self::CAPTCHA_KEY]) {
-//            throw new CommentException('Invalid Captcha', CommentException::CAPTCHA_ERROR);
-//        }
         $comment = new Comment();
         $comment->setText($request['text']);
         $comment->setName($request['name']);
         $comment->setCreatedAt(new DateTime());
         $this->findAndSetPost($comment, $postId);
+        $this->validateComment($comment);
 
-        $this->entityManager->persist($comment);
-        $this->entityManager->flush();
+        try {
+            $this->entityManager->persist($comment);
+            $this->entityManager->flush();
+        } catch (ORMException $e) {
+            throw new CommentException($e->getMessage(), CommentException::DB_ERROR, $e);
+        }
+
+        return $comment;
     }
 
     private function findAndSetPost(Comment $comment, int $postId): void
@@ -68,5 +56,15 @@ class CommentService
             throw new CommentException($e->getMessage(), CommentException::FIELD_ERROR, $e);
         }
         $comment->setPost($post);
+    }
+
+    private function validateComment(Comment $comment): void
+    {
+        if (empty($comment->getText())) {
+            throw new CommentException('Empty comment field', CommentException::FIELD_ERROR);
+        }
+        if (empty($comment->getName())) {
+            throw new CommentException('Empty name field', CommentException::FIELD_ERROR);
+        }
     }
 }

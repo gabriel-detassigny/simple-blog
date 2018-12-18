@@ -11,8 +11,7 @@
         "monolog/monolog": "^1.0",
         "saffyre/basic-http-authentication": "^1.0",
         "ext-json": "*",
-        "suin/php-rss-writer": "^1.6",
-        "gregwar/captcha": "^1.1"
+        "suin/php-rss-writer": "^1.6"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.5",

@@ -36,7 +36,6 @@ use GabrielDeTassigny\Blog\Service\ImageService;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
 use GabrielDeTassigny\Blog\Service\PostWritingService;
 use GabrielDeTassigny\Blog\Service\RssService;
-use Gregwar\Captcha\CaptchaBuilder;
 use Psr\Container\ContainerInterface;
 
 class WebContainerProvider
@@ -136,7 +135,7 @@ class WebContainerProvider
         ],
         'comment_service' => [
             'name' => CommentService::class,
-            'dependencies' => ['captcha_builder', 'session', 'entity_manager', 'post_viewing_service']
+            'dependencies' => ['entity_manager', 'post_viewing_service']
         ],
         'json_renderer' => [
             'name' => JsonRenderer::class,
@@ -148,10 +147,6 @@ class WebContainerProvider
         ],
         'rss_renderer' => [
             'name' => RssRenderer::class,
-            'dependencies' => []
-        ],
-        'captcha_builder' => [
-            'name' => CaptchaBuilder::class,
             'dependencies' => []
         ]
     ];
@@ -167,7 +162,6 @@ class WebContainerProvider
         $container->registerService('external_link_repository', new RepositoryProvider($container, ExternalLink::class));
         $container->registerService('author_repository', new RepositoryProvider($container, Author::class));
         $container->registerService('log', new LogProvider('app-errors'));
-        $container->registerService('session', new SessionProvider());
 
         return $container;
     }

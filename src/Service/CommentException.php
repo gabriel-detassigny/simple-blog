@@ -8,6 +8,6 @@ use RuntimeException;
 
 class CommentException extends RuntimeException
 {
-    const CAPTCHA_ERROR = 1;
-    const FIELD_ERROR = 2;
+    const FIELD_ERROR = 1;
+    const DB_ERROR = 2;
 }

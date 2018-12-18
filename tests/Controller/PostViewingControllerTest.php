@@ -9,6 +9,7 @@ use GabrielDeTassigny\Blog\Controller\PostViewingController;
 use GabrielDeTassigny\Blog\Entity\Post;
 use GabrielDeTassigny\Blog\Repository\PostRepository;
 use GabrielDeTassigny\Blog\Service\BlogInfoService;
+use GabrielDeTassigny\Blog\Service\CommentService;
 use GabrielDeTassigny\Blog\Service\ExternalLinkService;
 use GabrielDeTassigny\Blog\Service\PostNotFoundException;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
@@ -22,6 +23,7 @@ use Twig_Environment;
 class PostViewingControllerTest extends TestCase
 {
     const POST_ID = 1;
+
     /** @var PostViewingController */
     private $controller;
 
