@@ -73,3 +73,7 @@ a.admin-action {
 .comments-list {
     margin-top: 25px;
 }
+
+#new-comment-error {
+    display: none;
+}

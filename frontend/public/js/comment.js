@@ -7,10 +7,11 @@ $(document).ready(function () {
             type: 'POST',
             url: url,
             data: form.serialize(),
+            dataType: 'json',
             success: function() {
                 window.location.reload(true);
             },
-            failure: function () {
+            error: function (xhr) {
                 var json = JSON.parse(xhr.responseText);
                 var errorDiv = $('#new-comment-error');
                 errorDiv.text(json['errorDescription']);
@@ -18,6 +19,6 @@ $(document).ready(function () {
             }
         });
 
-        e.preventDefault(); // avoid to execute the actual submit of the form.
+        e.preventDefault();
     });
 });

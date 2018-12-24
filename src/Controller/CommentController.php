@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Controller;
 
+use GabrielDeTassigny\Blog\Renderer\JsonRenderer;
 use GabrielDeTassigny\Blog\Service\CommentException;
 use GabrielDeTassigny\Blog\Service\CommentService;
 use Psr\Http\Message\ServerRequestInterface;
@@ -18,12 +19,17 @@ class CommentController
     /** @var ServerRequestInterface */
     private $request;
 
+    /** @var JsonRenderer */
+    private $jsonRenderer;
+
     public function __construct(
         CommentService $commentService,
-        ServerRequestInterface $request
+        ServerRequestInterface $request,
+        JsonRenderer $jsonRenderer
     ) {
         $this->commentService = $commentService;
         $this->request = $request;
+        $this->jsonRenderer = $jsonRenderer;
     }
 
     public function createComment(array $vars): void
@@ -35,6 +41,7 @@ class CommentController
         } catch (CommentException $e) {
             throw new HttpException($e->getMessage(), StatusCode::BAD_REQUEST);
         }
+        $this->jsonRenderer->render(['message' => 'Comment successfully created']);
     }
 
     /**

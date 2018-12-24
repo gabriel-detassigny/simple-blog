@@ -60,11 +60,11 @@ class CommentService
 
     private function validateComment(Comment $comment): void
     {
-        if (empty($comment->getText())) {
-            throw new CommentException('Empty comment field', CommentException::FIELD_ERROR);
-        }
         if (empty($comment->getName())) {
             throw new CommentException('Empty name field', CommentException::FIELD_ERROR);
+        }
+        if (empty($comment->getText())) {
+            throw new CommentException('Empty comment field', CommentException::FIELD_ERROR);
         }
     }
 }

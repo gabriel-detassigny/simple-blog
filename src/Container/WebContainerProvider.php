@@ -99,7 +99,7 @@ class WebContainerProvider
         ],
         'comment_controller' => [
             'name' => CommentController::class,
-            'dependencies' => ['comment_service', 'server_request']
+            'dependencies' => ['comment_service', 'server_request', 'json_renderer']
         ],
         'post_viewing_service' => [
             'name' => PostViewingService::class,
