@@ -50,6 +50,18 @@ class CommentAdminController extends AdminController
         $this->twig->display('comments/list.twig', ['comments' => $comments]);
     }
 
+    public function deleteComment(array $vars): void
+    {
+        $this->ensureAdminAuthentication();
+        $commentId = (int) $vars['id'];
+
+        try {
+            $this->commentService->deleteComment($commentId);
+        } catch (CommentException $e) {
+            throw new HttpException($e->getMessage(), StatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
+
     protected function getAuthenticationService(): AuthenticationService
     {
         return $this->authenticationService;

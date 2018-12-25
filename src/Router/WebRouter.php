@@ -26,6 +26,7 @@ class WebRouter
         ['POST', '/posts', 'post_writing_controller/createPost'],
         ['POST', '/posts/{id:\d+}', 'post_writing_controller/updatePost'],
         ['POST', '/posts/{id:\d+}/comments', 'comment_controller/createComment'],
+        ['DELETE', '/comments/{id:\d+}', 'comment_admin_controller/deleteComment'],
         ['GET', '/admin', 'admin_index_controller/index'],
         ['POST', '/admin/images/upload', 'image_controller/upload'],
         ['GET', '/about', 'about_page_controller/showAboutPage'],

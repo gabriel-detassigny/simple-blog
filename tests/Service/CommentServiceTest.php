@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use GabrielDeTassigny\Blog\Entity\Comment;
 use GabrielDeTassigny\Blog\Entity\Post;
+use GabrielDeTassigny\Blog\Repository\CommentRepository;
 use GabrielDeTassigny\Blog\Service\CommentException;
 use GabrielDeTassigny\Blog\Service\CommentService;
 use GabrielDeTassigny\Blog\Service\PostNotFoundException;
@@ -32,6 +33,9 @@ class CommentServiceTest extends TestCase
     /** @var PostViewingService|Phake_IMock */
     private $postViewingService;
 
+    /** @var CommentRepository|Phake_IMock */
+    private $commentRepository;
+
     /** @var CommentService */
     private $commentService;
 
@@ -43,7 +47,12 @@ class CommentServiceTest extends TestCase
         parent::setUp();
         $this->entityManager = Phake::mock(EntityManager::class);
         $this->postViewingService = Phake::mock(PostViewingService::class);
-        $this->commentService = new CommentService($this->entityManager, $this->postViewingService);
+        $this->commentRepository = Phake::mock(CommentRepository::class);
+        $this->commentService = new CommentService(
+            $this->entityManager,
+            $this->postViewingService,
+            $this->commentRepository
+        );
     }
 
     public function testCreateComment(): void
@@ -125,5 +134,40 @@ class CommentServiceTest extends TestCase
         Phake::when($this->postViewingService)->getPost(1)->thenThrow(new PostNotFoundException());
 
         $this->commentService->getPostComments(1);
+    }
+
+    public function testDeleteComment(): void
+    {
+        $comment = new Comment();
+        Phake::when($this->commentRepository)->find(1)->thenReturn($comment);
+
+        $this->commentService->deleteComment(1);
+
+        Phake::inOrder(
+            Phake::verify($this->entityManager)->remove($comment),
+            Phake::verify($this->entityManager)->flush()
+        );
+    }
+
+    public function testDeleteComment_IdNotFound(): void
+    {
+        $this->expectException(CommentException::class);
+        $this->expectExceptionCode(CommentException::DB_ERROR);
+
+        Phake::when($this->commentRepository)->find(1)->thenReturn(null);
+
+        $this->commentService->deleteComment(1);
+    }
+
+    public function testDeleteComment_DbException(): void
+    {
+        $this->expectException(CommentException::class);
+        $this->expectExceptionCode(CommentException::DB_ERROR);
+
+        $comment = new Comment();
+        Phake::when($this->commentRepository)->find(1)->thenReturn($comment);
+        Phake::when($this->entityManager)->flush()->thenThrow(new ORMException());
+
+        $this->commentService->deleteComment(1);
     }
 }

@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use GabrielDeTassigny\Blog\Entity\Comment;
+use GabrielDeTassigny\Blog\Repository\CommentRepository;
 
 class CommentService
 {
@@ -18,10 +19,17 @@ class CommentService
     /** @var PostViewingService */
     private $postViewingService;
 
-    public function __construct(EntityManager $entityManager, PostViewingService $postViewingService)
-    {
+    /** @var CommentRepository */
+    private $commentRepository;
+
+    public function __construct(
+        EntityManager $entityManager,
+        PostViewingService $postViewingService,
+        CommentRepository $commentRepository
+    ) {
         $this->entityManager = $entityManager;
         $this->postViewingService = $postViewingService;
+        $this->commentRepository = $commentRepository;
     }
 
     /**
@@ -63,6 +71,24 @@ class CommentService
         }
 
         return $comment;
+    }
+
+    /**
+     * @param int $commentId
+     * @throws CommentException
+     */
+    public function deleteComment(int $commentId): void
+    {
+        $comment = $this->commentRepository->find($commentId);
+        if (!$comment) {
+            throw new CommentException('Comment not found', CommentException::DB_ERROR);
+        }
+        try {
+            $this->entityManager->remove($comment);
+            $this->entityManager->flush();
+        } catch (ORMException $e) {
+            throw new CommentException($e->getMessage(), CommentException::DB_ERROR);
+        }
     }
 
     private function findAndSetPost(Comment $comment, int $postId): void

@@ -13,6 +13,9 @@
                         <span class="comment-date">
                             {{ comment.getCreatedAt|date('F jS, Y \\a\\t g:ia') }}
                         </span>
+                        <button data-id="{{ comment.getId }}" class="btn btn-xs btn-danger delete-comment">
+                            Delete
+                        </button>
                     </div>
                     <blockquote class="comment-text">
                         {{ comment.getText }}
@@ -21,4 +24,8 @@
             {% endfor %}
         {% endif %}
     </div>
+{% endblock %}
+
+{% block javascript %}
+<script src="/js/admin-index.js"></script>
 {% endblock %}

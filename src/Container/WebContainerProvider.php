@@ -22,6 +22,7 @@ use GabrielDeTassigny\Blog\Controller\PostWritingController;
 use GabrielDeTassigny\Blog\Controller\RssController;
 use GabrielDeTassigny\Blog\Entity\Author;
 use GabrielDeTassigny\Blog\Entity\BlogInfo;
+use GabrielDeTassigny\Blog\Entity\Comment;
 use GabrielDeTassigny\Blog\Entity\ExternalLink;
 use GabrielDeTassigny\Blog\Entity\Post;
 use GabrielDeTassigny\Blog\Renderer\ErrorRenderer;
@@ -139,7 +140,7 @@ class WebContainerProvider
         ],
         'comment_service' => [
             'name' => CommentService::class,
-            'dependencies' => ['entity_manager', 'post_viewing_service']
+            'dependencies' => ['entity_manager', 'post_viewing_service', 'comment_repository']
         ],
         'json_renderer' => [
             'name' => JsonRenderer::class,
@@ -165,6 +166,7 @@ class WebContainerProvider
         $container->registerService('blog_info_repository', new RepositoryProvider($container, BlogInfo::class));
         $container->registerService('external_link_repository', new RepositoryProvider($container, ExternalLink::class));
         $container->registerService('author_repository', new RepositoryProvider($container, Author::class));
+        $container->registerService('comment_repository', new RepositoryProvider($container, Comment::class));
         $container->registerService('log', new LogProvider('app-errors'));
 
         return $container;
