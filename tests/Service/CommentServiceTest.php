@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Tests\Service;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
+use GabrielDeTassigny\Blog\Entity\Comment;
 use GabrielDeTassigny\Blog\Entity\Post;
 use GabrielDeTassigny\Blog\Service\CommentException;
 use GabrielDeTassigny\Blog\Service\CommentService;
@@ -101,5 +103,27 @@ class CommentServiceTest extends TestCase
         $params['name'] = '';
 
         $this->commentService->createComment($params, self::POST_ID);
+    }
+
+    public function testGetPostComments(): void
+    {
+        $post = Phake::mock(Post::class);
+        $comments = new ArrayCollection();
+        $comments->add(new Comment());
+        Phake::when($post)->getComments()->thenReturn($comments);
+        Phake::when($this->postViewingService)->getPost(1)->thenReturn($post);
+
+        $result = $this->commentService->getPostComments(1);
+
+        $this->assertSame($comments, $result);
+    }
+
+    public function testGetPostComments_PostNotFound(): void
+    {
+        $this->expectException(CommentException::class);
+
+        Phake::when($this->postViewingService)->getPost(1)->thenThrow(new PostNotFoundException());
+
+        $this->commentService->getPostComments(1);
     }
 }

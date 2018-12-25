@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GabrielDeTassigny\Blog\Service;
 
 use DateTime;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use GabrielDeTassigny\Blog\Entity\Comment;
@@ -21,6 +22,22 @@ class CommentService
     {
         $this->entityManager = $entityManager;
         $this->postViewingService = $postViewingService;
+    }
+
+    /**
+     * @param int $postId
+     * @return Collection
+     * @throws CommentException
+     */
+    public function getPostComments(int $postId): Collection
+    {
+        try {
+            $post = $this->postViewingService->getPost($postId);
+        } catch (PostNotFoundException $e) {
+            throw new CommentException($e->getMessage());
+        }
+
+        return $post->getComments();
     }
 
     /**

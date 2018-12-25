@@ -36,7 +36,12 @@
         <a href="/posts/new" class="admin-action btn btn-primary">Write New Post</a>
         <ul>
             {% for post in posts %}
-                <li><a href="/posts/{{ post.getId }}/edit">{{ post.getTitle }}</a></li>
+                <li>
+                    <a href="/posts/{{ post.getId }}/edit">{{ post.getTitle }}</a>
+                    <a class="btn btn-xs btn-default" href="/admin/posts/{{ post.getId }}/comments">
+                        Comments ({{ post.getComments.count }})
+                    </a>
+                </li>
             {% endfor %}
         </ul>
 

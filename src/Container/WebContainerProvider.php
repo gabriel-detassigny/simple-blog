@@ -8,12 +8,12 @@ use GabrielDeTassigny\Blog\Container\ServiceProvider\Doctrine\EntityManagerProvi
 use GabrielDeTassigny\Blog\Container\ServiceProvider\Doctrine\RepositoryProvider;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\LogProvider;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\ServerRequestProvider;
-use GabrielDeTassigny\Blog\Container\ServiceProvider\SessionProvider;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\TwigProvider;
 use GabrielDeTassigny\Blog\Controller\AboutPageController;
 use GabrielDeTassigny\Blog\Controller\AdminIndexController;
 use GabrielDeTassigny\Blog\Controller\AuthorController;
 use GabrielDeTassigny\Blog\Controller\BlogInfoController;
+use GabrielDeTassigny\Blog\Controller\CommentAdminController;
 use GabrielDeTassigny\Blog\Controller\CommentController;
 use GabrielDeTassigny\Blog\Controller\ExternalLinkController;
 use GabrielDeTassigny\Blog\Controller\ImageController;
@@ -100,6 +100,10 @@ class WebContainerProvider
         'comment_controller' => [
             'name' => CommentController::class,
             'dependencies' => ['comment_service', 'server_request', 'json_renderer']
+        ],
+        'comment_admin_controller' => [
+            'name' => CommentAdminController::class,
+            'dependencies' => ['authentication_service', 'twig', 'comment_service']
         ],
         'post_viewing_service' => [
             'name' => PostViewingService::class,
