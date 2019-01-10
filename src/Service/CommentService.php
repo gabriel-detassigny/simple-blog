@@ -54,7 +54,7 @@ class CommentService
      * @return Comment
      * @throws CommentException
      */
-    public function createComment(array $request, int $postId): Comment
+    public function createUserComment(array $request, int $postId): Comment
     {
         $comment = new Comment();
         $comment->setText($request['text']);
@@ -63,12 +63,28 @@ class CommentService
         $this->findAndSetPost($comment, $postId);
         $this->validateComment($comment);
 
-        try {
-            $this->entityManager->persist($comment);
-            $this->entityManager->flush();
-        } catch (ORMException $e) {
-            throw new CommentException($e->getMessage(), CommentException::DB_ERROR, $e);
-        }
+        $this->persistComment($comment);
+
+        return $comment;
+    }
+
+    /**
+     * @param string $text
+     * @param int $postId
+     * @return Comment
+     * @throws CommentException
+     */
+    public function createAdminComment(string $text, int $postId): Comment
+    {
+        $comment = new Comment();
+        $comment->setText($text);
+        $comment->setAsAdmin();
+        $comment->setCreatedAt(new DateTime());
+        $this->findAndSetPost($comment, $postId);
+        $comment->setName($comment->getPost()->getAuthor()->getName());
+        $this->validateComment($comment);
+
+        $this->persistComment($comment);
 
         return $comment;
     }
@@ -108,6 +124,19 @@ class CommentService
         }
         if (empty($comment->getText())) {
             throw new CommentException('Empty comment field', CommentException::FIELD_ERROR);
+        }
+    }
+
+    /**
+     * @param Comment $comment
+     */
+    private function persistComment(Comment $comment): void
+    {
+        try {
+            $this->entityManager->persist($comment);
+            $this->entityManager->flush();
+        } catch (ORMException $e) {
+            throw new CommentException($e->getMessage(), CommentException::DB_ERROR, $e);
         }
     }
 }

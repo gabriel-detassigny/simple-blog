@@ -43,7 +43,7 @@ class CommentControllerTest extends TestCase
         $this->expectExceptionCode(StatusCode::BAD_REQUEST);
 
         Phake::when($this->request)->getParsedBody()->thenReturn(['comment' => []]);
-        Phake::when($this->commentService)->createComment([], 1)->thenThrow(new CommentException());
+        Phake::when($this->commentService)->createUserComment([], 1)->thenThrow(new CommentException());
 
         $this->controller->createComment(['id' => 1]);
     }

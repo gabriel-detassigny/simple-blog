@@ -16,7 +16,7 @@ $(document).ready(function () {
     $('.delete-comment').on('click', function() {
         if (confirm('Are you sure you want to delete this comment?')) {
             var button = $(this);
-            $.ajax('/comments/' + button.data('id'), {
+            $.ajax('/admin/comments/' + button.data('id'), {
                 method: 'DELETE',
                 error: function (xhr) {
                     var json = JSON.parse(xhr.responseText);

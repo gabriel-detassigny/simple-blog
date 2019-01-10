@@ -21,6 +21,9 @@ class Comment
     /** @Column(type="text", length=500, nullable=false) */
     private $text;
 
+    /** @Column(type="boolean", nullable=false) */
+    private $isAdmin = false;
+
     /** @Column(type="datetime", name="created_at", nullable=false) */
     private $createdAt;
 
@@ -70,5 +73,15 @@ class Comment
     public function setPost(Post $post): void
     {
         $this->post = $post;
+    }
+
+    public function IsAdmin(): bool
+    {
+        return $this->isAdmin;
+    }
+
+    public function setAsAdmin(): void
+    {
+        $this->isAdmin = true;
     }
 }

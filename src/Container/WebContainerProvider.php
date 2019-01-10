@@ -104,7 +104,7 @@ class WebContainerProvider
         ],
         'comment_admin_controller' => [
             'name' => CommentAdminController::class,
-            'dependencies' => ['authentication_service', 'twig', 'comment_service']
+            'dependencies' => ['authentication_service', 'twig', 'comment_service', 'server_request']
         ],
         'post_viewing_service' => [
             'name' => PostViewingService::class,

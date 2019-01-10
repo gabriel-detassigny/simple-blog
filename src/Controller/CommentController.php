@@ -37,7 +37,7 @@ class CommentController
         $postId = (int) $vars['id'];
         $params = $this->getFormParams();
         try {
-            $this->commentService->createComment($params, $postId);
+            $this->commentService->createUserComment($params, $postId);
         } catch (CommentException $e) {
             throw new HttpException($e->getMessage(), StatusCode::BAD_REQUEST);
         }

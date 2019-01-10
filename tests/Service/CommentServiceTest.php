@@ -55,12 +55,12 @@ class CommentServiceTest extends TestCase
         );
     }
 
-    public function testCreateComment(): void
+    public function testCreateUserComment(): void
     {
         $post = new Post();
         Phake::when($this->postViewingService)->getPost(self::POST_ID)->thenReturn($post);
 
-        $comment = $this->commentService->createComment(self::PARAMS, self::POST_ID);
+        $comment = $this->commentService->createUserComment(self::PARAMS, self::POST_ID);
 
         Phake::verify($this->entityManager)->persist($comment);
         Phake::verify($this->entityManager)->flush();
@@ -69,17 +69,17 @@ class CommentServiceTest extends TestCase
         $this->assertSame(self::PARAMS['name'], $comment->getName());
     }
 
-    public function testCreateComment_PostNotFound(): void
+    public function testCreateUserComment_PostNotFound(): void
     {
         $this->expectException(CommentException::class);
         $this->expectExceptionCode(CommentException::FIELD_ERROR);
 
         Phake::when($this->postViewingService)->getPost(self::POST_ID)->thenThrow(new PostNotFoundException());
 
-        $this->commentService->createComment(self::PARAMS, self::POST_ID);
+        $this->commentService->createUserComment(self::PARAMS, self::POST_ID);
     }
 
-    public function testCreateComment_DoctrineError(): void
+    public function testCreateUserComment_DoctrineError(): void
     {
         $this->expectException(CommentException::class);
         $this->expectExceptionCode(CommentException::DB_ERROR);
@@ -87,10 +87,10 @@ class CommentServiceTest extends TestCase
         Phake::when($this->entityManager)->persist(Phake::anyParameters())->thenThrow(new ORMException());
         Phake::when($this->postViewingService)->getPost(self::POST_ID)->thenReturn(new Post());
 
-        $this->commentService->createComment(self::PARAMS, self::POST_ID);
+        $this->commentService->createUserComment(self::PARAMS, self::POST_ID);
     }
 
-    public function testCreateComment_EmptyText(): void
+    public function testCreateUserComment_EmptyText(): void
     {
         $this->expectException(CommentException::class);
         $this->expectExceptionCode(CommentException::FIELD_ERROR);
@@ -99,10 +99,10 @@ class CommentServiceTest extends TestCase
         $params = self::PARAMS;
         $params['text'] = '';
 
-        $this->commentService->createComment($params, self::POST_ID);
+        $this->commentService->createUserComment($params, self::POST_ID);
     }
 
-    public function testCreateComment_EmptyName(): void
+    public function testCreateUserComment_EmptyName(): void
     {
         $this->expectException(CommentException::class);
         $this->expectExceptionCode(CommentException::FIELD_ERROR);
@@ -111,7 +111,7 @@ class CommentServiceTest extends TestCase
         $params = self::PARAMS;
         $params['name'] = '';
 
-        $this->commentService->createComment($params, self::POST_ID);
+        $this->commentService->createUserComment($params, self::POST_ID);
     }
 
     public function testGetPostComments(): void
