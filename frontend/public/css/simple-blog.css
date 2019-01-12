@@ -62,6 +62,12 @@ a.admin-action {
     margin-right: 10px;
 }
 
+.comment-author {
+    color: red;
+    font-weight: bolder;
+    margin-right: 10px;
+}
+
 .comment-date {
     color: lightgrey;
 }

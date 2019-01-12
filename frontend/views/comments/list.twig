@@ -11,7 +11,11 @@
             {% for comment in comments %}
                 <div class="comment-show">
                     <div>
-                        <span class="comment-name">{{ comment.getName }}</span>
+                        {% if comment.isAdmin %}
+                            <span class="comment-author">{{ comment.getName }} (author)</span>
+                        {% else %}
+                            <span class="comment-name">{{ comment.getName }}</span>
+                        {% endif %}
                         <span class="comment-date">
                             {{ comment.getCreatedAt|date('F jS, Y \\a\\t g:ia') }}
                         </span>
