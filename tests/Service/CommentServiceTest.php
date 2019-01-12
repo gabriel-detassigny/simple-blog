@@ -7,6 +7,7 @@ namespace GabrielDeTassigny\Blog\Tests\Service;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
+use GabrielDeTassigny\Blog\Entity\Author;
 use GabrielDeTassigny\Blog\Entity\Comment;
 use GabrielDeTassigny\Blog\Entity\Post;
 use GabrielDeTassigny\Blog\Repository\CommentRepository;
@@ -169,5 +170,22 @@ class CommentServiceTest extends TestCase
         Phake::when($this->entityManager)->flush()->thenThrow(new ORMException());
 
         $this->commentService->deleteComment(1);
+    }
+
+    public function testCreateAdminComment(): void
+    {
+        $post = new Post();
+        $author = new Author();
+        $author->setName('Test author');
+        $post->setAuthor($author);
+        Phake::when($this->postViewingService)->getPost(self::POST_ID)->thenReturn($post);
+
+        $comment = $this->commentService->createAdminComment('comment text', self::POST_ID);
+
+        Phake::verify($this->entityManager)->persist($comment);
+        Phake::verify($this->entityManager)->flush();
+        $this->assertTrue($comment->IsAdmin());
+        $this->assertSame('Test author', $comment->getName());
+        $this->assertSame('comment text', $comment->getText());
     }
 }
