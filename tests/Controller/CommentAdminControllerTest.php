@@ -122,4 +122,11 @@ class CommentAdminControllerTest extends TestCase
 
         $this->commentAdminController->deleteComment(['id' => self::POST_ID]);
     }
+
+    public function testDeleteComment(): void
+    {
+        $this->commentAdminController->deleteComment(['id' => self::POST_ID]);
+
+        Phake::verify($this->commentService)->deleteComment(self::POST_ID);
+    }
 }
