@@ -7,6 +7,14 @@
     font-size: calc(30px + 2vw);
 }
 
+.blog-header h1.blog-title {
+    font-size: calc(30px + 2vw);
+}
+
+.blog-post.blog-post-overview .blog-post-title {
+    font-size: calc(24px + 1vw);
+}
+
 .blog-post.blog-post-show .post-header .post-description {
     font-size: calc(18px + 1vw);
 }
