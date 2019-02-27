@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace GabrielDeTassigny\Blog\Tests\Repository;
 
 use DateTime;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
 use GabrielDeTassigny\Blog\Entity\Author;
+use GabrielDeTassigny\Blog\Entity\Comment;
 use GabrielDeTassigny\Blog\Entity\Post;
-use GabrielDeTassigny\Blog\Repository\PostRepository;
-use GabrielDeTassigny\Blog\ValueObject\Page;
+use GabrielDeTassigny\Blog\Repository\CommentRepository;
 
-class PostRepositoryTest extends RepositoryTestCase
+class CommentRepositoryTest extends RepositoryTestCase
 {
     private const NAME = 'Commenter name';
     private const TEXT = 'some comment text';
@@ -22,54 +21,49 @@ class PostRepositoryTest extends RepositoryTestCase
     /** @var EntityManager */
     private $entityManager;
 
-    /** @var PostRepository */
+    /** @var CommentRepository */
     private $repository;
 
-    /**
-     * {@inheritdoc}
-     */
     public function setUp()
     {
         $this->entityManager = $this->createTestEntityManager();
-        $this->repository = $this->entityManager->getRepository(Post::class);
+        $this->repository = $this->entityManager->getRepository(Comment::class);
     }
 
-    public function testCreateAndFindPost(): void
+    public function testCreateAndFindComment(): void
     {
         $dateTime = new DateTime();
         $author = $this->buildAuthor();
         $post = $this->buildPost($dateTime, $author);
+        $comment = $this->buildComment($dateTime, $post);
 
         $this->entityManager->persist($author);
         $this->entityManager->persist($post);
+        $this->entityManager->persist($comment);
         $this->entityManager->flush();
 
-        /** @var Post $entity */
-        $entity = $this->repository->find($post->getId());
+        /** @var Comment $entity */
+        $entity = $this->repository->find($comment->getId());
 
         $this->assertNotNull($entity->getId());
-        $this->assertSame(self::TITLE, $entity->getTitle());
-
-        $this->assertSame(self::SUBTITLE, $entity->getSubtitle());
+        $this->assertSame(self::NAME, $entity->getName());
         $this->assertSame(self::TEXT, $entity->getText());
         $this->assertSame($dateTime->getTimestamp(), $entity->getCreatedAt()->getTimestamp());
-        $this->assertInstanceOf(Author::class, $entity->getAuthor());
-        $this->assertInstanceOf(Collection::class, $entity->getComments());
+        $this->assertInstanceOf(Post::class, $entity->getPost());
     }
 
-    public function testSearchPageOfLatestPosts(): void
+    private function buildComment(DateTime $dateTime, Post $post): Comment
     {
-        $dateTime = new DateTime();
-        $author = $this->buildAuthor();
-        $this->entityManager->persist($author);
-        for ($i = 0; $i < 10; $i++) {
-            $this->entityManager->persist($this->buildPost($dateTime, $author));
-        }
-        $this->entityManager->flush();
 
-        $posts = $this->repository->searchPageOfLatestPosts(new Page(1), 10);
+        $comment = new Comment();
 
-        $this->assertSame(10, $posts->count());
+        $comment->setName(self::NAME);
+        $comment->setText(self::TEXT);
+        $comment->setAsAdmin();
+        $comment->setCreatedAt($dateTime);
+        $comment->setPost($post);
+
+        return $comment;
     }
 
     private function buildPost(DateTime $dateTime, Author $author): Post
