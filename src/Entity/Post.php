@@ -12,7 +12,10 @@ use Doctrine\Common\Collections\Collection;
  * @Entity(repositoryClass="GabrielDeTassigny\Blog\Repository\PostRepository")
  * @Table(
  *     name="posts",
- *     indexes={@Index(name="title", columns={"title"})}
+ *     indexes={
+ *         @Index(name="title", columns={"title"}),
+ *         @Index(name="author_id", columns={"author_id"})
+ *     }
  * )
  */
 class Post
