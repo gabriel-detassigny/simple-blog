@@ -8,7 +8,12 @@ use DateTime;
 
 /**
  * @Entity(repositoryClass="GabrielDeTassigny\Blog\Repository\CommentRepository")
- * @Table(name="comments")
+ * @Table(
+ *     name="comments",
+ *     indexes={
+ *         @Index(name="post_id", columns={"post_id"})
+ *     }
+ * )
  */
 class Comment
 {
