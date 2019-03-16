@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Container\ServiceProvider\Doctrine;
 
+use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 use Exception;
@@ -31,7 +32,7 @@ class EntityManagerProvider implements ServiceProvider
     {
         $paths = [__DIR__ . '/../../../Entity'];
         $isDev = filter_var(getenv('DB_DEV'), FILTER_VALIDATE_BOOLEAN);
-        $config = Setup::createAnnotationMetadataConfiguration($paths, $isDev);
+        $config = Setup::createAnnotationMetadataConfiguration($paths, $isDev, null, new ArrayCache());
 
         try {
             return EntityManager::create($this->dbParams, $config);
