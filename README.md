@@ -31,12 +31,12 @@ Just note that the root folder is _frontend/public_, with the _index.php_ file a
 
 ### SQL
 
-To generate the SQL queries you need for tables creation, simply type :
-```
-vendor/bin/doctrine orm:schema-tool:update --dump-sql
-```
+SQL migrations are done using [Phinx](https://phinx.org).
 
-And either copy / paste the SQL into your MySQL client, or add the _--force_ option to directly run it.
+To generate the tables structures in your database, simply type:
+```
+vendor/bin/phinx migrate
+```
 
 ### Admin
 
