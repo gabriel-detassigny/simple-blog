@@ -31,12 +31,15 @@ use GabrielDeTassigny\Blog\Renderer\RssRenderer;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\AuthorService;
 use GabrielDeTassigny\Blog\Service\BlogInfoService;
+use GabrielDeTassigny\Blog\Service\CaptchaService;
 use GabrielDeTassigny\Blog\Service\CommentService;
 use GabrielDeTassigny\Blog\Service\ExternalLinkService;
 use GabrielDeTassigny\Blog\Service\ImageService;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
 use GabrielDeTassigny\Blog\Service\PostWritingService;
 use GabrielDeTassigny\Blog\Service\RssService;
+use GabrielDeTassigny\Blog\Service\SessionService;
+use Gregwar\Captcha\CaptchaBuilder;
 use Psr\Container\ContainerInterface;
 
 class WebContainerProvider
@@ -44,7 +47,13 @@ class WebContainerProvider
     private const DEPENDENCIES = [
         'post_viewing_controller' => [
             'name' => PostViewingController::class,
-            'dependencies' => ['twig', 'post_viewing_service', 'blog_info_service', 'external_link_service']
+            'dependencies' => [
+                'twig',
+                'post_viewing_service',
+                'blog_info_service',
+                'external_link_service',
+                'captcha_service'
+            ]
         ],
         'post_writing_controller' => [
             'name' => PostWritingController::class,
@@ -100,7 +109,7 @@ class WebContainerProvider
         ],
         'comment_controller' => [
             'name' => CommentController::class,
-            'dependencies' => ['comment_service', 'server_request', 'json_renderer']
+            'dependencies' => ['comment_service', 'server_request', 'json_renderer', 'captcha_service']
         ],
         'comment_admin_controller' => [
             'name' => CommentAdminController::class,
@@ -141,6 +150,18 @@ class WebContainerProvider
         'comment_service' => [
             'name' => CommentService::class,
             'dependencies' => ['entity_manager', 'post_viewing_service', 'comment_repository']
+        ],
+        'session_service' => [
+            'name' => SessionService::class,
+            'dependencies' => []
+        ],
+        'captcha_service' => [
+            'name' => CaptchaService::class,
+            'dependencies' => ['captcha_builder', 'session_service']
+        ],
+        'captcha_builder' => [
+            'name' => CaptchaBuilder::class,
+            'dependencies' => []
         ],
         'json_renderer' => [
             'name' => JsonRenderer::class,

@@ -9,6 +9,7 @@ use GabrielDeTassigny\Blog\Controller\PostViewingController;
 use GabrielDeTassigny\Blog\Entity\Post;
 use GabrielDeTassigny\Blog\Repository\PostRepository;
 use GabrielDeTassigny\Blog\Service\BlogInfoService;
+use GabrielDeTassigny\Blog\Service\CaptchaService;
 use GabrielDeTassigny\Blog\Service\CommentService;
 use GabrielDeTassigny\Blog\Service\ExternalLinkService;
 use GabrielDeTassigny\Blog\Service\PostNotFoundException;
@@ -22,7 +23,8 @@ use Twig_Environment;
 
 class PostViewingControllerTest extends TestCase
 {
-    const POST_ID = 1;
+    private const POST_ID = 1;
+    private const CAPTCHA = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD';
 
     /** @var PostViewingController */
     private $controller;
@@ -39,6 +41,9 @@ class PostViewingControllerTest extends TestCase
     /** @var ExternalLinkService|Phake_IMock */
     private $externalLinkService;
 
+    /** @var CaptchaService|Phake_IMock */
+    private $captchaService;
+
     /**
      * {@inheritdoc}
      */
@@ -48,11 +53,13 @@ class PostViewingControllerTest extends TestCase
         $this->postService = Phake::mock(PostViewingService::class);
         $this->blogInfoService = Phake::mock(BlogInfoService::class);
         $this->externalLinkService = Phake::mock(ExternalLinkService::class);
+        $this->captchaService = Phake::mock(CaptchaService::class);
         $this->controller = new PostViewingController(
             $this->twig,
             $this->postService,
             $this->blogInfoService,
-            $this->externalLinkService
+            $this->externalLinkService,
+            $this->captchaService
         );
 
         Phake::when($this->postService)->getPreviousPage(Phake::anyParameters())->thenReturn(null);
@@ -124,9 +131,13 @@ class PostViewingControllerTest extends TestCase
     {
         $post = Phake::mock(Post::class);
         Phake::when($this->postService)->getPost(self::POST_ID)->thenReturn($post);
+        Phake::when($this->captchaService)->generateInlineCaptcha()->thenReturn(self::CAPTCHA);
 
         $this->controller->showPost(['id' => self::POST_ID]);
 
-        Phake::verify($this->twig)->display('posts/show.twig', ['post' => $post, 'blogTitle' => null]);
+        Phake::verify($this->twig)->display(
+            'posts/show.twig',
+            ['post' => $post, 'blogTitle' => null, 'captcha' => self::CAPTCHA]
+        );
     }
 }

@@ -6,6 +6,7 @@ namespace GabrielDeTassigny\Blog\Tests\Controller;
 
 use GabrielDeTassigny\Blog\Controller\CommentController;
 use GabrielDeTassigny\Blog\Renderer\JsonRenderer;
+use GabrielDeTassigny\Blog\Service\CaptchaService;
 use GabrielDeTassigny\Blog\Service\CommentException;
 use GabrielDeTassigny\Blog\Service\CommentService;
 use Phake;
@@ -29,12 +30,21 @@ class CommentControllerTest extends TestCase
     /** @var JsonRenderer|Phake_IMock */
     private $jsonRenderer;
 
+    /** @var CaptchaService|Phake_IMock */
+    private $captchaService;
+
     protected function setUp()
     {
         $this->commentService = Phake::mock(CommentService::class);
         $this->request = Phake::mock(ServerRequestInterface::class);
         $this->jsonRenderer = Phake::mock(JsonRenderer::class);
-        $this->controller = new CommentController($this->commentService, $this->request, $this->jsonRenderer);
+        $this->captchaService = Phake::mock(CaptchaService::class);
+        $this->controller = new CommentController(
+            $this->commentService,
+            $this->request,
+            $this->jsonRenderer,
+            $this->captchaService
+        );
     }
 
     public function testCreateComment_ServiceError(): void
@@ -58,9 +68,21 @@ class CommentControllerTest extends TestCase
         $this->controller->createComment(['id' => 1]);
     }
 
+    public function testCreateComment_InvalidCaptcha(): void
+    {
+        $this->expectException(HttpException::class);
+        $this->expectExceptionCode(StatusCode::BAD_REQUEST);
+
+        Phake::when($this->request)->getParsedBody()->thenReturn(['comment' => ['captcha' => 'ABC123']]);
+        Phake::when($this->captchaService)->isValidCaptcha('ABC123')->thenReturn(false);
+
+        $this->controller->createComment(['id' => 1]);
+    }
+
     public function testCreateComment(): void
     {
-        Phake::when($this->request)->getParsedBody()->thenReturn(['comment' => []]);
+        Phake::when($this->request)->getParsedBody()->thenReturn(['comment' => ['captcha' => 'ABC123']]);
+        Phake::when($this->captchaService)->isValidCaptcha('ABC123')->thenReturn(true);
 
         $this->controller->createComment(['id' => 1]);
 

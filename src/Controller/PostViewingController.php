@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GabrielDeTassigny\Blog\Controller;
 
 use GabrielDeTassigny\Blog\Service\BlogInfoService;
+use GabrielDeTassigny\Blog\Service\CaptchaService;
 use GabrielDeTassigny\Blog\Service\ExternalLinkService;
 use GabrielDeTassigny\Blog\Service\PostNotFoundException;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
@@ -29,16 +30,21 @@ class PostViewingController
     /** @var ExternalLinkService */
     private $externalLinkService;
 
+    /** @var CaptchaService */
+    private $captchaService;
+
     public function __construct(
         Twig_Environment $twig,
         PostViewingService $postViewingService,
         BlogInfoService $blogInfoService,
-        ExternalLinkService $externalLinkService
+        ExternalLinkService $externalLinkService,
+        CaptchaService $captchaService
     ) {
         $this->twig = $twig;
         $this->postViewingService = $postViewingService;
         $this->blogInfoService = $blogInfoService;
         $this->externalLinkService = $externalLinkService;
+        $this->captchaService = $captchaService;
     }
 
     /**
@@ -98,7 +104,8 @@ class PostViewingController
             throw new HttpException('Post not found', StatusCode::NOT_FOUND);
         }
         $blogTitle = $this->blogInfoService->getBlogTitle();
+        $captcha = $this->captchaService->generateInlineCaptcha();
 
-        $this->twig->display('posts/show.twig', ['post' => $post, 'blogTitle' => $blogTitle]);
+        $this->twig->display('posts/show.twig', ['post' => $post, 'blogTitle' => $blogTitle, 'captcha' => $captcha]);
     }
 }

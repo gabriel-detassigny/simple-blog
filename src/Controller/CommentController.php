@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GabrielDeTassigny\Blog\Controller;
 
 use GabrielDeTassigny\Blog\Renderer\JsonRenderer;
+use GabrielDeTassigny\Blog\Service\CaptchaService;
 use GabrielDeTassigny\Blog\Service\CommentException;
 use GabrielDeTassigny\Blog\Service\CommentService;
 use Psr\Http\Message\ServerRequestInterface;
@@ -22,20 +23,29 @@ class CommentController
     /** @var JsonRenderer */
     private $jsonRenderer;
 
+    /** @var CaptchaService */
+    private $captchaService;
+
     public function __construct(
         CommentService $commentService,
         ServerRequestInterface $request,
-        JsonRenderer $jsonRenderer
+        JsonRenderer $jsonRenderer,
+        CaptchaService $captchaService
     ) {
         $this->commentService = $commentService;
         $this->request = $request;
         $this->jsonRenderer = $jsonRenderer;
+        $this->captchaService = $captchaService;
     }
 
     public function createComment(array $vars): void
     {
         $postId = (int) $vars['id'];
         $params = $this->getFormParams();
+
+        if (!isset($params['captcha']) || !$this->captchaService->isValidCaptcha((string) $params['captcha'])) {
+            throw new HttpException('Invalid captcha', StatusCode::BAD_REQUEST);
+        }
         try {
             $this->commentService->createUserComment($params, $postId);
         } catch (CommentException $e) {

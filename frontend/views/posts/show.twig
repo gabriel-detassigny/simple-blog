@@ -39,6 +39,11 @@
                     <label for="comment-text">Your Comment</label>
                     <textarea class="form-control wysiwyg-input" rows="20" id="comment-text" name="comment[text]"></textarea>
                 </div>
+                <div class="form-group required">
+                    <label for="comment-captcha">Please enter the following code</label>
+                    <img src="{{ captcha }}" alt="captcha"/>
+                    <input type="text" class="form-control" id="comment-captcha" name="comment[captcha]">
+                </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
 
