@@ -85,7 +85,7 @@ class Container implements ContainerInterface
      */
     private function createObject(string $id)
     {
-        $objectDependencies = $this->getDependencies($this->dependencies[$id]['dependencies']);
+        $objectDependencies = $this->getDependencies($this->dependencies[$id]['dependencies'] ?? []);
         $className = $this->dependencies[$id]['name'];
         $this->objects[$id] = new $className(...$objectDependencies);
 

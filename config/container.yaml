@@ -1,0 +1,146 @@
+dependencies:
+  post_viewing_controller:
+    name: GabrielDeTassigny\Blog\Controller\PostViewingController
+    dependencies:
+      - twig
+      - post_viewing_service
+      - blog_info_service
+      - external_link_service
+      - captcha_service
+  post_writing_controller:
+    name: GabrielDeTassigny\Blog\Controller\PostWritingController
+    dependencies:
+      - twig
+      - authentication_service
+      - server_request
+      - post_writing_service
+      - author_service
+      - post_viewing_service
+  image_controller:
+    name: GabrielDeTassigny\Blog\Controller\ImageController
+    dependencies:
+      - authentication_service
+      - server_request
+      - json_renderer
+      - image_service
+  about_page_controller:
+    name: GabrielDeTassigny\Blog\Controller\AboutPageController
+    dependencies:
+      - twig
+      - blog_info_service
+      - external_link_service
+  admin_index_controller:
+    name: GabrielDeTassigny\Blog\Controller\AdminIndexController
+    dependencies:
+      - twig
+      - authentication_service
+      - post_viewing_service
+      - author_service
+      - blog_info_service
+      - external_link_service
+  blog_info_controller:
+    name: GabrielDeTassigny\Blog\Controller\BlogInfoController
+    dependencies:
+      - twig
+      - blog_info_service
+      - authentication_service
+      - server_request
+  external_link_controller:
+    name: GabrielDeTassigny\Blog\Controller\ExternalLinkController
+    dependencies:
+      - authentication_service
+      - twig
+      - external_link_service
+      - server_request
+      - error_renderer
+  author_controller:
+    name: GabrielDeTassigny\Blog\Controller\AuthorController
+    dependencies:
+      - author_service
+      - authentication_service
+      - twig
+      - server_request
+  rss_controller:
+    name: GabrielDeTassigny\Blog\Controller\RssController
+    dependencies:
+      - rss_service
+      - rss_renderer
+  comment_controller:
+    name: GabrielDeTassigny\Blog\Controller\CommentController
+    dependencies:
+      - comment_service
+      - server_request
+      - json_renderer
+      - captcha_service
+  comment_admin_controller:
+    name: GabrielDeTassigny\Blog\Controller\CommentAdminController
+    dependencies:
+      - authentication_service
+      - twig
+      - comment_service
+      - server_request
+
+  post_viewing_service:
+    name: GabrielDeTassigny\Blog\Service\PostViewingService
+    dependencies:
+      - post_repository
+  authentication_service:
+    name: GabrielDeTassigny\Blog\Service\AuthenticationService
+    dependencies:
+  post_writing_service:
+    name: GabrielDeTassigny\Blog\Service\PostWritingService
+    dependencies:
+      - entity_manager
+      - author_service
+  image_service:
+    name: GabrielDeTassigny\Blog\Service\ImageService
+    dependencies:
+      - log
+  blog_info_service:
+    name: GabrielDeTassigny\Blog\Service\BlogInfoService
+    dependencies:
+      - blog_info_repository
+      - entity_manager
+  external_link_service:
+    name: GabrielDeTassigny\Blog\Service\ExternalLinkService
+    dependencies:
+      - external_link_repository
+      - entity_manager
+  author_service:
+    name: GabrielDeTassigny\Blog\Service\AuthorService
+    dependencies:
+      - author_repository
+      - entity_manager
+  rss_service:
+    name: GabrielDeTassigny\Blog\Service\RssService
+    dependencies:
+      - blog_info_service
+      - post_viewing_service
+      - server_request
+  comment_service:
+    name: GabrielDeTassigny\Blog\Service\CommentService
+    dependencies:
+      - entity_manager
+      - post_viewing_service
+      - comment_repository
+  session_service:
+    name: GabrielDeTassigny\Blog\Service\SessionService
+    dependencies:
+  captcha_service:
+    name: GabrielDeTassigny\Blog\Service\CaptchaService
+    dependencies:
+      - captcha_builder
+      - session_service
+
+  captcha_builder:
+    name: Gregwar\Captcha\CaptchaBuilder
+
+  json_renderer:
+    name: GabrielDeTassigny\Blog\Renderer\JsonRenderer
+  error_renderer:
+    name: GabrielDeTassigny\Blog\Renderer\ErrorRenderer
+    dependencies:
+      - twig
+      - json_renderer
+  rss_renderer:
+    name: GabrielDeTassigny\Blog\Renderer\RssRenderer
