@@ -57,6 +57,7 @@ class WebContainerProvider
         if (!isset($config['dependencies'])) {
             throw new InvalidContainerConfigException('No dependencies found in YAML config');
         }
+
         return $config['dependencies'];
     }
 
