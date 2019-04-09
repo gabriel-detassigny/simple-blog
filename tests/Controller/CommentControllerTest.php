@@ -18,7 +18,8 @@ use Teapot\StatusCode;
 
 class CommentControllerTest extends TestCase
 {
-    private const VALID_BODY = ['comment' => ['captcha' => 'ABC123']];
+    private const CAPTCHA = 'ABC123';
+    private const VALID_BODY = ['comment' => ['captcha' => self::CAPTCHA]];
 
     /** @var CommentService|Phake_IMock */
     private $commentService;
@@ -55,7 +56,9 @@ class CommentControllerTest extends TestCase
         $this->expectExceptionCode(StatusCode::BAD_REQUEST);
 
         Phake::when($this->request)->getParsedBody()->thenReturn(self::VALID_BODY);
-        Phake::when($this->commentService)->createUserComment([], 1)->thenThrow(new CommentException());
+        Phake::when($this->captchaService)->isValidCaptcha(self::CAPTCHA)->thenReturn(true);
+        Phake::when($this->commentService)->createUserComment(self::VALID_BODY['comment'], 1)
+            ->thenThrow(new CommentException());
 
         $this->controller->createComment(['id' => 1]);
     }
@@ -76,7 +79,7 @@ class CommentControllerTest extends TestCase
         $this->expectExceptionCode(StatusCode::BAD_REQUEST);
 
         Phake::when($this->request)->getParsedBody()->thenReturn(self::VALID_BODY);
-        Phake::when($this->captchaService)->isValidCaptcha('ABC123')->thenReturn(false);
+        Phake::when($this->captchaService)->isValidCaptcha(self::CAPTCHA)->thenReturn(false);
 
         $this->controller->createComment(['id' => 1]);
     }
@@ -84,7 +87,7 @@ class CommentControllerTest extends TestCase
     public function testCreateComment(): void
     {
         Phake::when($this->request)->getParsedBody()->thenReturn(self::VALID_BODY);
-        Phake::when($this->captchaService)->isValidCaptcha('ABC123')->thenReturn(true);
+        Phake::when($this->captchaService)->isValidCaptcha(self::CAPTCHA)->thenReturn(true);
 
         $this->controller->createComment(['id' => 1]);
 
