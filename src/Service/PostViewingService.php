@@ -12,7 +12,7 @@ use GabrielDeTassigny\Blog\ValueObject\Page;
 
 class PostViewingService
 {
-    const PAGE_SIZE = 10;
+    private const DEFAULT_PAGE_SIZE = 10;
 
     /** @var PostRepository */
     private $repository;
@@ -22,9 +22,9 @@ class PostViewingService
         $this->repository = $repository;
     }
 
-    public function findPageOfLatestPosts(Page $page): Paginator
+    public function findPageOfLatestPosts(Page $page, int $pageSize = self::DEFAULT_PAGE_SIZE): Paginator
     {
-        return $this->repository->searchPageOfLatestPosts($page, self::PAGE_SIZE);
+        return $this->repository->searchPageOfLatestPosts($page, $pageSize);
     }
 
     public function getPreviousPage(Page $currentPage): ?Page
@@ -36,9 +36,9 @@ class PostViewingService
         }
     }
 
-    public function getNextPage(Page $currentPage, int $totalPosts): ?Page
+    public function getNextPage(Page $currentPage, int $totalPosts, int $pageSize = self::DEFAULT_PAGE_SIZE): ?Page
     {
-        if ($totalPosts <= $currentPage->getValue() * self::PAGE_SIZE) {
+        if ($totalPosts <= $currentPage->getValue() * $pageSize) {
             return null;
         }
         return new Page($currentPage->getValue() + 1);

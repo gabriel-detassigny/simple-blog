@@ -70,7 +70,7 @@ class AdminIndexControllerTest extends TestCase
     {
         Phake::when($this->authenticationService)->authenticateAsAdmin()->thenReturn(true);
         $posts = Phake::mock(Paginator::class);
-        Phake::when($this->postViewingService)->findPageOfLatestPosts(new Page(1))
+        Phake::when($this->postViewingService)->findPageOfLatestPosts(new Page(1), 100)
             ->thenReturn($posts);
         Phake::when($this->authorService)->getAuthors()->thenReturn([]);
         Phake::when($this->blogInfoService)->getBlogTitle()->thenReturn(self::BLOG_TITLE);

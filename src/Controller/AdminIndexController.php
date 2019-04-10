@@ -16,6 +16,8 @@ use Twig_Error;
 
 class AdminIndexController extends AdminController
 {
+    private const PAGE_SIZE = 100;
+
     /** @var AuthenticationService */
     private $authenticationService;
 
@@ -57,7 +59,7 @@ class AdminIndexController extends AdminController
     public function index(): void
     {
         $this->ensureAdminAuthentication();
-        $posts = $this->postViewingService->findPageOfLatestPosts(new Page(1));
+        $posts = $this->postViewingService->findPageOfLatestPosts(new Page(1), self::PAGE_SIZE);
         $authors = $this->authorService->getAuthors();
         $blogTitle = $this->blogInfoService->getBlogTitle();
         $externalLinks = $this->externalLinkService->getExternalLinks();
