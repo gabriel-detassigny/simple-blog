@@ -21,4 +21,16 @@ $(document).ready(function () {
 
         e.preventDefault();
     });
+
+    $('#refresh-captcha').on('click', function (e) {
+       e.preventDefault();
+       $.ajax({
+           type: 'GET',
+           url: $(this).attr('href'),
+           success: function (rawData) {
+               var data = JSON.parse(rawData);
+               $('#captcha-image').attr('src', data.captcha);
+           }
+       });
+    });
 });

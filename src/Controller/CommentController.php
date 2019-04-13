@@ -54,6 +54,13 @@ class CommentController
         $this->jsonRenderer->render(['message' => 'Comment successfully created']);
     }
 
+    public function refreshCaptcha(): void
+    {
+        $captcha = $this->captchaService->generateInlineCaptcha();
+
+        $this->jsonRenderer->render(['captcha' => $captcha]);
+    }
+
     /**
      * @return array
      * @throws HttpException

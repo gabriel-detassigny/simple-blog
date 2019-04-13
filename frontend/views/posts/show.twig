@@ -41,7 +41,10 @@
                 </div>
                 <div class="form-group required">
                     <label for="comment-captcha">Please enter the following code</label>
-                    <img src="{{ captcha }}" alt="captcha"/>
+                    <img id="captcha-image" src="{{ captcha }}" alt="captcha"/>
+                    <a href="/comments/captcha" id="refresh-captcha">
+                        <img src="/images/refresh_icon.svg" title="refresh" alt="refresh" width="20" height="20"/>
+                    </a>
                     <input type="text" class="form-control" id="comment-captcha" name="comment[captcha]">
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
