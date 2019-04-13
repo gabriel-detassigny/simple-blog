@@ -20,6 +20,7 @@ class CommentControllerTest extends TestCase
 {
     private const CAPTCHA = 'ABC123';
     private const VALID_BODY = ['comment' => ['captcha' => self::CAPTCHA]];
+    private const INLINE_IMG = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD';
 
     /** @var CommentService|Phake_IMock */
     private $commentService;
@@ -92,5 +93,14 @@ class CommentControllerTest extends TestCase
         $this->controller->createComment(['id' => 1]);
 
         Phake::verify($this->jsonRenderer)->render(['message' => 'Comment successfully created']);
+    }
+
+    public function testRefreshCaptcha(): void
+    {
+        Phake::when($this->captchaService)->generateInlineCaptcha()->thenReturn(self::INLINE_IMG);
+
+        $this->controller->refreshCaptcha();
+
+        Phake::verify($this->jsonRenderer)->render(['captcha' => self::INLINE_IMG]);
     }
 }
