@@ -18,7 +18,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^6.5",
-        "phake/phake": "^3.0"
+        "phake/phake": "^3.0",
+        "fzaninotto/faker": "^1.8"
     },
     "autoload": {
         "psr-4": {
