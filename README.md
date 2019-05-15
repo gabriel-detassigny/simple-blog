@@ -38,6 +38,17 @@ To generate the tables structures in your database, simply type:
 vendor/bin/phinx migrate
 ```
 
+### Fake data
+
+If you wish to pre-seed your local dev environment with fake data, this project contains some [Phinx](https://phinx.org) seeders.
+
+You can run them by typing:
+```
+vendor/bin/phinx seed:run
+```
+
+This will insert some random data into your DB tables.
+
 ### Admin
 
 Once the project is installed, head over to the _/admin_ URL in your browser to access the admin interface.
