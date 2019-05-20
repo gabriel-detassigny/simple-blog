@@ -32,7 +32,7 @@ class Comment
     /** @Column(type="datetime", name="created_at", nullable=false) */
     private $createdAt;
 
-    /** @ManyToOne(targetEntity="GabrielDeTassigny\Blog\Entity\Post") */
+    /** @ManyToOne(targetEntity=Post::class, inversedBy="comments") */
     private $post;
 
     public function getId(): int

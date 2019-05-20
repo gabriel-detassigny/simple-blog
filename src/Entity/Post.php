@@ -20,6 +20,8 @@ use Doctrine\Common\Collections\Collection;
  */
 class Post
 {
+    private const PUBLISHED_STATE = 'published';
+    private const DRAFT_STATE = 'draft';
     private const UNDEFINED_SLUG = 'n-a';
 
     /** @Id @Column(type="integer") @GeneratedValue */
@@ -40,11 +42,14 @@ class Post
     /** @Column(type="datetime", name="updated_at", nullable=true) */
     private $updatedAt;
 
-    /** @ManyToOne(targetEntity="GabrielDeTassigny\Blog\Entity\Author") */
+    /** @ManyToOne(targetEntity=Author::class) */
     private $author;
 
+    /** @Column(type="string", options={"default":"published"}, nullable=false) */
+    private $state;
+
     /**
-     * @OneToMany(targetEntity="GabrielDeTassigny\Blog\Entity\Comment", mappedBy="post")
+     * @OneToMany(targetEntity=Comment::class, mappedBy="post")
      * @OrderBy({"createdAt": "DESC"})
      */
     private $comments;
@@ -134,5 +139,25 @@ class Post
     public function getComments(): Collection
     {
         return $this->comments;
+    }
+
+    public function isPublished(): bool
+    {
+        return $this->state === self::PUBLISHED_STATE;
+    }
+
+    public function isDraft(): bool
+    {
+        return $this->state === self::DRAFT_STATE;
+    }
+
+    public function setAsDraft(): void
+    {
+        $this->state = self::DRAFT_STATE;
+    }
+
+    public function setAsPublished(): void
+    {
+        $this->state = self::PUBLISHED_STATE;
     }
 }
