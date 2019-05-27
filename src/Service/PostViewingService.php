@@ -9,6 +9,7 @@ use GabrielDeTassigny\Blog\Entity\Post;
 use GabrielDeTassigny\Blog\Repository\PostRepository;
 use GabrielDeTassigny\Blog\ValueObject\InvalidPageException;
 use GabrielDeTassigny\Blog\ValueObject\Page;
+use GabrielDeTassigny\Blog\ValueObject\PostState;
 
 class PostViewingService
 {
@@ -24,7 +25,7 @@ class PostViewingService
 
     public function findPageOfLatestPosts(Page $page, int $pageSize = self::DEFAULT_PAGE_SIZE): Paginator
     {
-        return $this->repository->searchPageOfLatestPosts($page, $pageSize);
+        return $this->repository->searchPageOfLatestPosts($page, $pageSize, new PostState(PostState::PUBLISHED));
     }
 
     public function getPreviousPage(Page $currentPage): ?Page

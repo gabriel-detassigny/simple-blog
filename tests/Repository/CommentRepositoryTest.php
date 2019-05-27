@@ -76,6 +76,7 @@ class CommentRepositoryTest extends RepositoryTestCase
         $post->setSubtitle(self::SUBTITLE);
         $post->setAuthor($author);
         $post->setUpdatedAt($dateTime);
+        $post->setAsPublished();
 
         return $post;
     }

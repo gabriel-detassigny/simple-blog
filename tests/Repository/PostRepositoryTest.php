@@ -11,6 +11,7 @@ use GabrielDeTassigny\Blog\Entity\Author;
 use GabrielDeTassigny\Blog\Entity\Post;
 use GabrielDeTassigny\Blog\Repository\PostRepository;
 use GabrielDeTassigny\Blog\ValueObject\Page;
+use GabrielDeTassigny\Blog\ValueObject\PostState;
 
 class PostRepositoryTest extends RepositoryTestCase
 {
@@ -57,7 +58,7 @@ class PostRepositoryTest extends RepositoryTestCase
         $this->assertInstanceOf(Collection::class, $entity->getComments());
     }
 
-    public function testSearchPageOfLatestPosts(): void
+    public function testSearchPageOfLatestPublishedPosts(): void
     {
         $dateTime = new DateTime();
         $author = $this->buildAuthor();
@@ -67,7 +68,9 @@ class PostRepositoryTest extends RepositoryTestCase
         }
         $this->entityManager->flush();
 
-        $posts = $this->repository->searchPageOfLatestPosts(new Page(1), 10);
+        $postState = new PostState(PostState::PUBLISHED);
+
+        $posts = $this->repository->searchPageOfLatestPosts(new Page(1), 10, $postState);
 
         $this->assertSame(10, $posts->count());
     }
@@ -82,6 +85,7 @@ class PostRepositoryTest extends RepositoryTestCase
         $post->setSubtitle(self::SUBTITLE);
         $post->setAuthor($author);
         $post->setUpdatedAt($dateTime);
+        $post->setAsPublished();
 
         return $post;
     }
