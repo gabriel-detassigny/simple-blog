@@ -11,6 +11,7 @@ use GabrielDeTassigny\Blog\Repository\PostRepository;
 use GabrielDeTassigny\Blog\Service\PostNotFoundException;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
 use GabrielDeTassigny\Blog\ValueObject\Page;
+use GabrielDeTassigny\Blog\ValueObject\PostState;
 use Phake;
 use Phake_IMock;
 use PHPUnit\Framework\TestCase;
@@ -87,7 +88,8 @@ class PostViewingServiceTest extends TestCase
 
     public function testGetPost(): void
     {
-        Phake::when($this->repository)->find(self::POST_ID)->thenReturn(Phake::mock(Post::class));
+        Phake::when($this->repository)->findOneBy(['id' => self::POST_ID, 'state' => PostState::PUBLISHED])
+            ->thenReturn(Phake::mock(Post::class));
 
         $post = $this->service->getPost(self::POST_ID);
 

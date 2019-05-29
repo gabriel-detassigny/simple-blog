@@ -53,7 +53,7 @@ class PostViewingService
     public function getPost(int $id): Post
     {
         /** @var Post $post */
-        $post = $this->repository->find($id);
+        $post = $this->repository->findOneBy(['id' => $id, 'state' => PostState::PUBLISHED]);
 
         if ($post === null) {
             throw new PostNotFoundException("Post with ID {$id} was not found");
