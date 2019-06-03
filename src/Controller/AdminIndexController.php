@@ -8,16 +8,13 @@ use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\AuthorService;
 use GabrielDeTassigny\Blog\Service\BlogInfoService;
 use GabrielDeTassigny\Blog\Service\ExternalLinkService;
-use GabrielDeTassigny\Blog\Service\PostViewingService;
-use GabrielDeTassigny\Blog\ValueObject\Page;
+use GabrielDeTassigny\Blog\Service\Publishing\PostViewingService;
 use Teapot\HttpException;
 use Twig_Environment;
 use Twig_Error;
 
 class AdminIndexController extends AdminController
 {
-    private const PAGE_SIZE = 100;
-
     /** @var AuthenticationService */
     private $authenticationService;
 
@@ -59,14 +56,13 @@ class AdminIndexController extends AdminController
     public function index(): void
     {
         $this->ensureAdminAuthentication();
-        $posts = $this->postViewingService->findPageOfLatestPosts(new Page(1), self::PAGE_SIZE);
-        $authors = $this->authorService->getAuthors();
-        $blogTitle = $this->blogInfoService->getBlogTitle();
-        $externalLinks = $this->externalLinkService->getExternalLinks();
-        $this->twig->display(
-            'admin-index.twig',
-            ['posts' => $posts, 'authors' => $authors, 'title' => $blogTitle, 'externalLinks' => $externalLinks]
-        );
+
+        $this->twig->display('admin-index.twig', [
+            'posts' => $this->postViewingService->findLatestPublishedPosts(),
+            'authors' => $this->authorService->getAuthors(),
+            'title' => $this->blogInfoService->getBlogTitle(),
+            'externalLinks' => $this->externalLinkService->getExternalLinks()
+        ]);
     }
 
     protected function getAuthenticationService(): AuthenticationService

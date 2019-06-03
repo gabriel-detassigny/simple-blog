@@ -10,6 +10,7 @@ use GabrielDeTassigny\Blog\Entity\Author;
 use GabrielDeTassigny\Blog\Entity\Comment;
 use GabrielDeTassigny\Blog\Entity\Post;
 use GabrielDeTassigny\Blog\Repository\CommentRepository;
+use GabrielDeTassigny\Blog\ValueObject\PostState;
 
 class CommentRepositoryTest extends RepositoryTestCase
 {
@@ -76,7 +77,7 @@ class CommentRepositoryTest extends RepositoryTestCase
         $post->setSubtitle(self::SUBTITLE);
         $post->setAuthor($author);
         $post->setUpdatedAt($dateTime);
-        $post->setAsPublished();
+        $post->setState(new PostState(PostState::PUBLISHED));
 
         return $post;
     }

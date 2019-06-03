@@ -7,6 +7,7 @@ namespace GabrielDeTassigny\Blog\Entity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use GabrielDeTassigny\Blog\ValueObject\PostState;
 
 /**
  * @Entity(repositoryClass="GabrielDeTassigny\Blog\Repository\PostRepository")
@@ -20,8 +21,6 @@ use Doctrine\Common\Collections\Collection;
  */
 class Post
 {
-    private const PUBLISHED_STATE = 'published';
-    private const DRAFT_STATE = 'draft';
     private const UNDEFINED_SLUG = 'n-a';
 
     /** @Id @Column(type="integer") @GeneratedValue */
@@ -143,21 +142,16 @@ class Post
 
     public function isPublished(): bool
     {
-        return $this->state === self::PUBLISHED_STATE;
+        return $this->state === PostState::PUBLISHED;
     }
 
     public function isDraft(): bool
     {
-        return $this->state === self::DRAFT_STATE;
+        return $this->state === PostState::DRAFT;
     }
 
-    public function setAsDraft(): void
+    public function setState(PostState $postState): void
     {
-        $this->state = self::DRAFT_STATE;
-    }
-
-    public function setAsPublished(): void
-    {
-        $this->state = self::PUBLISHED_STATE;
+        $this->state = $postState->getValue();
     }
 }

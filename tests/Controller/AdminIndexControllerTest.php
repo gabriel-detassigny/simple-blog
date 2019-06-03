@@ -10,8 +10,7 @@ use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\AuthorService;
 use GabrielDeTassigny\Blog\Service\BlogInfoService;
 use GabrielDeTassigny\Blog\Service\ExternalLinkService;
-use GabrielDeTassigny\Blog\Service\PostViewingService;
-use GabrielDeTassigny\Blog\ValueObject\Page;
+use GabrielDeTassigny\Blog\Service\Publishing\PostViewingService;
 use Phake;
 use Phake_IMock;
 use PHPUnit\Framework\TestCase;
@@ -68,10 +67,10 @@ class AdminIndexControllerTest extends TestCase
 
     public function testIndex()
     {
-        Phake::when($this->authenticationService)->authenticateAsAdmin()->thenReturn(true);
         $posts = Phake::mock(Paginator::class);
-        Phake::when($this->postViewingService)->findPageOfLatestPosts(new Page(1), 100)
-            ->thenReturn($posts);
+
+        Phake::when($this->authenticationService)->authenticateAsAdmin()->thenReturn(true);
+        Phake::when($this->postViewingService)->findLatestPublishedPosts()->thenReturn($posts);
         Phake::when($this->authorService)->getAuthors()->thenReturn([]);
         Phake::when($this->blogInfoService)->getBlogTitle()->thenReturn(self::BLOG_TITLE);
         Phake::when($this->externalLinkService)->getExternalLinks()->thenReturn([]);

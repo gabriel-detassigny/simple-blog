@@ -7,6 +7,7 @@ namespace GabrielDeTassigny\Blog\Tests\Entity;
 use DateTime;
 use GabrielDeTassigny\Blog\Entity\Author;
 use GabrielDeTassigny\Blog\Entity\Post;
+use GabrielDeTassigny\Blog\ValueObject\PostState;
 use Phake;
 use PHPUnit\Framework\TestCase;
 
@@ -81,5 +82,21 @@ class PostTest extends TestCase
         $this->post->setTitle('This is a title');
 
         $this->assertSame('/posts/1/this-is-a-title', $this->post->getUrl());
+    }
+
+    public function testSetPostAsDraft(): void
+    {
+        $this->post->setState(new PostState(PostState::DRAFT));
+
+        $this->assertTrue($this->post->isDraft());
+        $this->assertFalse($this->post->isPublished());
+    }
+
+    public function testSetPostAsPublished(): void
+    {
+        $this->post->setState(new PostState(PostState::PUBLISHED));
+
+        $this->assertTrue($this->post->isPublished());
+        $this->assertFalse($this->post->isDraft());
     }
 }

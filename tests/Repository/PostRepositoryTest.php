@@ -85,7 +85,7 @@ class PostRepositoryTest extends RepositoryTestCase
         $post->setSubtitle(self::SUBTITLE);
         $post->setAuthor($author);
         $post->setUpdatedAt($dateTime);
-        $post->setAsPublished();
+        $post->setState(new PostState(PostState::PUBLISHED));
 
         return $post;
     }
