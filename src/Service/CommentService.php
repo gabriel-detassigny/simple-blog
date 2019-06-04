@@ -10,6 +10,8 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use GabrielDeTassigny\Blog\Entity\Comment;
 use GabrielDeTassigny\Blog\Repository\CommentRepository;
+use GabrielDeTassigny\Blog\Service\Exception\CommentException;
+use GabrielDeTassigny\Blog\Service\Exception\PostNotFoundException;
 
 class CommentService
 {

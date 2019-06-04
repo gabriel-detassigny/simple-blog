@@ -2,12 +2,17 @@
 
 declare(strict_types=1);
 
-namespace GabrielDeTassigny\Blog\Service;
+namespace GabrielDeTassigny\Blog\Service\Publishing;
 
 use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use GabrielDeTassigny\Blog\Entity\Post;
+use GabrielDeTassigny\Blog\Service\Exception\AuthorException;
+use GabrielDeTassigny\Blog\Service\AuthorService;
+use GabrielDeTassigny\Blog\Service\Exception\PostWritingException;
+use GabrielDeTassigny\Blog\ValueObject\InvalidStateException;
+use GabrielDeTassigny\Blog\ValueObject\PostState;
 
 class PostWritingService
 {
@@ -78,8 +83,11 @@ class PostWritingService
         $post->setText($request['text']);
         $post->setSubtitle($request['subtitle']);
         $post->setTitle($request['title']);
+
         $this->ensurePostIsValid($post);
+
         $this->findAndSetAuthor($post, (int)$request['author']);
+        $this->setPostState($post, $request['state'] ?? '');
     }
 
     /**
@@ -111,5 +119,20 @@ class PostWritingService
             throw new PostWritingException($e->getMessage(), PostWritingException::AUTHOR_ERROR);
         }
         $post->setAuthor($author);
+    }
+
+    /**
+     * @param Post $post
+     * @param string $stateValue
+     * @throws PostWritingException
+     * @return void
+     */
+    private function setPostState(Post $post, string $stateValue): void
+    {
+        try {
+            $post->setState(new PostState($stateValue));
+        } catch (InvalidStateException $e) {
+            throw new PostWritingException($e->getMessage(), PostWritingException::STATE_ERROR);
+        }
     }
 }

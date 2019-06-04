@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use GabrielDeTassigny\Blog\Entity\Author;
 use GabrielDeTassigny\Blog\Repository\AuthorRepository;
+use GabrielDeTassigny\Blog\Service\Exception\AuthorException;
 
 class AuthorService
 {

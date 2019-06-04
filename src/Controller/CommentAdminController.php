@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace GabrielDeTassigny\Blog\Controller;
 
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
-use GabrielDeTassigny\Blog\Service\CommentException;
+use GabrielDeTassigny\Blog\Service\Exception\CommentException;
 use GabrielDeTassigny\Blog\Service\CommentService;
 use Psr\Http\Message\ServerRequestInterface;
 use Teapot\HttpException;

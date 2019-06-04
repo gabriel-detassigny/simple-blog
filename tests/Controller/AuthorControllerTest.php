@@ -6,7 +6,7 @@ namespace GabrielDeTassigny\Blog\Tests\Controller;
 
 use GabrielDeTassigny\Blog\Controller\AuthorController;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
-use GabrielDeTassigny\Blog\Service\AuthorException;
+use GabrielDeTassigny\Blog\Service\Exception\AuthorException;
 use GabrielDeTassigny\Blog\Service\AuthorService;
 use Phake;
 use Phake_IMock;

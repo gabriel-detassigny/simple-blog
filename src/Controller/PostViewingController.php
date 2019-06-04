@@ -7,7 +7,7 @@ namespace GabrielDeTassigny\Blog\Controller;
 use GabrielDeTassigny\Blog\Service\BlogInfoService;
 use GabrielDeTassigny\Blog\Service\CaptchaService;
 use GabrielDeTassigny\Blog\Service\ExternalLinkService;
-use GabrielDeTassigny\Blog\Service\PostNotFoundException;
+use GabrielDeTassigny\Blog\Service\Exception\PostNotFoundException;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
 use GabrielDeTassigny\Blog\ValueObject\InvalidPageException;
 use GabrielDeTassigny\Blog\ValueObject\Page;

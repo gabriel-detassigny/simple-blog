@@ -7,7 +7,7 @@ namespace GabrielDeTassigny\Blog\Tests\Controller;
 use GabrielDeTassigny\Blog\Controller\CommentController;
 use GabrielDeTassigny\Blog\Renderer\JsonRenderer;
 use GabrielDeTassigny\Blog\Service\CaptchaService;
-use GabrielDeTassigny\Blog\Service\CommentException;
+use GabrielDeTassigny\Blog\Service\Exception\CommentException;
 use GabrielDeTassigny\Blog\Service\CommentService;
 use Phake;
 use Phake_IMock;

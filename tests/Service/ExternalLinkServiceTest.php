@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use GabrielDeTassigny\Blog\Entity\ExternalLink;
 use GabrielDeTassigny\Blog\Repository\ExternalLinkRepository;
-use GabrielDeTassigny\Blog\Service\ExternalLinkException;
+use GabrielDeTassigny\Blog\Service\Exception\ExternalLinkException;
 use GabrielDeTassigny\Blog\Service\ExternalLinkService;
 use Phake;
 use Phake_IMock;

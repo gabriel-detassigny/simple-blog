@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use GabrielDeTassigny\Blog\Entity\ExternalLink;
 use GabrielDeTassigny\Blog\Repository\ExternalLinkRepository;
+use GabrielDeTassigny\Blog\Service\Exception\ExternalLinkException;
 
 class ExternalLinkService
 {

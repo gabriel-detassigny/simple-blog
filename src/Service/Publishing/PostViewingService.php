@@ -7,7 +7,7 @@ namespace GabrielDeTassigny\Blog\Service\Publishing;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use GabrielDeTassigny\Blog\Entity\Post;
 use GabrielDeTassigny\Blog\Repository\PostRepository;
-use GabrielDeTassigny\Blog\Service\PostNotFoundException;
+use GabrielDeTassigny\Blog\Service\Exception\PostNotFoundException;
 use GabrielDeTassigny\Blog\ValueObject\Page;
 use GabrielDeTassigny\Blog\ValueObject\PostState;
 

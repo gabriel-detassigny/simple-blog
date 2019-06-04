@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace GabrielDeTassigny\Blog\Tests\Service;
+namespace GabrielDeTassigny\Blog\Tests\Service\Publishing;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use GabrielDeTassigny\Blog\Entity\Author;
 use GabrielDeTassigny\Blog\Entity\Post;
-use GabrielDeTassigny\Blog\Service\AuthorException;
+use GabrielDeTassigny\Blog\Service\Exception\AuthorException;
 use GabrielDeTassigny\Blog\Service\AuthorService;
-use GabrielDeTassigny\Blog\Service\PostWritingException;
-use GabrielDeTassigny\Blog\Service\PostWritingService;
+use GabrielDeTassigny\Blog\Service\Exception\PostWritingException;
+use GabrielDeTassigny\Blog\Service\Publishing\PostWritingService;
 use Phake;
 use Phake_IMock;
 use PHPUnit\Framework\TestCase;

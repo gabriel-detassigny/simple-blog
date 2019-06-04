@@ -6,7 +6,7 @@ namespace GabrielDeTassigny\Blog\Controller;
 
 use GabrielDeTassigny\Blog\Renderer\JsonRenderer;
 use GabrielDeTassigny\Blog\Service\CaptchaService;
-use GabrielDeTassigny\Blog\Service\CommentException;
+use GabrielDeTassigny\Blog\Service\Exception\CommentException;
 use GabrielDeTassigny\Blog\Service\CommentService;
 use Psr\Http\Message\ServerRequestInterface;
 use Teapot\HttpException;

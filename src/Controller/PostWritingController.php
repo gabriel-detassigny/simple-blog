@@ -7,10 +7,10 @@ namespace GabrielDeTassigny\Blog\Controller;
 use GabrielDeTassigny\Blog\Entity\Post;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\AuthorService;
-use GabrielDeTassigny\Blog\Service\PostWritingException;
-use GabrielDeTassigny\Blog\Service\PostNotFoundException;
-use GabrielDeTassigny\Blog\Service\PostViewingService;
-use GabrielDeTassigny\Blog\Service\PostWritingService;
+use GabrielDeTassigny\Blog\Service\Exception\PostWritingException;
+use GabrielDeTassigny\Blog\Service\Exception\PostNotFoundException;
+use GabrielDeTassigny\Blog\Service\Publishing\PostViewingService;
+use GabrielDeTassigny\Blog\Service\Publishing\PostWritingService;
 use Psr\Http\Message\ServerRequestInterface;
 use Teapot\HttpException;
 use Teapot\StatusCode;
@@ -127,7 +127,10 @@ class PostWritingController extends AdminController
     private function displayNewPostForm(array $params): void
     {
         $authors = $this->authorService->getAuthors();
-        $this->twig->display('posts/new.twig', array_merge(['authors' => $authors], $params));
+        $this->twig->display(
+            'posts/new.twig',
+            array_merge(['authors' => $authors], $params)
+        );
     }
 
     /**
@@ -138,7 +141,10 @@ class PostWritingController extends AdminController
     private function displayEditPostForm(Post $post, array $params): void
     {
         $authors = $this->authorService->getAuthors();
-        $this->twig->display('posts/edit.twig', array_merge(['authors' => $authors, 'post' => $post], $params));
+        $this->twig->display(
+            'posts/edit.twig',
+            array_merge(['authors' => $authors, 'post' => $post], $params)
+        );
     }
 
     /**

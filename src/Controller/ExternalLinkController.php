@@ -6,7 +6,7 @@ namespace GabrielDeTassigny\Blog\Controller;
 
 use GabrielDeTassigny\Blog\Renderer\ErrorRenderer;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
-use GabrielDeTassigny\Blog\Service\ExternalLinkException;
+use GabrielDeTassigny\Blog\Service\Exception\ExternalLinkException;
 use GabrielDeTassigny\Blog\Service\ExternalLinkService;
 use Psr\Http\Message\ServerRequestInterface;
 use Teapot\HttpException;

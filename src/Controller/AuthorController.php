@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace GabrielDeTassigny\Blog\Controller;
 
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
-use GabrielDeTassigny\Blog\Service\AuthorException;
+use GabrielDeTassigny\Blog\Service\Exception\AuthorException;
 use GabrielDeTassigny\Blog\Service\AuthorService;
 use Psr\Http\Message\ServerRequestInterface;
 use Teapot\HttpException;

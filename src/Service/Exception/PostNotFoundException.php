@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GabrielDeTassigny\Blog\Service;
+namespace GabrielDeTassigny\Blog\Service\Exception;
 
 use RuntimeException;
 

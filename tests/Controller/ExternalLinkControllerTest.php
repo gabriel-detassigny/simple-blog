@@ -7,7 +7,7 @@ namespace GabrielDeTassigny\Blog\Tests\Controller;
 use GabrielDeTassigny\Blog\Controller\ExternalLinkController;
 use GabrielDeTassigny\Blog\Renderer\ErrorRenderer;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
-use GabrielDeTassigny\Blog\Service\ExternalLinkException;
+use GabrielDeTassigny\Blog\Service\Exception\ExternalLinkException;
 use GabrielDeTassigny\Blog\Service\ExternalLinkService;
 use Phake;
 use Phake_IMock;

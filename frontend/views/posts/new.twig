@@ -35,6 +35,17 @@
                 {% endfor %}
             </select>
         </div>
+        <div class="form-group">
+            <label for="post-state">State</label>
+            <select class="form-control" id="post-state" name="post[state]">
+                <option value="published" {% if post is defined and post['state'] == 'published' %}selected{% endif %}>
+                    Published
+                </option>
+                <option value="draft" {% if post is defined and post['state'] == 'draft' %}selected{% endif %}>
+                    Draft
+                </option>
+            </select>
+        </div>
         <button type="submit" class="btn btn-primary">Submit</button>
         <a href="/admin" class="btn btn-default">Cancel</a>
     </form>
