@@ -6,7 +6,7 @@ namespace GabrielDeTassigny\Blog\Controller\Admin;
 
 use GabrielDeTassigny\Blog\Controller\Admin\AbstractAdminController;
 use GabrielDeTassigny\Blog\Renderer\ErrorRenderer;
-use GabrielDeTassigny\Blog\Service\AuthenticationService;
+use GabrielDeTassigny\Blog\Service\Authentication\AdminAuthenticator;
 use GabrielDeTassigny\Blog\Service\Exception\ExternalLinkException;
 use GabrielDeTassigny\Blog\Service\ExternalLinkService;
 use Psr\Http\Message\ServerRequestInterface;
@@ -18,7 +18,7 @@ class ExternalLinkController extends AbstractAdminController
 {
     private const SUCCESS_MESSAGE = 'External Link was successfully created!';
 
-    /** @var AuthenticationService */
+    /** @var AdminAuthenticator */
     private $authenticationService;
 
     /** @var Twig_Environment */
@@ -34,7 +34,7 @@ class ExternalLinkController extends AbstractAdminController
     private $errorRenderer;
 
     public function __construct(
-        AuthenticationService $authenticationService,
+        AdminAuthenticator $authenticationService,
         Twig_Environment $twig,
         ExternalLinkService $externalLinkService,
         ServerRequestInterface $request,
@@ -79,7 +79,7 @@ class ExternalLinkController extends AbstractAdminController
         }
     }
 
-    protected function getAuthenticationService(): AuthenticationService
+    protected function getAdminAuthenticator(): AdminAuthenticator
     {
         return $this->authenticationService;
     }

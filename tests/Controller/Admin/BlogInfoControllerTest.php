@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace GabrielDeTassigny\Blog\Tests\Controller\Admin;
 
 use GabrielDeTassigny\Blog\Controller\Admin\BlogInfoController;
-use GabrielDeTassigny\Blog\Service\AuthenticationService;
+use GabrielDeTassigny\Blog\Service\Authentication\AdminAuthenticator;
 use GabrielDeTassigny\Blog\Service\BlogInfoService;
 use Phake;
 use Phake_IMock;
@@ -28,7 +28,7 @@ class BlogInfoControllerTest extends TestCase
     /** @var Twig_Environment|Phake_IMock */
     private $twig;
 
-    /** @var AuthenticationService|Phake_IMock */
+    /** @var AdminAuthenticator|Phake_IMock */
     private $authenticationService;
 
     /** @var BlogInfoController */
@@ -44,7 +44,7 @@ class BlogInfoControllerTest extends TestCase
     {
         parent::setUp();
         $this->twig = Phake::mock(Twig_Environment::class);
-        $this->authenticationService = Phake::mock(AuthenticationService::class);
+        $this->authenticationService = Phake::mock(AdminAuthenticator::class);
         $this->blogInfoService = Phake::mock(BlogInfoService::class);
         $this->request = Phake::mock(ServerRequestInterface::class);
         $this->controller = new BlogInfoController(

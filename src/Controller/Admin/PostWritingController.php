@@ -6,7 +6,7 @@ namespace GabrielDeTassigny\Blog\Controller\Admin;
 
 use GabrielDeTassigny\Blog\Controller\Admin\AbstractAdminController;
 use GabrielDeTassigny\Blog\Entity\Post;
-use GabrielDeTassigny\Blog\Service\AuthenticationService;
+use GabrielDeTassigny\Blog\Service\Authentication\AdminAuthenticator;
 use GabrielDeTassigny\Blog\Service\AuthorService;
 use GabrielDeTassigny\Blog\Service\Exception\PostWritingException;
 use GabrielDeTassigny\Blog\Service\Exception\PostNotFoundException;
@@ -26,7 +26,7 @@ class PostWritingController extends AbstractAdminController
     /** @var Twig_Environment */
     private $twig;
 
-    /** @var AuthenticationService */
+    /** @var AdminAuthenticator */
     private $authenticationService;
 
     /** @var ServerRequestInterface */
@@ -43,7 +43,7 @@ class PostWritingController extends AbstractAdminController
 
     public function __construct(
         Twig_Environment $twig,
-        AuthenticationService $authenticationService,
+        AdminAuthenticator $authenticationService,
         ServerRequestInterface $request,
         PostWritingService $postWritingService,
         AuthorService $authorService,
@@ -115,7 +115,7 @@ class PostWritingController extends AbstractAdminController
         }
     }
 
-    protected function getAuthenticationService(): AuthenticationService
+    protected function getAdminAuthenticator(): AdminAuthenticator
     {
         return $this->authenticationService;
     }

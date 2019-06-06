@@ -6,7 +6,7 @@ namespace GabrielDeTassigny\Blog\Tests\Controller\Admin;
 
 use GabrielDeTassigny\Blog\Controller\Admin\ExternalLinkController;
 use GabrielDeTassigny\Blog\Renderer\ErrorRenderer;
-use GabrielDeTassigny\Blog\Service\AuthenticationService;
+use GabrielDeTassigny\Blog\Service\Authentication\AdminAuthenticator;
 use GabrielDeTassigny\Blog\Service\Exception\ExternalLinkException;
 use GabrielDeTassigny\Blog\Service\ExternalLinkService;
 use Phake;
@@ -21,7 +21,7 @@ class ExternalLinkControllerTest extends TestCase
 {
     private const SUCCESS_MESSAGE = 'External Link was successfully created!';
 
-    /** @var AuthenticationService|Phake_IMock */
+    /** @var AdminAuthenticator|Phake_IMock */
     private $authenticationService;
 
     /** @var Twig_Environment|Phake_IMock */
@@ -45,7 +45,7 @@ class ExternalLinkControllerTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->authenticationService = Phake::mock(AuthenticationService::class);
+        $this->authenticationService = Phake::mock(AdminAuthenticator::class);
         $this->twig = Phake::mock(Twig_Environment::class);
         $this->externalLinkService = Phake::mock(ExternalLinkService::class);
         $this->request = Phake::mock(ServerRequestInterface::class);

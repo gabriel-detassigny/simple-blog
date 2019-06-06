@@ -2,14 +2,15 @@
 
 declare(strict_types=1);
 
-namespace GabrielDeTassigny\Blog\Tests\Service;
+namespace GabrielDeTassigny\Blog\Tests\Service\Authentication;
 
-use GabrielDeTassigny\Blog\Service\AuthenticationService;
+use GabrielDeTassigny\Blog\Service\Authentication\AdminAuthenticator;
+use GabrielDeTassigny\Blog\Service\Authentication\HttpBasicAuthenticationService;
 use PHPUnit\Framework\TestCase;
 
-class AuthenticationServiceTest extends TestCase
+class HttpBasicAuthenticationServiceTest extends TestCase
 {
-    /** @var AuthenticationService */
+    /** @var AdminAuthenticator */
     private $service;
 
     /**
@@ -17,7 +18,7 @@ class AuthenticationServiceTest extends TestCase
      */
     public function setUp()
     {
-        $this->service = new AuthenticationService();
+        $this->service = new HttpBasicAuthenticationService();
         putenv('ADMIN_USER=user');
         putenv('ADMIN_PASSWORD=password');
     }

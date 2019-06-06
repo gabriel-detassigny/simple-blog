@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace GabrielDeTassigny\Blog\Controller\Admin;
 
 use GabrielDeTassigny\Blog\Controller\Admin\AbstractAdminController;
-use GabrielDeTassigny\Blog\Service\AuthenticationService;
+use GabrielDeTassigny\Blog\Service\Authentication\AdminAuthenticator;
 use GabrielDeTassigny\Blog\Service\Exception\CommentException;
 use GabrielDeTassigny\Blog\Service\CommentService;
 use Psr\Http\Message\ServerRequestInterface;
@@ -16,7 +16,7 @@ use Twig_Error;
 
 class CommentAdminController extends AbstractAdminController
 {
-    /** @var AuthenticationService */
+    /** @var AdminAuthenticator */
     private $authenticationService;
 
     /** @var Twig_Environment */
@@ -29,7 +29,7 @@ class CommentAdminController extends AbstractAdminController
     private $request;
 
     public function __construct(
-        AuthenticationService $authenticationService,
+        AdminAuthenticator $authenticationService,
         Twig_Environment $twig,
         CommentService $commentService,
         ServerRequestInterface $request
@@ -92,7 +92,7 @@ class CommentAdminController extends AbstractAdminController
         }
     }
 
-    protected function getAuthenticationService(): AuthenticationService
+    protected function getAdminAuthenticator(): AdminAuthenticator
     {
         return $this->authenticationService;
     }

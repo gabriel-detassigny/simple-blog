@@ -11,7 +11,7 @@ dependencies:
     name: GabrielDeTassigny\Blog\Controller\Admin\PostWritingController
     dependencies:
       - twig
-      - authentication_service
+      - admin_authenticator_service
       - server_request
       - publishing_post_writing_service
       - author_service
@@ -19,7 +19,7 @@ dependencies:
   image_controller:
     name: GabrielDeTassigny\Blog\Controller\Admin\ImageController
     dependencies:
-      - authentication_service
+      - admin_authenticator_service
       - server_request
       - json_renderer
       - image_service
@@ -33,7 +33,7 @@ dependencies:
     name: GabrielDeTassigny\Blog\Controller\Admin\AdminIndexController
     dependencies:
       - twig
-      - authentication_service
+      - admin_authenticator_service
       - publishing_post_viewing_service
       - author_service
       - blog_info_service
@@ -43,12 +43,12 @@ dependencies:
     dependencies:
       - twig
       - blog_info_service
-      - authentication_service
+      - admin_authenticator_service
       - server_request
   external_link_controller:
     name: GabrielDeTassigny\Blog\Controller\Admin\ExternalLinkController
     dependencies:
-      - authentication_service
+      - admin_authenticator_service
       - twig
       - external_link_service
       - server_request
@@ -57,7 +57,7 @@ dependencies:
     name: GabrielDeTassigny\Blog\Controller\Admin\AuthorController
     dependencies:
       - author_service
-      - authentication_service
+      - admin_authenticator_service
       - twig
       - server_request
   rss_controller:
@@ -75,7 +75,7 @@ dependencies:
   comment_admin_controller:
     name: GabrielDeTassigny\Blog\Controller\Admin\CommentAdminController
     dependencies:
-      - authentication_service
+      - admin_authenticator_service
       - twig
       - comment_service
       - server_request
@@ -84,8 +84,8 @@ dependencies:
     name: GabrielDeTassigny\Blog\Service\PostViewingService
     dependencies:
       - post_repository
-  authentication_service:
-    name: GabrielDeTassigny\Blog\Service\AuthenticationService
+  admin_authenticator_service:
+    name: GabrielDeTassigny\Blog\Service\Authentication\HttpBasicAuthenticationService
     dependencies:
   publishing_post_writing_service:
     name: GabrielDeTassigny\Blog\Service\Publishing\PostWritingService

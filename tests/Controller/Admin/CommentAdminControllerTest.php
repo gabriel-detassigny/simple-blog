@@ -6,7 +6,7 @@ namespace GabrielDeTassigny\Blog\Tests\Controller\Admin;
 
 use Doctrine\Common\Collections\Collection;
 use GabrielDeTassigny\Blog\Controller\Admin\CommentAdminController;
-use GabrielDeTassigny\Blog\Service\AuthenticationService;
+use GabrielDeTassigny\Blog\Service\Authentication\AdminAuthenticator;
 use GabrielDeTassigny\Blog\Service\Exception\CommentException;
 use GabrielDeTassigny\Blog\Service\CommentService;
 use Phake;
@@ -21,7 +21,7 @@ class CommentAdminControllerTest extends TestCase
 {
     const POST_ID = 1;
     const AUTHOR_COMMENT = 'Author comment';
-    /** @var AuthenticationService|Phake_IMock */
+    /** @var AdminAuthenticator|Phake_IMock */
     private $authenticationService;
 
     /** @var Twig_Environment|Phake_IMock */
@@ -38,7 +38,7 @@ class CommentAdminControllerTest extends TestCase
 
     protected function setUp()
     {
-        $this->authenticationService = Phake::mock(AuthenticationService::class);
+        $this->authenticationService = Phake::mock(AdminAuthenticator::class);
         $this->twig = Phake::mock(Twig_Environment::class);
         $this->commentService = Phake::mock(CommentService::class);
         $this->request = Phake::mock(ServerRequestInterface::class);

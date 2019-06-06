@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace GabrielDeTassigny\Blog\Controller\Admin;
 
 use GabrielDeTassigny\Blog\Controller\Admin\AbstractAdminController;
-use GabrielDeTassigny\Blog\Service\AuthenticationService;
+use GabrielDeTassigny\Blog\Service\Authentication\AdminAuthenticator;
 use GabrielDeTassigny\Blog\Service\AuthorService;
 use GabrielDeTassigny\Blog\Service\BlogInfoService;
 use GabrielDeTassigny\Blog\Service\ExternalLinkService;
@@ -16,7 +16,7 @@ use Twig_Error;
 
 class AdminIndexController extends AbstractAdminController
 {
-    /** @var AuthenticationService */
+    /** @var AdminAuthenticator */
     private $authenticationService;
 
     /** @var PostViewingService */
@@ -36,7 +36,7 @@ class AdminIndexController extends AbstractAdminController
 
     public function __construct(
         Twig_Environment $twig,
-        AuthenticationService $authenticationService,
+        AdminAuthenticator $authenticationService,
         PostViewingService $postViewingService,
         AuthorService $authorService,
         BlogInfoService $blogInfoService,
@@ -67,7 +67,7 @@ class AdminIndexController extends AbstractAdminController
         ]);
     }
 
-    protected function getAuthenticationService(): AuthenticationService
+    protected function getAdminAuthenticator(): AdminAuthenticator
     {
         return $this->authenticationService;
     }

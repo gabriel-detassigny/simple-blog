@@ -6,7 +6,7 @@ namespace GabrielDeTassigny\Blog\Tests\Controller\Admin;
 
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use GabrielDeTassigny\Blog\Controller\Admin\AdminIndexController;
-use GabrielDeTassigny\Blog\Service\AuthenticationService;
+use GabrielDeTassigny\Blog\Service\Authentication\AdminAuthenticator;
 use GabrielDeTassigny\Blog\Service\AuthorService;
 use GabrielDeTassigny\Blog\Service\BlogInfoService;
 use GabrielDeTassigny\Blog\Service\ExternalLinkService;
@@ -31,7 +31,7 @@ class AdminIndexControllerTest extends TestCase
     /** @var Twig_Environment|Phake_IMock */
     private $twig;
 
-    /** @var AuthenticationService|Phake_IMock */
+    /** @var AdminAuthenticator|Phake_IMock */
     private $authenticationService;
 
     /** @var AuthorService|Phake_IMock */
@@ -49,7 +49,7 @@ class AdminIndexControllerTest extends TestCase
     public function setUp()
     {
         $this->twig = Phake::mock(Twig_Environment::class);
-        $this->authenticationService = Phake::mock(AuthenticationService::class);
+        $this->authenticationService = Phake::mock(AdminAuthenticator::class);
         $this->authorService = Phake::mock(AuthorService::class);
         $this->postViewingService = Phake::mock(PostViewingService::class);
         $this->blogInfoService = Phake::mock(BlogInfoService::class);

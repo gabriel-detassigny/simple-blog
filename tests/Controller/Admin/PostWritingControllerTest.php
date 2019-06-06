@@ -6,7 +6,7 @@ namespace GabrielDeTassigny\Blog\Tests\Controller\Admin;
 
 use GabrielDeTassigny\Blog\Controller\Admin\PostWritingController;
 use GabrielDeTassigny\Blog\Entity\Post;
-use GabrielDeTassigny\Blog\Service\AuthenticationService;
+use GabrielDeTassigny\Blog\Service\Authentication\AdminAuthenticator;
 use GabrielDeTassigny\Blog\Service\AuthorService;
 use GabrielDeTassigny\Blog\Service\Exception\PostWritingException;
 use GabrielDeTassigny\Blog\Service\Exception\PostNotFoundException;
@@ -34,7 +34,7 @@ class PostWritingControllerTest extends TestCase
     /** @var Twig_Environment|Phake_IMock */
     private $twig;
 
-    /** @var AuthenticationService|Phake_IMock */
+    /** @var AdminAuthenticator|Phake_IMock */
     private $authenticationService;
 
     /** @var ServerRequestInterface|Phake_IMock */
@@ -55,7 +55,7 @@ class PostWritingControllerTest extends TestCase
     public function setUp()
     {
         $this->twig = Phake::mock(Twig_Environment::class);
-        $this->authenticationService = Phake::mock(AuthenticationService::class);
+        $this->authenticationService = Phake::mock(AdminAuthenticator::class);
         $this->request = Phake::mock(ServerRequestInterface::class);
         $this->postWritingService = Phake::mock(PostWritingService::class);
         $this->authorService = Phake::mock(AuthorService::class);

@@ -6,7 +6,7 @@ namespace GabrielDeTassigny\Blog\Tests\Controller\Admin;
 
 use GabrielDeTassigny\Blog\Controller\Admin\ImageController;
 use GabrielDeTassigny\Blog\Renderer\JsonRenderer;
-use GabrielDeTassigny\Blog\Service\AuthenticationService;
+use GabrielDeTassigny\Blog\Service\Authentication\AdminAuthenticator;
 use GabrielDeTassigny\Blog\Service\ImageService;
 use Phake;
 use Phake_IMock;
@@ -18,7 +18,7 @@ class ImageControllerTest extends TestCase
 {
     private const IMAGE_LOCATION = '/images/upload/test.png';
 
-    /** @var AuthenticationService|Phake_IMock */
+    /** @var AdminAuthenticator|Phake_IMock */
     private $authenticationService;
 
     /** @var ServerRequestInterface|Phake_IMock */
@@ -38,7 +38,7 @@ class ImageControllerTest extends TestCase
      */
     public function setUp()
     {
-        $this->authenticationService = Phake::mock(AuthenticationService::class);
+        $this->authenticationService = Phake::mock(AdminAuthenticator::class);
         $this->request = Phake::mock(ServerRequestInterface::class);
         $this->renderer = Phake::mock(JsonRenderer::class);
         $this->imageService = Phake::mock(ImageService::class);

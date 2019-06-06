@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace GabrielDeTassigny\Blog\Tests\Controller\Admin;
 
 use GabrielDeTassigny\Blog\Controller\Admin\AuthorController;
-use GabrielDeTassigny\Blog\Service\AuthenticationService;
+use GabrielDeTassigny\Blog\Service\Authentication\AdminAuthenticator;
 use GabrielDeTassigny\Blog\Service\Exception\AuthorException;
 use GabrielDeTassigny\Blog\Service\AuthorService;
 use Phake;
@@ -23,7 +23,7 @@ class AuthorControllerTest extends TestCase
     /** @var AuthorService|Phake_IMock */
     private $authorService;
 
-    /** @var AuthenticationService|Phake_IMock */
+    /** @var AdminAuthenticator|Phake_IMock */
     private $authenticationService;
 
     /** @var Twig_Environment|Phake_IMock */
@@ -39,7 +39,7 @@ class AuthorControllerTest extends TestCase
     {
         parent::setUp();
         $this->authorService = Phake::mock(AuthorService::class);
-        $this->authenticationService = Phake::mock(AuthenticationService::class);
+        $this->authenticationService = Phake::mock(AdminAuthenticator::class);
         $this->twig = Phake::mock(Twig_Environment::class);
         $this->request = Phake::mock(ServerRequestInterface::class);
         $this->controller = new AuthorController(

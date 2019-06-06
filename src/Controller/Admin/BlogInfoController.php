@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace GabrielDeTassigny\Blog\Controller\Admin;
 
 use GabrielDeTassigny\Blog\Controller\Admin\AbstractAdminController;
-use GabrielDeTassigny\Blog\Service\AuthenticationService;
+use GabrielDeTassigny\Blog\Service\Authentication\AdminAuthenticator;
 use GabrielDeTassigny\Blog\Service\BlogInfoService;
 use Psr\Http\Message\ServerRequestInterface;
 use Teapot\HttpException;
@@ -23,7 +23,7 @@ class BlogInfoController extends AbstractAdminController
     /** @var Twig_Environment */
     private $twig;
 
-    /** @var AuthenticationService */
+    /** @var AdminAuthenticator */
     private $authenticationService;
 
     /** @var ServerRequestInterface */
@@ -32,7 +32,7 @@ class BlogInfoController extends AbstractAdminController
     public function __construct(
         Twig_Environment $twig,
         BlogInfoService $blogInfoService,
-        AuthenticationService $authenticationService,
+        AdminAuthenticator $authenticationService,
         ServerRequestInterface $request
     ) {
         $this->twig = $twig;
@@ -80,7 +80,7 @@ class BlogInfoController extends AbstractAdminController
         );
     }
 
-    protected function getAuthenticationService(): AuthenticationService
+    protected function getAdminAuthenticator(): AdminAuthenticator
     {
         return $this->authenticationService;
     }

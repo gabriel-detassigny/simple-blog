@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace GabrielDeTassigny\Blog\Controller\Admin;
 
 use GabrielDeTassigny\Blog\Controller\Admin\AbstractAdminController;
-use GabrielDeTassigny\Blog\Service\AuthenticationService;
+use GabrielDeTassigny\Blog\Service\Authentication\AdminAuthenticator;
 use GabrielDeTassigny\Blog\Service\Exception\AuthorException;
 use GabrielDeTassigny\Blog\Service\AuthorService;
 use Psr\Http\Message\ServerRequestInterface;
@@ -20,7 +20,7 @@ class AuthorController extends AbstractAdminController
     /** @var AuthorService */
     private $authorService;
 
-    /** @var AuthenticationService */
+    /** @var AdminAuthenticator */
     private $authenticationService;
 
     /** @var Twig_Environment */
@@ -31,7 +31,7 @@ class AuthorController extends AbstractAdminController
 
     public function __construct(
         AuthorService $authorService,
-        AuthenticationService $authenticationService,
+        AdminAuthenticator $authenticationService,
         Twig_Environment $twig,
         ServerRequestInterface $request
     ) {
@@ -62,7 +62,7 @@ class AuthorController extends AbstractAdminController
         }
     }
 
-    protected function getAuthenticationService(): AuthenticationService
+    protected function getAdminAuthenticator(): AdminAuthenticator
     {
         return $this->authenticationService;
     }

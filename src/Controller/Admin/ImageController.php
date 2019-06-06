@@ -7,7 +7,7 @@ namespace GabrielDeTassigny\Blog\Controller\Admin;
 use DateTime;
 use GabrielDeTassigny\Blog\Controller\Admin\AbstractAdminController;
 use GabrielDeTassigny\Blog\Renderer\JsonRenderer;
-use GabrielDeTassigny\Blog\Service\AuthenticationService;
+use GabrielDeTassigny\Blog\Service\Authentication\AdminAuthenticator;
 use GabrielDeTassigny\Blog\Service\ImageService;
 use Psr\Http\Message\ServerRequestInterface;
 use Teapot\HttpException;
@@ -15,7 +15,7 @@ use Teapot\StatusCode;
 
 class ImageController extends AbstractAdminController
 {
-    /** @var AuthenticationService */
+    /** @var AdminAuthenticator */
     private $authenticationService;
 
     /** @var ServerRequestInterface */
@@ -28,7 +28,7 @@ class ImageController extends AbstractAdminController
     private $imageService;
 
     public function __construct(
-        AuthenticationService $authenticationService,
+        AdminAuthenticator $authenticationService,
         ServerRequestInterface $request,
         JsonRenderer $renderer,
         ImageService $imageService
@@ -53,7 +53,7 @@ class ImageController extends AbstractAdminController
         }
     }
 
-    protected function getAuthenticationService(): AuthenticationService
+    protected function getAdminAuthenticator(): AdminAuthenticator
     {
         return $this->authenticationService;
     }
