@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GabrielDeTassigny\Blog\Tests\Controller;
+namespace GabrielDeTassigny\Blog\Tests\Controller\Admin;
 
-use GabrielDeTassigny\Blog\Controller\ImageController;
+use GabrielDeTassigny\Blog\Controller\Admin\ImageController;
 use GabrielDeTassigny\Blog\Renderer\JsonRenderer;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\ImageService;

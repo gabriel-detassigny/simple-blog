@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GabrielDeTassigny\Blog\Controller;
+namespace GabrielDeTassigny\Blog\Controller\Admin;
 
+use GabrielDeTassigny\Blog\Controller\Admin\AbstractAdminController;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\Exception\AuthorException;
 use GabrielDeTassigny\Blog\Service\AuthorService;
@@ -12,7 +13,7 @@ use Teapot\HttpException;
 use Teapot\StatusCode;
 use Twig_Environment;
 
-class AuthorController extends AdminController
+class AuthorController extends AbstractAdminController
 {
     private const SUCCESS_MESSAGE = 'Author successfully created';
 

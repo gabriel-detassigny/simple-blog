@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GabrielDeTassigny\Blog\Controller;
+namespace GabrielDeTassigny\Blog\Controller\Admin;
 
+use GabrielDeTassigny\Blog\Controller\Admin\AbstractAdminController;
 use GabrielDeTassigny\Blog\Entity\Post;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\AuthorService;
@@ -17,7 +18,7 @@ use Teapot\StatusCode;
 use Twig_Environment;
 use Twig_Error;
 
-class PostWritingController extends AdminController
+class PostWritingController extends AbstractAdminController
 {
     private const POST_CREATION_SUCCESS = 'Post was successfully created';
     private const POST_UPDATING_SUCCESS = 'Post was successfully updated';

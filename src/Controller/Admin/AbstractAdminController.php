@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace GabrielDeTassigny\Blog\Controller;
+namespace GabrielDeTassigny\Blog\Controller\Admin;
 
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use Teapot\HttpException;
 use Teapot\StatusCode;
 
-abstract class AdminController
+abstract class AbstractAdminController
 {
     private const ERROR_MESSAGE = 'Authentication failed';
 

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GabrielDeTassigny\Blog\Tests\Controller;
+namespace GabrielDeTassigny\Blog\Tests\Controller\Admin;
 
-use GabrielDeTassigny\Blog\Controller\AuthorController;
+use GabrielDeTassigny\Blog\Controller\Admin\AuthorController;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\Exception\AuthorException;
 use GabrielDeTassigny\Blog\Service\AuthorService;

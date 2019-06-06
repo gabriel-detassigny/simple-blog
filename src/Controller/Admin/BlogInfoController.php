@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GabrielDeTassigny\Blog\Controller;
+namespace GabrielDeTassigny\Blog\Controller\Admin;
 
+use GabrielDeTassigny\Blog\Controller\Admin\AbstractAdminController;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\BlogInfoService;
 use Psr\Http\Message\ServerRequestInterface;
@@ -12,7 +13,7 @@ use Teapot\StatusCode;
 use Twig_Environment;
 use Twig_Error;
 
-class BlogInfoController extends AdminController
+class BlogInfoController extends AbstractAdminController
 {
     private const SUCCESS_MESSAGE = 'Blog Configuration successfully updated!';
 

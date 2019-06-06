@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GabrielDeTassigny\Blog\Controller;
+namespace GabrielDeTassigny\Blog\Controller\Admin;
 
+use GabrielDeTassigny\Blog\Controller\Admin\AbstractAdminController;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\AuthorService;
 use GabrielDeTassigny\Blog\Service\BlogInfoService;
@@ -13,7 +14,7 @@ use Teapot\HttpException;
 use Twig_Environment;
 use Twig_Error;
 
-class AdminIndexController extends AdminController
+class AdminIndexController extends AbstractAdminController
 {
     /** @var AuthenticationService */
     private $authenticationService;

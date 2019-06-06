@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GabrielDeTassigny\Blog\Tests\Controller;
+namespace GabrielDeTassigny\Blog\Tests\Controller\Admin;
 
-use GabrielDeTassigny\Blog\Controller\PostWritingController;
+use GabrielDeTassigny\Blog\Controller\Admin\PostWritingController;
 use GabrielDeTassigny\Blog\Entity\Post;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\AuthorService;

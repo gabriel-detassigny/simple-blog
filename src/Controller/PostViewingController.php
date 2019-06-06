@@ -70,23 +70,17 @@ class PostViewingController
         }
 
         $posts = $this->postViewingService->findPageOfLatestPosts($page);
-        $previousPage = $this->postViewingService->getPreviousPage($page);
-        $nextPage = $this->postViewingService->getNextPage($page, count($posts));
-        $blogTitle = $this->blogInfoService->getBlogTitle();
-        $blogDesc = $this->blogInfoService->getBlogDescription();
-        $aboutText = $this->blogInfoService->getAboutText();
-        $externalLinks = $this->externalLinkService->getExternalLinks();
 
         $this->twig->display(
             'posts/list.twig',
             [
                 'posts' => $posts,
-                'previousPage' => $previousPage,
-                'nextPage' => $nextPage,
-                'blogTitle' => $blogTitle,
-                'blogDesc' => $blogDesc,
-                'aboutText' => $aboutText,
-                'externalLinks' => $externalLinks
+                'previousPage' => $this->postViewingService->getPreviousPage($page),
+                'nextPage' => $this->postViewingService->getNextPage($page, count($posts)),
+                'blogTitle' => $this->blogInfoService->getBlogTitle(),
+                'blogDesc' => $this->blogInfoService->getBlogDescription(),
+                'aboutText' => $this->blogInfoService->getAboutText(),
+                'externalLinks' => $this->externalLinkService->getExternalLinks()
             ]
         );
     }

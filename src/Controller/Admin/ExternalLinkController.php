@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GabrielDeTassigny\Blog\Controller;
+namespace GabrielDeTassigny\Blog\Controller\Admin;
 
+use GabrielDeTassigny\Blog\Controller\Admin\AbstractAdminController;
 use GabrielDeTassigny\Blog\Renderer\ErrorRenderer;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\Exception\ExternalLinkException;
@@ -13,7 +14,7 @@ use Teapot\HttpException;
 use Teapot\StatusCode;
 use Twig_Environment;
 
-class ExternalLinkController extends AdminController
+class ExternalLinkController extends AbstractAdminController
 {
     private const SUCCESS_MESSAGE = 'External Link was successfully created!';
 

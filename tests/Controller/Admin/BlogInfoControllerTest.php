@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GabrielDeTassigny\Blog\Tests\Controller;
+namespace GabrielDeTassigny\Blog\Tests\Controller\Admin;
 
-use GabrielDeTassigny\Blog\Controller\BlogInfoController;
+use GabrielDeTassigny\Blog\Controller\Admin\BlogInfoController;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\BlogInfoService;
 use Phake;

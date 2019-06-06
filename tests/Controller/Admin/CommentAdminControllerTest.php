@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace GabrielDeTassigny\Blog\Tests\Controller;
+namespace GabrielDeTassigny\Blog\Tests\Controller\Admin;
 
 use Doctrine\Common\Collections\Collection;
-use GabrielDeTassigny\Blog\Controller\CommentAdminController;
+use GabrielDeTassigny\Blog\Controller\Admin\CommentAdminController;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\Exception\CommentException;
 use GabrielDeTassigny\Blog\Service\CommentService;

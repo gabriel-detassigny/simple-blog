@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GabrielDeTassigny\Blog\Controller;
+namespace GabrielDeTassigny\Blog\Controller\Admin;
 
+use GabrielDeTassigny\Blog\Controller\Admin\AbstractAdminController;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\Exception\CommentException;
 use GabrielDeTassigny\Blog\Service\CommentService;
@@ -13,7 +14,7 @@ use Teapot\StatusCode;
 use Twig_Environment;
 use Twig_Error;
 
-class CommentAdminController extends AdminController
+class CommentAdminController extends AbstractAdminController
 {
     /** @var AuthenticationService */
     private $authenticationService;

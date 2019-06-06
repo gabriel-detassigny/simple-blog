@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace GabrielDeTassigny\Blog\Controller;
+namespace GabrielDeTassigny\Blog\Controller\Admin;
 
 use DateTime;
+use GabrielDeTassigny\Blog\Controller\Admin\AbstractAdminController;
 use GabrielDeTassigny\Blog\Renderer\JsonRenderer;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\ImageService;
@@ -12,7 +13,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Teapot\HttpException;
 use Teapot\StatusCode;
 
-class ImageController extends AdminController
+class ImageController extends AbstractAdminController
 {
     /** @var AuthenticationService */
     private $authenticationService;

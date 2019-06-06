@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GabrielDeTassigny\Blog\Tests\Controller;
+namespace GabrielDeTassigny\Blog\Tests\Controller\Admin;
 
-use GabrielDeTassigny\Blog\Controller\ExternalLinkController;
+use GabrielDeTassigny\Blog\Controller\Admin\ExternalLinkController;
 use GabrielDeTassigny\Blog\Renderer\ErrorRenderer;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\Exception\ExternalLinkException;

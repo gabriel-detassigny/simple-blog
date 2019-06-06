@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace GabrielDeTassigny\Blog\Tests\Controller;
+namespace GabrielDeTassigny\Blog\Tests\Controller\Admin;
 
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use GabrielDeTassigny\Blog\Controller\AdminIndexController;
+use GabrielDeTassigny\Blog\Controller\Admin\AdminIndexController;
 use GabrielDeTassigny\Blog\Service\AuthenticationService;
 use GabrielDeTassigny\Blog\Service\AuthorService;
 use GabrielDeTassigny\Blog\Service\BlogInfoService;
