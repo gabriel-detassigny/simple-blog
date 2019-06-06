@@ -68,9 +68,11 @@ class AdminIndexControllerTest extends TestCase
     public function testIndex()
     {
         $posts = Phake::mock(Paginator::class);
+        $drafts = Phake::mock(Paginator::class);
 
         Phake::when($this->authenticationService)->authenticateAsAdmin()->thenReturn(true);
         Phake::when($this->postViewingService)->findLatestPublishedPosts()->thenReturn($posts);
+        Phake::when($this->postViewingService)->findLatestDraftPosts()->thenReturn($drafts);
         Phake::when($this->authorService)->getAuthors()->thenReturn([]);
         Phake::when($this->blogInfoService)->getBlogTitle()->thenReturn(self::BLOG_TITLE);
         Phake::when($this->externalLinkService)->getExternalLinks()->thenReturn([]);
@@ -79,7 +81,13 @@ class AdminIndexControllerTest extends TestCase
 
         Phake::verify($this->twig)->display(
             'admin-index.twig',
-            ['posts' => $posts, 'authors' => [], 'title' => self::BLOG_TITLE, 'externalLinks' => []]
+            [
+                'posts' => $posts,
+                'drafts' => $drafts,
+                'authors' => [],
+                'title' => self::BLOG_TITLE,
+                'externalLinks' => []
+            ]
         );
     }
 

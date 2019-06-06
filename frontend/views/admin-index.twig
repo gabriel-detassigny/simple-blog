@@ -32,7 +32,7 @@
             </ul>
         {% endif %}
 
-        <h2 class="admin-section">Latest Blog Posts</h2>
+        <h2 class="admin-section">Latest Published Blog Posts</h2>
         <a href="/posts/new" class="admin-action btn btn-primary">Write New Post</a>
         <ul>
             {% for post in posts %}
@@ -42,6 +42,13 @@
                         Comments ({{ post.getComments.count }})
                     </a>
                 </li>
+            {% endfor %}
+        </ul>
+
+        <h2 class="admin-section">Draft Blog Posts</h2>
+        <ul>
+            {% for post in drafts %}
+                <li><a href="/posts/{{ post.getId }}/edit">{{ post.getTitle }}</a></li>
             {% endfor %}
         </ul>
 

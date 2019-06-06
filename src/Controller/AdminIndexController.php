@@ -59,6 +59,7 @@ class AdminIndexController extends AdminController
 
         $this->twig->display('admin-index.twig', [
             'posts' => $this->postViewingService->findLatestPublishedPosts(),
+            'drafts' => $this->postViewingService->findLatestDraftPosts(),
             'authors' => $this->authorService->getAuthors(),
             'title' => $this->blogInfoService->getBlogTitle(),
             'externalLinks' => $this->externalLinkService->getExternalLinks()
