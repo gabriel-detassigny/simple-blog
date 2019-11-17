@@ -44,16 +44,20 @@ class AuthorController extends AbstractAdminController
     public function newAuthor(): void
     {
         $this->ensureAdminAuthentication();
+
         $this->twig->display('authors/new.twig');
     }
 
     public function createAuthor(): void
     {
         $this->ensureAdminAuthentication();
+
         $body = $this->request->getParsedBody();
+
         if (!is_array($body) || !array_key_exists('author', $body) || !is_array($body['author'])) {
             throw new HttpException('Invalid form parameters', StatusCode::BAD_REQUEST);
         }
+
         try {
             $this->authorService->createAuthor($body['author']['name']);
             $this->twig->display('authors/new.twig', ['success' => self::SUCCESS_MESSAGE]);

@@ -48,36 +48,35 @@ class BlogInfoController extends AbstractAdminController
     public function edit()
     {
         $this->ensureAdminAuthentication();
-        $blogTitle = $this->blogInfoService->getBlogTitle();
-        $blogDescription = $this->blogInfoService->getBlogDescription();
-        $aboutText = $this->blogInfoService->getAboutText();
 
-        $this->twig->display(
-            'blog-info/edit.twig',
-            ['title' => $blogTitle, 'description' => $blogDescription, 'about' => $aboutText]
-        );
+        $this->twig->display('blog-info/edit.twig', [
+            'title' => $this->blogInfoService->getBlogTitle(),
+            'description' => $this->blogInfoService->getBlogDescription(),
+            'about' => $this->blogInfoService->getAboutText()
+        ]);
     }
 
     public function update()
     {
         $this->ensureAdminAuthentication();
+
         $body = $this->request->getParsedBody();
         if (!is_array($body) || !array_key_exists('blog', $body) || !is_array($body['blog'])) {
             throw new HttpException('Invalid form parameters', StatusCode::BAD_REQUEST);
         }
+
         $blog = $body['blog'];
+
         $this->blogInfoService->setBlogTitle($blog['title']);
         $this->blogInfoService->setBlogDescription($blog['description']);
         $this->blogInfoService->setAboutText($blog['about']);
-        $this->twig->display(
-            'blog-info/edit.twig',
-            [
-                'title' => $blog['title'],
-                'description' => $blog['description'],
-                'about' => $blog['about'],
-                'success' => self::SUCCESS_MESSAGE
-            ]
-        );
+
+        $this->twig->display('blog-info/edit.twig', [
+            'title' => $blog['title'],
+            'description' => $blog['description'],
+            'about' => $blog['about'],
+            'success' => self::SUCCESS_MESSAGE
+        ]);
     }
 
     protected function getAdminAuthenticator(): AdminAuthenticator

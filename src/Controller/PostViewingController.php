@@ -97,9 +97,11 @@ class PostViewingController
         } catch (PostNotFoundException $e) {
             throw new HttpException('Post not found', StatusCode::NOT_FOUND);
         }
-        $blogTitle = $this->blogInfoService->getBlogTitle();
-        $captcha = $this->captchaService->generateInlineCaptcha();
 
-        $this->twig->display('posts/show.twig', ['post' => $post, 'blogTitle' => $blogTitle, 'captcha' => $captcha]);
+        $this->twig->display('posts/show.twig', [
+            'post' => $post,
+            'blogTitle' => $this->blogInfoService->getBlogTitle(),
+            'captcha' => $this->captchaService->generateInlineCaptcha()
+        ]);
     }
 }

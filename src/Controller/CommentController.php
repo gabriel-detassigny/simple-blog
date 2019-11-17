@@ -40,17 +40,18 @@ class CommentController
 
     public function createComment(array $vars): void
     {
-        $postId = (int) $vars['id'];
         $params = $this->getFormParams();
 
         if (!isset($params['captcha']) || !$this->captchaService->isValidCaptcha((string) $params['captcha'])) {
             throw new HttpException('Invalid captcha', StatusCode::BAD_REQUEST);
         }
+
         try {
-            $this->commentService->createUserComment($params, $postId);
+            $this->commentService->createUserComment($params, (int) $vars['id']);
         } catch (CommentException $e) {
             throw new HttpException($e->getMessage(), StatusCode::BAD_REQUEST);
         }
+
         $this->jsonRenderer->render(['message' => 'Comment successfully created']);
     }
 
@@ -68,9 +69,11 @@ class CommentController
     private function getFormParams(): array
     {
         $body = $this->request->getParsedBody();
+
         if (!is_array($body) || !array_key_exists('comment', $body) || !is_array($body['comment'])) {
             throw new HttpException('Invalid form parameters', StatusCode::BAD_REQUEST);
         }
+
         return $body['comment'];
     }
 }

@@ -50,16 +50,20 @@ class ExternalLinkController extends AbstractAdminController
     public function newExternalLink(): void
     {
         $this->ensureAdminAuthentication();
+
         $this->twig->display('external-links/new.twig');
     }
 
     public function createExternalLink(): void
     {
         $this->ensureAdminAuthentication();
+
         $body = $this->request->getParsedBody();
+
         if (!is_array($body) || !array_key_exists('link', $body) || !is_array($body['link'])) {
             throw new HttpException('Invalid form parameters', StatusCode::BAD_REQUEST);
         }
+
         try {
             $this->externalLinkService->createExternalLink($body['link']['name'], $body['link']['url']);
             $this->twig->display('external-links/new.twig', ['success' => self::SUCCESS_MESSAGE]);
@@ -71,6 +75,7 @@ class ExternalLinkController extends AbstractAdminController
     public function deleteExternalLink(array $vars): void
     {
         $this->ensureAdminAuthentication();
+
         try {
             $this->externalLinkService->deleteExternalLink((int) $vars['id']);
         } catch (ExternalLinkException $e) {

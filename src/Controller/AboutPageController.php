@@ -35,12 +35,10 @@ class AboutPageController
      */
     public function showAboutPage(): void
     {
-        $aboutText = $this->blogInfoService->getAboutText();
-        $externalLinks = $this->externalLinkService->getExternalLinks();
-        $blogTitle = $this->blogInfoService->getBlogTitle();
-        $this->twig->display(
-            'about.twig',
-            ['aboutText' => $aboutText, 'externalLinks' => $externalLinks, 'blogTitle' => $blogTitle]
-        );
+        $this->twig->display('about.twig', [
+            'aboutText' => $this->blogInfoService->getAboutText(),
+            'externalLinks' => $this->externalLinkService->getExternalLinks(),
+            'blogTitle' => $this->blogInfoService->getBlogTitle()
+        ]);
     }
 }

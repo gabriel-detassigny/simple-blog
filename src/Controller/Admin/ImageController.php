@@ -47,6 +47,7 @@ class ImageController extends AbstractAdminController
         $this->ensureAdminAuthentication();
 
         $uploadedFiles = $this->request->getUploadedFiles();
+
         if (!empty($uploadedFiles) && array_key_exists('file', $uploadedFiles)) {
             $location = $this->imageService->uploadImage($uploadedFiles['file'], new DateTime());
             $this->renderer->render(['location' => $location]);
