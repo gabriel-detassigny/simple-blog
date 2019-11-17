@@ -58,8 +58,10 @@ class PostWritingControllerTest extends TestCase
         $this->authenticationService = Phake::mock(AdminAuthenticator::class);
         $this->request = Phake::mock(ServerRequestInterface::class);
         $this->postWritingService = Phake::mock(PostWritingService::class);
+
         $this->authorService = Phake::mock(AuthorService::class);
         Phake::when($this->authorService)->getAuthors()->thenReturn([]);
+
         $this->postViewingService = Phake::mock(PostViewingService::class);
 
         $this->controller = new PostWritingController(
@@ -176,6 +178,7 @@ class PostWritingControllerTest extends TestCase
     public function testUpdatePost_UpdateFailed(): void
     {
         $this->mockAdminAuthentication();
+
         $post = $this->getPostFromService();
         Phake::when($this->request)->getParsedBody()->thenReturn(self::BODY);
         Phake::when($this->postWritingService)->updatePost($post, self::BODY['post'])
@@ -187,6 +190,17 @@ class PostWritingControllerTest extends TestCase
             'posts/edit.twig',
             ['authors' => [], 'post' => $post, 'error' => 'error updating post']
         );
+    }
+
+    public function testPreviewPost(): void
+    {
+        $this->mockAdminAuthentication();
+
+        $post = $this->getPostFromService();
+
+        $this->controller->previewPost(['id' => (string) self::ID]);
+
+        Phake::verify($this->twig)->display('posts/preview.twig', ['post' => $post]);
     }
 
     private function mockAdminAuthentication(): void

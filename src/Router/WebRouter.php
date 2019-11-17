@@ -7,6 +7,7 @@ namespace GabrielDeTassigny\Blog\Router;
 use Exception;
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
+use function FastRoute\simpleDispatcher;
 use GabrielDeTassigny\Blog\Renderer\ErrorRenderer;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
@@ -33,6 +34,7 @@ class WebRouter
         ['GET', '/admin/info/edit', 'blog_info_controller/edit'],
         ['POST', '/admin/info/update', 'blog_info_controller/update'],
         ['GET', '/admin/posts/{id:\d+}/comments', 'comment_admin_controller/index'],
+        ['GET', '/admin/posts/{id:\d+}/preview', 'post_writing_controller/previewPost'],
         ['DELETE', '/admin/comments/{id:\d+}', 'comment_admin_controller/deleteComment'],
         ['GET', '/admin/posts/{id:\d+}/comments/new', 'comment_admin_controller/newComment'],
         ['POST', '/admin/posts/{id:\d+}/comments', 'comment_admin_controller/createComment'],
@@ -57,7 +59,8 @@ class WebRouter
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-        $this->dispatcher = \FastRoute\simpleDispatcher(function(RouteCollector $r) {
+
+        $this->dispatcher = simpleDispatcher(function(RouteCollector $r) {
             foreach (self::ROUTES as $route) {
                 $r->addRoute($route[0], $route[1], $route[2]);
             }
@@ -105,6 +108,7 @@ class WebRouter
             /** @var LoggerInterface $log */
             $log = $this->container->get('log');
             $log->error(self::EXCEPTION_MESSAGE, ['message' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+
             $this->renderError(StatusCode::INTERNAL_SERVER_ERROR, 'Something went wrong!');
         }
     }
@@ -118,6 +122,7 @@ class WebRouter
     {
         /** @var ErrorRenderer $renderer */
         $renderer = $this->container->get('error_renderer');
+
         if ($this->isJsonExpected()) {
             $renderer->setContentTypeToJson();
         }
@@ -135,6 +140,7 @@ class WebRouter
                 return true;
             }
         }
+
         return false;
     }
 }

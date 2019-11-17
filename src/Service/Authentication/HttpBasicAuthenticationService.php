@@ -12,10 +12,8 @@ class HttpBasicAuthenticationService implements AdminAuthenticator
 
     public function authenticateAsAdmin(): bool
     {
-        $success = basicHttpAuth(self::LOGIN_MESSAGE, function($username, $password) {
+        return basicHttpAuth(self::LOGIN_MESSAGE, function($username, $password) {
             return $username === getenv('ADMIN_USER') && $password === getenv('ADMIN_PASSWORD');
         });
-
-        return $success;
     }
 }

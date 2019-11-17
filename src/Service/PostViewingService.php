@@ -43,6 +43,7 @@ class PostViewingService
         if ($totalPosts <= $currentPage->getValue() * $pageSize) {
             return null;
         }
+
         return new Page($currentPage->getValue() + 1);
     }
 
@@ -59,6 +60,7 @@ class PostViewingService
         if ($post === null) {
             throw new PostNotFoundException("Post with ID {$id} was not found");
         }
+
         return $post;
     }
 }

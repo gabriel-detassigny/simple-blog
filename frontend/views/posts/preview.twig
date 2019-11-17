@@ -1,0 +1,24 @@
+{% extends "admin-base.twig" %}
+{% block content %}
+    <br />
+    <div class="alert alert-warning" role="alert">
+        <strong>Preview Mode</strong> This is a preview of a draft post.
+    </div>
+    <div class="blog-post blog-post-show">
+        <div class="blog-header post-header">
+            <h1>{{ post.getTitle }}</h1>
+            <p class="lead blog-description post-description">{{ post.getSubtitle }}</p>
+        </div>
+        <div class="row post-content">
+            <p>{{ post.getText | raw }}</p>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-sm-10">
+                <p class="blog-post-meta">
+                    {{ post.getCreatedAt|date('F jS, Y') }} | Written by {{ post.getAuthor.getName }}
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

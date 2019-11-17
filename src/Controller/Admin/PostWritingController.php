@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Controller\Admin;
 
-use GabrielDeTassigny\Blog\Controller\Admin\AbstractAdminController;
 use GabrielDeTassigny\Blog\Entity\Post;
 use GabrielDeTassigny\Blog\Service\Authentication\AdminAuthenticator;
 use GabrielDeTassigny\Blog\Service\AuthorService;
@@ -64,6 +63,7 @@ class PostWritingController extends AbstractAdminController
     public function newPost(): void
     {
         $this->ensureAdminAuthentication();
+
         $this->displayNewPostForm([]);
     }
 
@@ -74,7 +74,9 @@ class PostWritingController extends AbstractAdminController
     public function createPost(): void
     {
         $this->ensureAdminAuthentication();
+
         $formParams = $this->getFormParams();
+
         try {
             $post = $this->postWritingService->createPost($formParams);
             $this->displayEditPostForm($post, ['success' => self::POST_CREATION_SUCCESS]);
@@ -92,8 +94,8 @@ class PostWritingController extends AbstractAdminController
     public function editPost(array $vars): void
     {
         $this->ensureAdminAuthentication();
-        $post = $this->getPostFromId($vars);
-        $this->displayEditPostForm($post, []);
+
+        $this->displayEditPostForm($this->getPostFromId($vars), []);
     }
 
     /**
@@ -105,14 +107,28 @@ class PostWritingController extends AbstractAdminController
     public function updatePost(array $vars): void
     {
         $this->ensureAdminAuthentication();
+
         $post = $this->getPostFromId($vars);
-        $formParams = $this->getFormParams();
+
         try {
-            $this->postWritingService->updatePost($post, $formParams);
+            $this->postWritingService->updatePost($post, $this->getFormParams());
             $this->displayEditPostForm($post, ['success' => self::POST_UPDATING_SUCCESS]);
         } catch (PostWritingException $e) {
             $this->displayEditPostForm($post, ['error' => $e->getMessage()]);
         }
+    }
+
+    /**
+     * @param array $vars
+     * @throws HttpException
+     * @throws Twig_Error
+     * @return void
+     */
+    public function previewPost(array $vars): void
+    {
+        $this->ensureAdminAuthentication();
+
+        $this->twig->display('posts/preview.twig', ['post' => $this->getPostFromId($vars)]);
     }
 
     protected function getAdminAuthenticator(): AdminAuthenticator
@@ -128,6 +144,7 @@ class PostWritingController extends AbstractAdminController
     private function displayNewPostForm(array $params): void
     {
         $authors = $this->authorService->getAuthors();
+
         $this->twig->display(
             'posts/new.twig',
             array_merge(['authors' => $authors], $params)
@@ -142,6 +159,7 @@ class PostWritingController extends AbstractAdminController
     private function displayEditPostForm(Post $post, array $params): void
     {
         $authors = $this->authorService->getAuthors();
+
         $this->twig->display(
             'posts/edit.twig',
             array_merge(['authors' => $authors, 'post' => $post], $params)
@@ -156,11 +174,10 @@ class PostWritingController extends AbstractAdminController
     private function getPostFromId(array $vars): Post
     {
         try {
-            $post = $this->postViewingService->getPost((int)$vars['id']);
+            return $this->postViewingService->getPost((int) $vars['id']);
         } catch (PostNotFoundException $e) {
             throw new HttpException('Could not find any post with ID ' . $vars['id'], StatusCode::NOT_FOUND);
         }
-        return $post;
     }
 
     /**
@@ -170,9 +187,11 @@ class PostWritingController extends AbstractAdminController
     private function getFormParams(): array
     {
         $body = $this->request->getParsedBody();
+
         if (!is_array($body) || !array_key_exists('post', $body) || !is_array($body['post'])) {
             throw new HttpException('Invalid form parameters', StatusCode::BAD_REQUEST);
         }
+
         return $body['post'];
     }
 }
