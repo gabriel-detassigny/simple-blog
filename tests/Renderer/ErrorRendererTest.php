@@ -25,7 +25,7 @@ class ErrorRendererTest extends TestCase
     /** @var Twig_Environment|Phake_IMock */
     private $twig;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->twig = Phake::mock(Twig_Environment::class);
         $this->jsonRenderer = Phake::mock(JsonRenderer::class);

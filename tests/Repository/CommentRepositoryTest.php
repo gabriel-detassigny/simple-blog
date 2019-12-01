@@ -25,7 +25,7 @@ class CommentRepositoryTest extends RepositoryTestCase
     /** @var CommentRepository */
     private $repository;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->entityManager = $this->createTestEntityManager();
         $this->repository = $this->entityManager->getRepository(Comment::class);

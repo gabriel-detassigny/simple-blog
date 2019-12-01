@@ -60,7 +60,7 @@ XML;
     /** @var RssService */
     private $rssService;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->blogInfoService = Phake::mock(BlogInfoService::class);

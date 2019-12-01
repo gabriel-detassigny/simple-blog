@@ -42,7 +42,7 @@ class ExternalLinkControllerTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->authenticationService = Phake::mock(AdminAuthenticator::class);

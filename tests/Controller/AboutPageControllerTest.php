@@ -30,7 +30,7 @@ class AboutPageControllerTest extends TestCase
     private $twig;
 
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->blogInfoService = Phake::mock(BlogInfoService::class);

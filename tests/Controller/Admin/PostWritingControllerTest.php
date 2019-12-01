@@ -52,7 +52,7 @@ class PostWritingControllerTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->twig = Phake::mock(Twig_Environment::class);
         $this->authenticationService = Phake::mock(AdminAuthenticator::class);

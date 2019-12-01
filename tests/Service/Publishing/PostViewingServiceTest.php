@@ -25,7 +25,7 @@ class PostViewingServiceTest extends TestCase
     /** @var PostViewingService|Phake_IMock */
     private $service;
 
-    protected function setUp()
+    public function setUp(): void
     {
         $this->repository = Phake::mock(PostRepository::class);
         $this->service = new PostViewingService($this->repository);

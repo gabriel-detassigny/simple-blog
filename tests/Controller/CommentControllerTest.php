@@ -37,7 +37,7 @@ class CommentControllerTest extends TestCase
     /** @var CaptchaService|Phake_IMock */
     private $captchaService;
 
-    protected function setUp()
+    public function setUp(): void
     {
         $this->commentService = Phake::mock(CommentService::class);
         $this->request = Phake::mock(ServerRequestInterface::class);

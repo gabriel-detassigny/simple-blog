@@ -38,7 +38,7 @@ class WebRouterTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->container = Phake::mock(ContainerInterface::class);
         $this->serverRequest = Phake::mock(ServerRequestInterface::class);

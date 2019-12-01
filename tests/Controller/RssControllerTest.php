@@ -23,7 +23,7 @@ class RssControllerTest extends TestCase
     /** @var RssRenderer|Phake_IMock */
     private $rssRenderer;
 
-    protected function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

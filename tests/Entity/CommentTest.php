@@ -17,7 +17,7 @@ class CommentTest extends TestCase
     /** @var Comment */
     private $comment;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->comment = new Comment();
     }

@@ -30,7 +30,7 @@ class ExternalLinkServiceTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->externalLinkRepository = Phake::mock(ExternalLinkRepository::class);

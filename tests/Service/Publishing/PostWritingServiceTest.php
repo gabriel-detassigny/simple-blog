@@ -39,7 +39,7 @@ class PostWritingServiceTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->entityManager = Phake::mock(EntityManager::class);
         $this->authorService = Phake::mock(AuthorService::class);

@@ -26,7 +26,7 @@ class RepositoryProviderTest extends TestCase
     /** @var RepositoryProvider */
     private $serviceProvider;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->container = Phake::mock(ContainerInterface::class);
         $this->serviceProvider = new RepositoryProvider($this->container, self::ENTITY_NAME);

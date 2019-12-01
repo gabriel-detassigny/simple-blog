@@ -21,7 +21,7 @@ class ImageServiceTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         $logger = Phake::mock(LoggerInterface::class);
         $this->service = new ImageService($logger);

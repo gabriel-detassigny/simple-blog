@@ -27,7 +27,7 @@ class AuthorServiceTest extends TestCase
     /** @var AuthorService */
     private $service;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->authorRepository = Phake::mock(AuthorRepository::class);

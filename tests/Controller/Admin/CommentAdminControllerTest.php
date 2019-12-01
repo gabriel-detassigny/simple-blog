@@ -36,7 +36,7 @@ class CommentAdminControllerTest extends TestCase
     /** @var CommentAdminController */
     private $commentAdminController;
 
-    protected function setUp()
+    public function setUp(): void
     {
         $this->authenticationService = Phake::mock(AdminAuthenticator::class);
         $this->twig = Phake::mock(Twig_Environment::class);

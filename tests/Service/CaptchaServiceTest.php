@@ -25,7 +25,7 @@ class CaptchaServiceTest extends TestCase
     /** @var CaptchaService */
     private $captchaService;
 
-    protected function setUp()
+    public function setUp(): void
     {
         $this->captchaBuilder = Phake::mock(CaptchaBuilder::class);
         $this->sessionService = Phake::mock(SessionService::class);

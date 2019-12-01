@@ -34,7 +34,7 @@ class ContainerTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->container = new Container(self::DEPENDENCIES);
         $mockTwigProvider = Phake::mock(ServiceProvider::class);

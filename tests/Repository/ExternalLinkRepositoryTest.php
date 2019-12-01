@@ -19,7 +19,7 @@ class ExternalLinkRepositoryTest extends RepositoryTestCase
     /** @var ExternalLinkRepository */
     private $repository;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->entityManager = $this->createTestEntityManager();
         $this->repository = $this->entityManager->getRepository(ExternalLink::class);

@@ -23,7 +23,7 @@ class WebContainerProviderTest extends TestCase
     /** @var Parser|Phake_IMock */
     private $parser;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->parser = Phake::mock(Parser::class);
         $this->webContainerProvider = new WebContainerProvider($this->parser, self::CONFIG_PATH);

@@ -16,7 +16,7 @@ class RssRendererTest extends TestCase
     /** @var RssRenderer */
     private $renderer;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->renderer = new RssRenderer();

@@ -29,7 +29,7 @@ class PostViewingServiceTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->repository = Phake::mock(PostRepository::class);
         $this->service = new PostViewingService($this->repository);

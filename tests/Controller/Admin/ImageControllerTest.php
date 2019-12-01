@@ -13,6 +13,8 @@ use Phake_IMock;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
+use Teapot\HttpException;
+use Teapot\StatusCode;
 
 class ImageControllerTest extends TestCase
 {
@@ -36,7 +38,7 @@ class ImageControllerTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->authenticationService = Phake::mock(AdminAuthenticator::class);
         $this->request = Phake::mock(ServerRequestInterface::class);
@@ -50,12 +52,11 @@ class ImageControllerTest extends TestCase
         );
     }
 
-    /**
-     * @expectedException \Teapot\HttpException
-     * @expectedExceptionCode \Teapot\StatusCode::UNAUTHORIZED
-     */
     public function testUpload_AuthenticationFailed()
     {
+        $this->expectException(HttpException::class);
+        $this->expectExceptionCode(StatusCode::UNAUTHORIZED);
+
         Phake::when($this->authenticationService)->authenticateAsAdmin()->thenReturn(false);
 
         $this->controller->upload();

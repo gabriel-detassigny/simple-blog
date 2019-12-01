@@ -35,7 +35,7 @@ class AuthorControllerTest extends TestCase
     /** @var AuthorController */
     private $controller;
 
-    protected function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->authorService = Phake::mock(AuthorService::class);
