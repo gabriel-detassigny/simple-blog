@@ -25,10 +25,9 @@ class RssControllerTest extends TestCase
 
     public function setUp(): void
     {
-        parent::setUp();
-
         $this->rssService = Phake::mock(RssService::class);
         $this->rssRenderer = Phake::mock(RssRenderer::class);
+
         $this->controller = new RssController($this->rssService, $this->rssRenderer);
     }
 

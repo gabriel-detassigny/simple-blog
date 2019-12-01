@@ -29,13 +29,12 @@ class AboutPageControllerTest extends TestCase
     /** @var Twig_Environment|Phake_IMock */
     private $twig;
 
-
     public function setUp(): void
     {
-        parent::setUp();
         $this->blogInfoService = Phake::mock(BlogInfoService::class);
         $this->twig = Phake::mock(Twig_Environment::class);
         $this->externalLinkService = Phake::mock(ExternalLinkService::class);
+
         $this->controller = new AboutPageController($this->twig, $this->blogInfoService, $this->externalLinkService);
     }
 

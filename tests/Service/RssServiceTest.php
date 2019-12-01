@@ -62,7 +62,6 @@ XML;
 
     public function setUp(): void
     {
-        parent::setUp();
         $this->blogInfoService = Phake::mock(BlogInfoService::class);
         $this->postViewingService = Phake::mock(PostViewingService::class);
         $this->request = Phake::mock(ServerRequestInterface::class);

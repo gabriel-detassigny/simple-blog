@@ -45,10 +45,10 @@ class CommentServiceTest extends TestCase
      */
     public function setUp(): void
     {
-        parent::setUp();
         $this->entityManager = Phake::mock(EntityManager::class);
         $this->postViewingService = Phake::mock(PostViewingService::class);
         $this->commentRepository = Phake::mock(CommentRepository::class);
+
         $this->commentService = new CommentService(
             $this->entityManager,
             $this->postViewingService,

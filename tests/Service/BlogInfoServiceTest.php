@@ -35,7 +35,6 @@ class BlogInfoServiceTest extends TestCase
      */
     public function setUp(): void
     {
-        parent::setUp();
         $this->blogInfoRepository = Phake::mock(BlogInfoRepository::class);
         $this->entityManager = Phake::mock(EntityManager::class);
         $this->blogInfoService = new BlogInfoService($this->blogInfoRepository, $this->entityManager);

@@ -37,11 +37,11 @@ class AuthorControllerTest extends TestCase
 
     public function setUp(): void
     {
-        parent::setUp();
         $this->authorService = Phake::mock(AuthorService::class);
         $this->authenticationService = Phake::mock(AdminAuthenticator::class);
         $this->twig = Phake::mock(Twig_Environment::class);
         $this->request = Phake::mock(ServerRequestInterface::class);
+
         $this->controller = new AuthorController(
             $this->authorService,
             $this->authenticationService,

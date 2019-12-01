@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 class PostViewingServiceTest extends TestCase
 {
     private const LIMIT = 10;
-    const POST_ID = 2;
+    private const POST_ID = 2;
 
     /** @var PostRepository|Phake_IMock */
     private $repository;

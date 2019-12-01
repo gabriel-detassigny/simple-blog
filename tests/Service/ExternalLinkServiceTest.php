@@ -32,7 +32,6 @@ class ExternalLinkServiceTest extends TestCase
      */
     public function setUp(): void
     {
-        parent::setUp();
         $this->externalLinkRepository = Phake::mock(ExternalLinkRepository::class);
         $this->entityManager = Phake::mock(EntityManager::class);
         $this->externalLinkService = new ExternalLinkService($this->externalLinkRepository, $this->entityManager);

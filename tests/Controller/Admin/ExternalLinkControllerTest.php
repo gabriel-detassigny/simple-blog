@@ -44,7 +44,6 @@ class ExternalLinkControllerTest extends TestCase
      */
     public function setUp(): void
     {
-        parent::setUp();
         $this->authenticationService = Phake::mock(AdminAuthenticator::class);
         $this->twig = Phake::mock(Twig_Environment::class);
         $this->externalLinkService = Phake::mock(ExternalLinkService::class);

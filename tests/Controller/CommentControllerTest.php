@@ -43,6 +43,7 @@ class CommentControllerTest extends TestCase
         $this->request = Phake::mock(ServerRequestInterface::class);
         $this->jsonRenderer = Phake::mock(JsonRenderer::class);
         $this->captchaService = Phake::mock(CaptchaService::class);
+
         $this->controller = new CommentController(
             $this->commentService,
             $this->request,

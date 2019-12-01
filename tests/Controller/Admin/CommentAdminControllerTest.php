@@ -19,8 +19,9 @@ use Twig_Environment;
 
 class CommentAdminControllerTest extends TestCase
 {
-    const POST_ID = 1;
-    const AUTHOR_COMMENT = 'Author comment';
+    private const POST_ID = 1;
+    private const AUTHOR_COMMENT = 'Author comment';
+
     /** @var AdminAuthenticator|Phake_IMock */
     private $authenticationService;
 
@@ -49,6 +50,7 @@ class CommentAdminControllerTest extends TestCase
             $this->commentService,
             $this->request
         );
+
         Phake::when($this->authenticationService)->authenticateAsAdmin()->thenReturn(true);
     }
 

@@ -37,8 +37,10 @@ class ContainerTest extends TestCase
     public function setUp(): void
     {
         $this->container = new Container(self::DEPENDENCIES);
+
         $mockTwigProvider = Phake::mock(ServiceProvider::class);
         Phake::when($mockTwigProvider)->getService()->thenReturn(Phake::mock(Twig_Environment::class));
+
         $this->container->registerService('twig', $mockTwigProvider);
     }
 

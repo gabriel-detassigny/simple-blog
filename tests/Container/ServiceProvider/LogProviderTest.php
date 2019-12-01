@@ -10,13 +10,10 @@ use Psr\Log\LoggerInterface;
 
 class LogProviderTest extends TestCase
 {
-
     public function testGetService()
     {
         $provider = new LogProvider('name');
 
-        $log = $provider->getService();
-
-        $this->assertInstanceOf(LoggerInterface::class, $log);
+        $this->assertInstanceOf(LoggerInterface::class, $provider->getService());
     }
 }

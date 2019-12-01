@@ -54,6 +54,7 @@ class PostViewingControllerTest extends TestCase
         $this->blogInfoService = Phake::mock(BlogInfoService::class);
         $this->externalLinkService = Phake::mock(ExternalLinkService::class);
         $this->captchaService = Phake::mock(CaptchaService::class);
+
         $this->controller = new PostViewingController(
             $this->twig,
             $this->postService,

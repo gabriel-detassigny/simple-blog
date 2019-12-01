@@ -17,9 +17,8 @@ class EntityManagerProviderTest extends TestCase
             'driver' => 'pdo_sqlite',
             'memory' => true
         ]);
-        $service = $serviceProvider->getService();
 
-        $this->assertInstanceOf(EntityManager::class, $service);
+        $this->assertInstanceOf(EntityManager::class, $serviceProvider->getService());
     }
 
     public function testGetServiceThrowsException()

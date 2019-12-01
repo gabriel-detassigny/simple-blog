@@ -42,11 +42,11 @@ class BlogInfoControllerTest extends TestCase
      */
     public function setUp(): void
     {
-        parent::setUp();
         $this->twig = Phake::mock(Twig_Environment::class);
         $this->authenticationService = Phake::mock(AdminAuthenticator::class);
         $this->blogInfoService = Phake::mock(BlogInfoService::class);
         $this->request = Phake::mock(ServerRequestInterface::class);
+
         $this->controller = new BlogInfoController(
             $this->twig,
             $this->blogInfoService,

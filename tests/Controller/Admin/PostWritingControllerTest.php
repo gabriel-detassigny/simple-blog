@@ -212,6 +212,7 @@ class PostWritingControllerTest extends TestCase
     {
         $post = new Post();
         Phake::when($this->postViewingService)->getPost(self::ID)->thenReturn($post);
+
         return $post;
     }
 }

@@ -15,7 +15,7 @@ use Symfony\Component\Yaml\Parser;
 
 class WebContainerProviderTest extends TestCase
 {
-    const CONFIG_PATH = __DIR__ . '/../../config/container.yaml';
+    private const CONFIG_PATH = __DIR__ . '/../../config/container.yaml';
 
     /** @var WebContainerProvider */
     private $webContainerProvider;

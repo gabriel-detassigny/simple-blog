@@ -17,8 +17,8 @@ use Psr\Container\ContainerInterface;
 
 class RepositoryProviderTest extends TestCase
 {
-    const ENTITY_NAME = 'entity_name';
-    const ENTITY_MANAGER = 'entity_manager';
+    private const ENTITY_NAME = 'entity_name';
+    private const ENTITY_MANAGER = 'entity_manager';
 
     /** @var ContainerInterface|Phake_IMock */
     private $container;
@@ -35,9 +35,9 @@ class RepositoryProviderTest extends TestCase
     public function testGetService()
     {
         $entityManager = Phake::mock(EntityManager::class);
-        $repository = Phake::mock(EntityRepository::class);
-
         Phake::when($this->container)->get(self::ENTITY_MANAGER)->thenReturn($entityManager);
+
+        $repository = Phake::mock(EntityRepository::class);
         Phake::when($entityManager)->getRepository(self::ENTITY_NAME)->thenReturn($repository);
 
         $this->assertSame($repository, $this->serviceProvider->getService());
