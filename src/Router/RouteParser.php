@@ -52,7 +52,7 @@ class RouteParser
     private function getRoutesConfigFromYaml(string $configLocation): array
     {
         try {
-            $config = $this->yamlParser->parse(file_get_contents($configLocation));
+            $config = $this->yamlParser->parseFile($configLocation);
         } catch (ParseException $e) {
             throw new RouteParsingException('Error parsing YAML config: ' . $e->getMessage());
         }
