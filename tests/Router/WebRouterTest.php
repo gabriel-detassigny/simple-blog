@@ -6,6 +6,7 @@ namespace GabrielDeTassigny\Blog\Tests\Router;
 
 use GabrielDeTassigny\Blog\Controller\PostViewingController;
 use GabrielDeTassigny\Blog\Renderer\ErrorRenderer;
+use GabrielDeTassigny\Blog\Router\RouteParser;
 use GabrielDeTassigny\Blog\Router\WebRouter;
 use Phake;
 use Phake_IMock;
@@ -20,6 +21,11 @@ use Twig_Environment;
 
 class WebRouterTest extends TestCase
 {
+    private const ROUTE_CONFIG = '/tmp/routes.yaml';
+    private const ROUTES = [
+        ['GET', '/', 'post_viewing_controller/index']
+    ];
+
     /** @var ContainerInterface|Phake_IMock */
     private $container;
 
@@ -50,7 +56,10 @@ class WebRouterTest extends TestCase
         Phake::when($this->container)->get('error_renderer')->thenReturn($this->errorRenderer);
         Phake::when($this->container)->get('log')->thenReturn($this->log);
 
-        $this->router = new WebRouter($this->container);
+        $routeParser = Phake::mock(RouteParser::class);
+        Phake::when($routeParser)->parseRouteFile(self::ROUTE_CONFIG)->thenReturn(self::ROUTES);
+
+        $this->router = new WebRouter($this->container, $routeParser, self::ROUTE_CONFIG);
     }
 
     public function testDispatchRouteNotFound(): void
@@ -105,8 +114,10 @@ class WebRouterTest extends TestCase
     {
         Phake::when($this->serverRequest)->getMethod()->thenReturn('GET');
         $uri = Phake::mock(UriInterface::class);
+
         Phake::when($this->serverRequest)->getUri()->thenReturn($uri);
         Phake::when($uri)->getPath()->thenReturn('/');
+
         $controller = Phake::mock(PostViewingController::class);
         Phake::when($this->container)->get('post_viewing_controller')->thenReturn($controller);
 
