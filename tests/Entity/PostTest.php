@@ -107,6 +107,7 @@ class PostTest extends TestCase
 
         $this->assertTrue($this->post->hasInternalComments());
         $this->assertFalse($this->post->hasLinkedComments());
+        $this->assertSame(CommentType::INTERNAL, $this->post->getCommentType());
     }
 
     public function testSetCommentTypeAsLink(): void
@@ -115,5 +116,6 @@ class PostTest extends TestCase
 
         $this->assertFalse($this->post->hasInternalComments());
         $this->assertTrue($this->post->hasLinkedComments());
+        $this->assertSame(CommentType::LINK, $this->post->getCommentType());
     }
 }

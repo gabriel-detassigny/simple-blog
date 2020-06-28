@@ -11,6 +11,7 @@ use GabrielDeTassigny\Blog\Service\Exception\PostWritingException;
 use GabrielDeTassigny\Blog\Service\Exception\PostNotFoundException;
 use GabrielDeTassigny\Blog\Service\Publishing\PostViewingService;
 use GabrielDeTassigny\Blog\Service\Publishing\PostWritingService;
+use GabrielDeTassigny\Blog\ValueObject\CommentType;
 use Psr\Http\Message\ServerRequestInterface;
 use Teapot\HttpException;
 use Teapot\StatusCode;
@@ -147,7 +148,7 @@ class PostWritingController extends AbstractAdminController
 
         $this->twig->display(
             'posts/new.twig',
-            array_merge(['authors' => $authors], $params)
+            array_merge(['authors' => $authors, 'commentTypes' => CommentType::VALID_COMMENT_TYPES], $params)
         );
     }
 
@@ -162,7 +163,10 @@ class PostWritingController extends AbstractAdminController
 
         $this->twig->display(
             'posts/edit.twig',
-            array_merge(['authors' => $authors, 'post' => $post], $params)
+            array_merge(
+                ['authors' => $authors, 'commentTypes' => CommentType::VALID_COMMENT_TYPES, 'post' => $post],
+                $params
+            )
         );
     }
 

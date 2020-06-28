@@ -11,6 +11,8 @@ use GabrielDeTassigny\Blog\Entity\Post;
 use GabrielDeTassigny\Blog\Service\Exception\AuthorException;
 use GabrielDeTassigny\Blog\Service\AuthorService;
 use GabrielDeTassigny\Blog\Service\Exception\PostWritingException;
+use GabrielDeTassigny\Blog\ValueObject\CommentType;
+use GabrielDeTassigny\Blog\ValueObject\InvalidCommentTypeException;
 use GabrielDeTassigny\Blog\ValueObject\InvalidStateException;
 use GabrielDeTassigny\Blog\ValueObject\PostState;
 
@@ -29,9 +31,7 @@ class PostWritingService
     }
 
     /**
-     * @param array $request
      * @throws PostWritingException
-     * @return Post
      */
     public function createPost(array $request): Post
     {
@@ -52,10 +52,7 @@ class PostWritingService
     }
 
     /**
-     * @param Post $post
-     * @param array $request
      * @throws PostWritingException
-     * @return void
      */
     public function updatePost(Post $post, array $request): void
     {
@@ -73,9 +70,6 @@ class PostWritingService
     }
 
     /**
-     * @param Post $post
-     * @param array $request
-     * @return void
      * @throws PostWritingException
      */
     private function setPostFromRequest(Post $post, array $request): void
@@ -88,11 +82,10 @@ class PostWritingService
 
         $this->findAndSetAuthor($post, (int)$request['author']);
         $this->setPostState($post, $request['state'] ?? '');
+        $this->setCommentType($post, $request['comment-type']);
     }
 
     /**
-     * @param Post $post
-     * @return void
      * @throws PostWritingException
      */
     private function ensurePostIsValid(Post $post): void
@@ -106,10 +99,7 @@ class PostWritingService
     }
 
     /**
-     * @param Post $post
-     * @param int $authorId
      * @throws PostWritingException
-     * @return void
      */
     private function findAndSetAuthor(Post $post, int $authorId): void
     {
@@ -122,10 +112,7 @@ class PostWritingService
     }
 
     /**
-     * @param Post $post
-     * @param string $stateValue
      * @throws PostWritingException
-     * @return void
      */
     private function setPostState(Post $post, string $stateValue): void
     {
@@ -133,6 +120,18 @@ class PostWritingService
             $post->setState(new PostState($stateValue));
         } catch (InvalidStateException $e) {
             throw new PostWritingException($e->getMessage(), PostWritingException::STATE_ERROR);
+        }
+    }
+
+    /**
+     * @throws PostWritingException
+     */
+    private function setCommentType(Post $post, string $commentTypeValue): void
+    {
+        try {
+            $post->setCommentType(new CommentType($commentTypeValue));
+        } catch (InvalidCommentTypeException $e) {
+            throw new PostWritingException($e->getMessage(), PostWritingException::COMMENT_TYPE_ERROR);
         }
     }
 }

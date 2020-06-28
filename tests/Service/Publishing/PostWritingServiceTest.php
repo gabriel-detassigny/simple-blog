@@ -12,6 +12,7 @@ use GabrielDeTassigny\Blog\Service\Exception\AuthorException;
 use GabrielDeTassigny\Blog\Service\AuthorService;
 use GabrielDeTassigny\Blog\Service\Exception\PostWritingException;
 use GabrielDeTassigny\Blog\Service\Publishing\PostWritingService;
+use GabrielDeTassigny\Blog\ValueObject\CommentType;
 use GabrielDeTassigny\Blog\ValueObject\PostState;
 use Phake;
 use Phake_IMock;
@@ -24,7 +25,8 @@ class PostWritingServiceTest extends TestCase
         'title' => 'Title',
         'subtitle' => 'Subtitle',
         'author' => 1,
-        'state' => PostState::DRAFT
+        'state' => PostState::DRAFT,
+        'comment-type' => CommentType::INTERNAL
     ];
 
     /** @var PostWritingService */

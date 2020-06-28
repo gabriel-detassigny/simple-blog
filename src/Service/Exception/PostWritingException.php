@@ -8,9 +8,10 @@ use InvalidArgumentException;
 
 class PostWritingException extends InvalidArgumentException
 {
-    const DB_ERROR = 1;
-    const TITLE_ERROR = 2;
-    const TEXT_ERROR = 3;
-    const AUTHOR_ERROR = 4;
-    const STATE_ERROR = 5;
+    public const DB_ERROR = 1;
+    public const TITLE_ERROR = 2;
+    public const TEXT_ERROR = 3;
+    public const AUTHOR_ERROR = 4;
+    public const STATE_ERROR = 5;
+    public const COMMENT_TYPE_ERROR = 6;
 }

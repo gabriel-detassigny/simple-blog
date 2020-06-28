@@ -12,6 +12,7 @@ use GabrielDeTassigny\Blog\Service\Exception\PostWritingException;
 use GabrielDeTassigny\Blog\Service\Exception\PostNotFoundException;
 use GabrielDeTassigny\Blog\Service\Publishing\PostViewingService;
 use GabrielDeTassigny\Blog\Service\Publishing\PostWritingService;
+use GabrielDeTassigny\Blog\ValueObject\CommentType;
 use Phake;
 use Phake_IMock;
 use PHPUnit\Framework\TestCase;
@@ -80,7 +81,10 @@ class PostWritingControllerTest extends TestCase
 
         $this->controller->newPost();
 
-        Phake::verify($this->twig)->display('posts/new.twig', ['authors' => []]);
+        Phake::verify($this->twig)->display('posts/new.twig', [
+            'authors' => [],
+            'commentTypes' => CommentType::VALID_COMMENT_TYPES
+        ]);
     }
 
     public function testNewPost_ForbiddenAccess(): void
@@ -118,10 +122,12 @@ class PostWritingControllerTest extends TestCase
 
         $this->controller->createPost();
 
-        Phake::verify($this->twig)->display(
-            'posts/new.twig',
-            ['error' => self::CREATION_ERROR, 'authors' => [], 'post' => []]
-        );
+        Phake::verify($this->twig)->display('posts/new.twig', [
+            'error' => self::CREATION_ERROR,
+            'authors' => [],
+            'post' => [],
+            'commentTypes' => CommentType::VALID_COMMENT_TYPES
+        ]);
     }
 
     public function testCreatePost(): void
@@ -133,10 +139,12 @@ class PostWritingControllerTest extends TestCase
 
         $this->controller->createPost();
 
-        Phake::verify($this->twig)->display(
-            'posts/edit.twig',
-            ['success' => self::POST_CREATION_SUCCESS, 'authors' => [], 'post' => $post]
-        );
+        Phake::verify($this->twig)->display('posts/edit.twig', [
+            'success' => self::POST_CREATION_SUCCESS,
+            'authors' => [],
+            'post' => $post,
+            'commentTypes' => CommentType::VALID_COMMENT_TYPES
+        ]);
     }
 
     public function testEditPost(): void
@@ -146,7 +154,11 @@ class PostWritingControllerTest extends TestCase
 
         $this->controller->editPost(['id' => (string)self::ID]);
 
-        Phake::verify($this->twig)->display('posts/edit.twig', ['authors' => [], 'post' => $post]);
+        Phake::verify($this->twig)->display('posts/edit.twig', [
+            'authors' => [],
+            'post' => $post,
+            'commentTypes' => CommentType::VALID_COMMENT_TYPES
+        ]);
     }
 
     public function testEditPost_PostNotFound(): void
@@ -169,10 +181,12 @@ class PostWritingControllerTest extends TestCase
         $this->controller->updatePost(['id' => (string)self::ID]);
 
         Phake::verify($this->postWritingService)->updatePost($post, self::BODY['post']);
-        Phake::verify($this->twig)->display(
-            'posts/edit.twig',
-            ['authors' => [], 'post' => $post, 'success' => self::POST_UPDATING_SUCCESS]
-        );
+        Phake::verify($this->twig)->display('posts/edit.twig', [
+            'authors' => [],
+            'post' => $post,
+            'success' => self::POST_UPDATING_SUCCESS,
+            'commentTypes' => CommentType::VALID_COMMENT_TYPES
+        ]);
     }
 
     public function testUpdatePost_UpdateFailed(): void
@@ -186,10 +200,12 @@ class PostWritingControllerTest extends TestCase
 
         $this->controller->updatePost(['id' => (string)self::ID]);
 
-        Phake::verify($this->twig)->display(
-            'posts/edit.twig',
-            ['authors' => [], 'post' => $post, 'error' => 'error updating post']
-        );
+        Phake::verify($this->twig)->display('posts/edit.twig', [
+            'authors' => [],
+            'post' => $post,
+            'error' => 'error updating post',
+            'commentTypes' => CommentType::VALID_COMMENT_TYPES
+        ]);
     }
 
     public function testPreviewPost(): void

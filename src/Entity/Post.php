@@ -173,4 +173,9 @@ class Post
     {
         $this->commentType = $commentType->getValue();
     }
+
+    public function getCommentType(): string
+    {
+        return $this->commentType;
+    }
 }

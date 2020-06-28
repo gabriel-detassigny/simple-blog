@@ -46,6 +46,16 @@
                 </option>
             </select>
         </div>
+        <div class="form-group">
+            <label for="post-state">Comment Type</label>
+            <select class="form-control" id="post-state" name="post[comment-type]">
+                {% for commentType in commentTypes %}
+                    <option value="{{ commentType }}" {% if post is defined and post['comment-type'] == commentType %}selected{% endif %}>
+                        {{ commentType }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
         <button type="submit" class="btn btn-primary">Submit</button>
         <a href="/admin" class="btn btn-default">Cancel</a>
     </form>
