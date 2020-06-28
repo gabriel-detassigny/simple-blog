@@ -14,15 +14,15 @@ use GabrielDeTassigny\Blog\Service\Publishing\PostWritingService;
 use Psr\Http\Message\ServerRequestInterface;
 use Teapot\HttpException;
 use Teapot\StatusCode;
-use Twig_Environment;
-use Twig_Error;
+use Twig\Environment;
+use Twig\Error\Error;
 
 class PostWritingController extends AbstractAdminController
 {
     private const POST_CREATION_SUCCESS = 'Post was successfully created';
     private const POST_UPDATING_SUCCESS = 'Post was successfully updated';
 
-    /** @var Twig_Environment */
+    /** @var Environment */
     private $twig;
 
     /** @var AdminAuthenticator */
@@ -41,7 +41,7 @@ class PostWritingController extends AbstractAdminController
     private $postViewingService;
 
     public function __construct(
-        Twig_Environment $twig,
+        Environment $twig,
         AdminAuthenticator $authenticationService,
         ServerRequestInterface $request,
         PostWritingService $postWritingService,
@@ -57,7 +57,7 @@ class PostWritingController extends AbstractAdminController
     }
 
     /**
-     * @throws Twig_Error
+     * @throws Error
      * @throws HttpException
      */
     public function newPost(): void
@@ -69,7 +69,7 @@ class PostWritingController extends AbstractAdminController
 
     /**
      * @throws HttpException
-     * @throws Twig_Error
+     * @throws Error
      */
     public function createPost(): void
     {
@@ -88,7 +88,7 @@ class PostWritingController extends AbstractAdminController
     /**
      * @param array $vars
      * @throws HttpException
-     * @throws Twig_Error
+     * @throws Error
      * @return void
      */
     public function editPost(array $vars): void
@@ -101,7 +101,7 @@ class PostWritingController extends AbstractAdminController
     /**
      * @param array $vars
      * @throws HttpException
-     * @throws Twig_Error
+     * @throws Error
      * @return void
      */
     public function updatePost(array $vars): void
@@ -121,7 +121,7 @@ class PostWritingController extends AbstractAdminController
     /**
      * @param array $vars
      * @throws HttpException
-     * @throws Twig_Error
+     * @throws Error
      * @return void
      */
     public function previewPost(array $vars): void
@@ -139,7 +139,7 @@ class PostWritingController extends AbstractAdminController
     /**
      * @param array $params
      * @return void
-     * @throws Twig_Error
+     * @throws Error
      */
     private function displayNewPostForm(array $params): void
     {
@@ -154,7 +154,7 @@ class PostWritingController extends AbstractAdminController
     /**
      * @param Post $post
      * @param array $params
-     * @throws Twig_Error
+     * @throws Error
      */
     private function displayEditPostForm(Post $post, array $params): void
     {

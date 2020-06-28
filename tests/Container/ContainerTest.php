@@ -13,7 +13,7 @@ use GabrielDeTassigny\Blog\Renderer\ErrorRenderer;
 use GabrielDeTassigny\Blog\Renderer\JsonRenderer;
 use Phake;
 use PHPUnit\Framework\TestCase;
-use Twig_Environment;
+use Twig\Environment;
 
 class ContainerTest extends TestCase
 {
@@ -39,7 +39,7 @@ class ContainerTest extends TestCase
         $this->container = new Container(self::DEPENDENCIES);
 
         $mockTwigProvider = Phake::mock(ServiceProvider::class);
-        Phake::when($mockTwigProvider)->getService()->thenReturn(Phake::mock(Twig_Environment::class));
+        Phake::when($mockTwigProvider)->getService()->thenReturn(Phake::mock(Environment::class));
 
         $this->container->registerService('twig', $mockTwigProvider);
     }

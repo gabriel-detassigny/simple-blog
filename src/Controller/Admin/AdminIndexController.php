@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Controller\Admin;
 
-use GabrielDeTassigny\Blog\Controller\Admin\AbstractAdminController;
 use GabrielDeTassigny\Blog\Service\Authentication\AdminAuthenticator;
 use GabrielDeTassigny\Blog\Service\AuthorService;
 use GabrielDeTassigny\Blog\Service\BlogInfoService;
 use GabrielDeTassigny\Blog\Service\ExternalLinkService;
 use GabrielDeTassigny\Blog\Service\Publishing\PostViewingService;
 use Teapot\HttpException;
-use Twig_Environment;
-use Twig_Error;
+use Twig\Environment;
+use Twig\Error\Error;
 
 class AdminIndexController extends AbstractAdminController
 {
@@ -25,7 +24,7 @@ class AdminIndexController extends AbstractAdminController
     /** @var AuthorService */
     private $authorService;
 
-    /** @var Twig_Environment */
+    /** @var Environment */
     private $twig;
 
     /** @var BlogInfoService */
@@ -35,7 +34,7 @@ class AdminIndexController extends AbstractAdminController
     private $externalLinkService;
 
     public function __construct(
-        Twig_Environment $twig,
+        Environment $twig,
         AdminAuthenticator $authenticationService,
         PostViewingService $postViewingService,
         AuthorService $authorService,
@@ -51,7 +50,7 @@ class AdminIndexController extends AbstractAdminController
     }
 
     /**
-     * @throws Twig_Error
+     * @throws Error
      * @throws HttpException
      */
     public function index(): void

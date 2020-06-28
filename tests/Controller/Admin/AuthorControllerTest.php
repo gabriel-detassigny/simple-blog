@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Teapot\HttpException;
 use Teapot\StatusCode;
-use Twig_Environment;
+use Twig\Environment;
 
 class AuthorControllerTest extends TestCase
 {
@@ -26,7 +26,7 @@ class AuthorControllerTest extends TestCase
     /** @var AdminAuthenticator|Phake_IMock */
     private $authenticationService;
 
-    /** @var Twig_Environment|Phake_IMock */
+    /** @var Environment|Phake_IMock */
     private $twig;
 
     /** @var ServerRequestInterface|Phake_IMock */
@@ -39,7 +39,7 @@ class AuthorControllerTest extends TestCase
     {
         $this->authorService = Phake::mock(AuthorService::class);
         $this->authenticationService = Phake::mock(AdminAuthenticator::class);
-        $this->twig = Phake::mock(Twig_Environment::class);
+        $this->twig = Phake::mock(Environment::class);
         $this->request = Phake::mock(ServerRequestInterface::class);
 
         $this->controller = new AuthorController(

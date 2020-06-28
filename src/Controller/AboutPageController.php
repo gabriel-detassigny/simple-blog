@@ -6,22 +6,21 @@ namespace GabrielDeTassigny\Blog\Controller;
 
 use GabrielDeTassigny\Blog\Service\BlogInfoService;
 use GabrielDeTassigny\Blog\Service\ExternalLinkService;
-use Twig_Environment;
-use Twig_Error;
+use Twig\Environment;
 
 class AboutPageController
 {
     /** @var BlogInfoService */
     private $blogInfoService;
 
-    /** @var Twig_Environment */
+    /** @var Environment */
     private $twig;
 
     /** @var ExternalLinkService */
     private $externalLinkService;
 
     public function __construct(
-        Twig_Environment $twig,
+        Environment $twig,
         BlogInfoService $blogInfoService,
         ExternalLinkService $externalLinkService
     ) {
@@ -30,9 +29,6 @@ class AboutPageController
         $this->externalLinkService = $externalLinkService;
     }
 
-    /**
-     * @throws Twig_Error
-     */
     public function showAboutPage(): void
     {
         $this->twig->display('about.twig', [

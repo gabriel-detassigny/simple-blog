@@ -13,12 +13,12 @@ use GabrielDeTassigny\Blog\ValueObject\InvalidPageException;
 use GabrielDeTassigny\Blog\ValueObject\Page;
 use Teapot\HttpException;
 use Teapot\StatusCode;
-use Twig_Environment;
-use Twig_Error;
+use Twig\Environment;
+use Twig\Error\Error;
 
 class PostViewingController
 {
-    /** @var Twig_Environment */
+    /** @var Environment */
     private $twig;
 
     /** @var PostViewingService */
@@ -34,7 +34,7 @@ class PostViewingController
     private $captchaService;
 
     public function __construct(
-        Twig_Environment $twig,
+        Environment $twig,
         PostViewingService $postViewingService,
         BlogInfoService $blogInfoService,
         ExternalLinkService $externalLinkService,
@@ -48,7 +48,6 @@ class PostViewingController
     }
 
     /**
-     * @throws Twig_Error
      * @throws HttpException
      */
     public function index(): void
@@ -58,8 +57,8 @@ class PostViewingController
 
     /**
      * @param array $vars
-     * @throws Twig_Error
      * @throws HttpException
+     * @throws Error
      */
     public function getPosts(array $vars): void
     {
@@ -88,7 +87,7 @@ class PostViewingController
     /**
      * @param array $vars
      * @throws HttpException
-     * @throws Twig_Error
+     * @throws Error
      */
     public function showPost(array $vars): void
     {

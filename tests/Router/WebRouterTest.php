@@ -17,7 +17,7 @@ use Psr\Http\Message\UriInterface;
 use Psr\Log\LoggerInterface;
 use Teapot\HttpException;
 use Teapot\StatusCode;
-use Twig_Environment;
+use Twig\Environment;
 
 class WebRouterTest extends TestCase
 {

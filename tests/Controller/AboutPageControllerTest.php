@@ -10,7 +10,7 @@ use GabrielDeTassigny\Blog\Service\ExternalLinkService;
 use Phake;
 use Phake_IMock;
 use PHPUnit\Framework\TestCase;
-use Twig_Environment;
+use Twig\Environment;
 
 class AboutPageControllerTest extends TestCase
 {
@@ -26,13 +26,13 @@ class AboutPageControllerTest extends TestCase
     /** @var ExternalLinkService|Phake_IMock */
     private $externalLinkService;
 
-    /** @var Twig_Environment|Phake_IMock */
+    /** @var Environment|Phake_IMock */
     private $twig;
 
     public function setUp(): void
     {
         $this->blogInfoService = Phake::mock(BlogInfoService::class);
-        $this->twig = Phake::mock(Twig_Environment::class);
+        $this->twig = Phake::mock(Environment::class);
         $this->externalLinkService = Phake::mock(ExternalLinkService::class);
 
         $this->controller = new AboutPageController($this->twig, $this->blogInfoService, $this->externalLinkService);

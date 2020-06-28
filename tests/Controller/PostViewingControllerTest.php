@@ -19,7 +19,7 @@ use Phake_IMock;
 use PHPUnit\Framework\TestCase;
 use Teapot\HttpException;
 use Teapot\StatusCode;
-use Twig_Environment;
+use Twig\Environment;
 
 class PostViewingControllerTest extends TestCase
 {
@@ -29,7 +29,7 @@ class PostViewingControllerTest extends TestCase
     /** @var PostViewingController */
     private $controller;
 
-    /** @var Twig_Environment|Phake_IMock */
+    /** @var Environment|Phake_IMock */
     private $twig;
 
     /** @var PostViewingService|Phake_IMock */
@@ -49,7 +49,7 @@ class PostViewingControllerTest extends TestCase
      */
     public function setUp(): void
     {
-        $this->twig = Phake::mock(Twig_Environment::class);
+        $this->twig = Phake::mock(Environment::class);
         $this->postService = Phake::mock(PostViewingService::class);
         $this->blogInfoService = Phake::mock(BlogInfoService::class);
         $this->externalLinkService = Phake::mock(ExternalLinkService::class);

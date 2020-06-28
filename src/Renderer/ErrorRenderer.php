@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Renderer;
 
-use Twig_Environment;
+use Twig\Environment;
 
 class ErrorRenderer
 {
     public const JSON = 'application/json';
     public const HTML = 'text/html';
 
-    /** @var Twig_Environment */
+    /** @var Environment */
     private $twig;
 
     /** @var JsonRenderer */
@@ -20,7 +20,7 @@ class ErrorRenderer
     /** @var string */
     private $contentType;
 
-    public function __construct(Twig_Environment $twig, JsonRenderer $jsonRenderer)
+    public function __construct(Environment $twig, JsonRenderer $jsonRenderer)
     {
         $this->twig = $twig;
         $this->jsonRenderer = $jsonRenderer;

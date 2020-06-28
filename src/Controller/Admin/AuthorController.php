@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Controller\Admin;
 
-use GabrielDeTassigny\Blog\Controller\Admin\AbstractAdminController;
 use GabrielDeTassigny\Blog\Service\Authentication\AdminAuthenticator;
 use GabrielDeTassigny\Blog\Service\Exception\AuthorException;
 use GabrielDeTassigny\Blog\Service\AuthorService;
 use Psr\Http\Message\ServerRequestInterface;
 use Teapot\HttpException;
 use Teapot\StatusCode;
-use Twig_Environment;
+use Twig\Environment;
 
 class AuthorController extends AbstractAdminController
 {
@@ -23,7 +22,7 @@ class AuthorController extends AbstractAdminController
     /** @var AdminAuthenticator */
     private $authenticationService;
 
-    /** @var Twig_Environment */
+    /** @var Environment */
     private $twig;
 
     /** @var ServerRequestInterface */
@@ -32,7 +31,7 @@ class AuthorController extends AbstractAdminController
     public function __construct(
         AuthorService $authorService,
         AdminAuthenticator $authenticationService,
-        Twig_Environment $twig,
+        Environment $twig,
         ServerRequestInterface $request
     ) {
         $this->authorService = $authorService;

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Controller\Admin;
 
-use GabrielDeTassigny\Blog\Controller\Admin\AbstractAdminController;
 use GabrielDeTassigny\Blog\Renderer\ErrorRenderer;
 use GabrielDeTassigny\Blog\Service\Authentication\AdminAuthenticator;
 use GabrielDeTassigny\Blog\Service\Exception\ExternalLinkException;
@@ -12,7 +11,7 @@ use GabrielDeTassigny\Blog\Service\ExternalLinkService;
 use Psr\Http\Message\ServerRequestInterface;
 use Teapot\HttpException;
 use Teapot\StatusCode;
-use Twig_Environment;
+use Twig\Environment;
 
 class ExternalLinkController extends AbstractAdminController
 {
@@ -21,7 +20,7 @@ class ExternalLinkController extends AbstractAdminController
     /** @var AdminAuthenticator */
     private $authenticationService;
 
-    /** @var Twig_Environment */
+    /** @var Environment */
     private $twig;
 
     /** @var ExternalLinkService */
@@ -35,7 +34,7 @@ class ExternalLinkController extends AbstractAdminController
 
     public function __construct(
         AdminAuthenticator $authenticationService,
-        Twig_Environment $twig,
+        Environment $twig,
         ExternalLinkService $externalLinkService,
         ServerRequestInterface $request,
         ErrorRenderer $errorRenderer

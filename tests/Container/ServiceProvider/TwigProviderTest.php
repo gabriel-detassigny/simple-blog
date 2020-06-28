@@ -6,7 +6,7 @@ namespace GabrielDeTassigny\Blog\Tests\Container\ServiceProvider;
 
 use GabrielDeTassigny\Blog\Container\ServiceProvider\TwigProvider;
 use PHPUnit\Framework\TestCase;
-use Twig_Environment;
+use Twig\Environment;
 
 class TwigProviderTest extends TestCase
 {
@@ -14,6 +14,6 @@ class TwigProviderTest extends TestCase
     {
         $serviceProvider = new TwigProvider();
 
-        $this->assertInstanceOf(Twig_Environment::class, $serviceProvider->getService());
+        $this->assertInstanceOf(Environment::class, $serviceProvider->getService());
     }
 }

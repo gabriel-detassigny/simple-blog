@@ -9,7 +9,7 @@ use GabrielDeTassigny\Blog\Renderer\JsonRenderer;
 use Phake;
 use Phake_IMock;
 use PHPUnit\Framework\TestCase;
-use Twig_Environment;
+use Twig\Environment;
 
 class ErrorRendererTest extends TestCase
 {
@@ -22,12 +22,12 @@ class ErrorRendererTest extends TestCase
     /** @var JsonRenderer|Phake_IMock */
     private $jsonRenderer;
 
-    /** @var Twig_Environment|Phake_IMock */
+    /** @var Environment|Phake_IMock */
     private $twig;
 
     public function setUp(): void
     {
-        $this->twig = Phake::mock(Twig_Environment::class);
+        $this->twig = Phake::mock(Environment::class);
         $this->jsonRenderer = Phake::mock(JsonRenderer::class);
 
         $this->errorRenderer = new ErrorRenderer($this->twig, $this->jsonRenderer);

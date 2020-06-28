@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Teapot\HttpException;
 use Teapot\StatusCode;
-use Twig_Environment;
+use Twig\Environment;
 
 class BlogInfoControllerTest extends TestCase
 {
@@ -25,7 +25,7 @@ class BlogInfoControllerTest extends TestCase
     /** @var BlogInfoService|Phake_IMock */
     private $blogInfoService;
 
-    /** @var Twig_Environment|Phake_IMock */
+    /** @var Environment|Phake_IMock */
     private $twig;
 
     /** @var AdminAuthenticator|Phake_IMock */
@@ -42,7 +42,7 @@ class BlogInfoControllerTest extends TestCase
      */
     public function setUp(): void
     {
-        $this->twig = Phake::mock(Twig_Environment::class);
+        $this->twig = Phake::mock(Environment::class);
         $this->authenticationService = Phake::mock(AdminAuthenticator::class);
         $this->blogInfoService = Phake::mock(BlogInfoService::class);
         $this->request = Phake::mock(ServerRequestInterface::class);

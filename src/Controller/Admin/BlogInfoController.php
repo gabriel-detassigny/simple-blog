@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Controller\Admin;
 
-use GabrielDeTassigny\Blog\Controller\Admin\AbstractAdminController;
 use GabrielDeTassigny\Blog\Service\Authentication\AdminAuthenticator;
 use GabrielDeTassigny\Blog\Service\BlogInfoService;
 use Psr\Http\Message\ServerRequestInterface;
 use Teapot\HttpException;
 use Teapot\StatusCode;
-use Twig_Environment;
-use Twig_Error;
+use Twig\Environment;
+use Twig\Error\Error;
 
 class BlogInfoController extends AbstractAdminController
 {
@@ -20,7 +19,7 @@ class BlogInfoController extends AbstractAdminController
     /** @var BlogInfoService */
     private $blogInfoService;
 
-    /** @var Twig_Environment */
+    /** @var Environment */
     private $twig;
 
     /** @var AdminAuthenticator */
@@ -30,7 +29,7 @@ class BlogInfoController extends AbstractAdminController
     private $request;
 
     public function __construct(
-        Twig_Environment $twig,
+        Environment $twig,
         BlogInfoService $blogInfoService,
         AdminAuthenticator $authenticationService,
         ServerRequestInterface $request
@@ -43,7 +42,7 @@ class BlogInfoController extends AbstractAdminController
 
     /**
      * @throws HttpException
-     * @throws Twig_Error
+     * @throws Error
      */
     public function edit()
     {

@@ -16,7 +16,7 @@ use Phake_IMock;
 use PHPUnit\Framework\TestCase;
 use Teapot\HttpException;
 use Teapot\StatusCode;
-use Twig_Environment;
+use Twig\Environment;
 
 class AdminIndexControllerTest extends TestCase
 {
@@ -28,7 +28,7 @@ class AdminIndexControllerTest extends TestCase
     /** @var PostViewingService|Phake_IMock */
     private $postViewingService;
 
-    /** @var Twig_Environment|Phake_IMock */
+    /** @var Environment|Phake_IMock */
     private $twig;
 
     /** @var AdminAuthenticator|Phake_IMock */
@@ -48,7 +48,7 @@ class AdminIndexControllerTest extends TestCase
      */
     public function setUp(): void
     {
-        $this->twig = Phake::mock(Twig_Environment::class);
+        $this->twig = Phake::mock(Environment::class);
         $this->authenticationService = Phake::mock(AdminAuthenticator::class);
         $this->authorService = Phake::mock(AuthorService::class);
         $this->postViewingService = Phake::mock(PostViewingService::class);

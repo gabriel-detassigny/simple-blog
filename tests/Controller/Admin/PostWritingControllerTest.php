@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Teapot\HttpException;
 use Teapot\StatusCode;
-use Twig_Environment;
+use Twig\Environment;
 
 class PostWritingControllerTest extends TestCase
 {
@@ -31,7 +31,7 @@ class PostWritingControllerTest extends TestCase
     /** @var PostWritingController */
     private $controller;
 
-    /** @var Twig_Environment|Phake_IMock */
+    /** @var Environment|Phake_IMock */
     private $twig;
 
     /** @var AdminAuthenticator|Phake_IMock */
@@ -54,7 +54,7 @@ class PostWritingControllerTest extends TestCase
      */
     public function setUp(): void
     {
-        $this->twig = Phake::mock(Twig_Environment::class);
+        $this->twig = Phake::mock(Environment::class);
         $this->authenticationService = Phake::mock(AdminAuthenticator::class);
         $this->request = Phake::mock(ServerRequestInterface::class);
         $this->postWritingService = Phake::mock(PostWritingService::class);
