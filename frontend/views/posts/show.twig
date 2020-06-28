@@ -23,60 +23,9 @@
             </div>
         </div>
     </div>
-    <div class="panel panel-info" id="blog-post-comments">
-        <div class="panel-heading"><h3 class="panel-title">Comments</h3></div>
-        <div class="panel-body">
-            <form id="new-comment" method="post" action="/posts/{{ post.getId }}/comments">
-                <div class="alert alert-warning" role="alert">
-                    <strong>Please note!</strong> Any comment that is considered spam or disrespectful will be removed.
-                </div>
-                <div class="alert alert-danger" id="new-comment-error" role="alert"></div>
-                <div class="form-group required">
-                    <label for="comment-name">Your Name</label>
-                    <input type="text" class="form-control" id="comment-name" name="comment[name]">
-                </div>
-                <div class="form-group required">
-                    <label for="comment-text">Your Comment</label>
-                    <textarea class="form-control wysiwyg-input" rows="20" id="comment-text" name="comment[text]"></textarea>
-                </div>
-                <div class="form-group required">
-                    <label for="comment-captcha">Please enter the following code</label>
-                    <img id="captcha-image" src="{{ captcha }}" alt="captcha"/>
-                    <a href="/comments/captcha" id="refresh-captcha">
-                        <img src="/images/refresh_icon.svg" title="refresh" alt="refresh" width="20" height="20"/>
-                    </a>
-                    <input type="text" class="form-control" id="comment-captcha" name="comment[captcha]">
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-
-            <div class="comments-list">
-                {% if post.getComments is empty %}
-                    <div class="alert alert-warning" role="alert">
-                        <strong>No comment yet!</strong> Be the first to comment on this article.
-                    </div>
-                {% else %}
-                    {% for comment in post.getComments %}
-                        <div class="comment-show">
-                            <div>
-                                {% if comment.isAdmin %}
-                                    <span class="comment-author">{{ comment.getName }} (author)</span>
-                                {% else %}
-                                    <span class="comment-name">{{ comment.getName }}</span>
-                                {% endif %}
-                                <span class="comment-date">
-                                    {{ comment.getCreatedAt|date('F jS, Y \\a\\t g:ia') }}
-                                </span>
-                            </div>
-                            <blockquote class="comment-text">
-                                {{ comment.getText }}
-                            </blockquote>
-                        </div>
-                    {% endfor %}
-                {% endif %}
-            </div>
-        </div>
-    </div>
+    {% if post.hasInternalComments %}
+        {% include 'posts/show-comments.twig' %}
+    {% endif %}
 {% endblock %}
 
 {% block css %}<link rel="stylesheet" href="/css/prism.css">{% endblock %}
