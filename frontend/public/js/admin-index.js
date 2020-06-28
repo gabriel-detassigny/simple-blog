@@ -11,7 +11,7 @@ $(document).ready(function () {
                 button.parents('li').remove();
             }
         });
-    })
+    });
 
     $('.delete-comment').on('click', function() {
         if (confirm('Are you sure you want to delete this comment?')) {
