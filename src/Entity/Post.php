@@ -7,6 +7,7 @@ namespace GabrielDeTassigny\Blog\Entity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use GabrielDeTassigny\Blog\ValueObject\CommentType;
 use GabrielDeTassigny\Blog\ValueObject\PostState;
 
 /**
@@ -46,6 +47,9 @@ class Post
 
     /** @Column(type="string", options={"default":"published"}, nullable=false) */
     private $state;
+
+    /** @Column(type="string", name="comment_type", options={"default": "none"}, nullable=false) */
+    private $commentType;
 
     /**
      * @OneToMany(targetEntity=Comment::class, mappedBy="post")
@@ -153,5 +157,20 @@ class Post
     public function setState(PostState $postState): void
     {
         $this->state = $postState->getValue();
+    }
+
+    public function hasInternalComments(): bool
+    {
+        return $this->commentType === CommentType::INTERNAL;
+    }
+
+    public function hasLinkedComments(): bool
+    {
+        return $this->commentType === CommentType::LINK;
+    }
+
+    public function setCommentType(CommentType $commentType): void
+    {
+        $this->commentType = $commentType->getValue();
     }
 }

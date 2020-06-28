@@ -7,6 +7,7 @@ namespace GabrielDeTassigny\Blog\Tests\Entity;
 use DateTime;
 use GabrielDeTassigny\Blog\Entity\Author;
 use GabrielDeTassigny\Blog\Entity\Post;
+use GabrielDeTassigny\Blog\ValueObject\CommentType;
 use GabrielDeTassigny\Blog\ValueObject\PostState;
 use Phake;
 use PHPUnit\Framework\TestCase;
@@ -98,5 +99,21 @@ class PostTest extends TestCase
 
         $this->assertTrue($this->post->isPublished());
         $this->assertFalse($this->post->isDraft());
+    }
+
+    public function testSetCommentTypeAsInternal(): void
+    {
+        $this->post->setCommentType(new CommentType(CommentType::INTERNAL));
+
+        $this->assertTrue($this->post->hasInternalComments());
+        $this->assertFalse($this->post->hasLinkedComments());
+    }
+
+    public function testSetCommentTypeAsLink(): void
+    {
+        $this->post->setCommentType(new CommentType(CommentType::LINK));
+
+        $this->assertFalse($this->post->hasInternalComments());
+        $this->assertTrue($this->post->hasLinkedComments());
     }
 }

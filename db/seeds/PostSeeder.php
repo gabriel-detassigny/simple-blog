@@ -1,6 +1,7 @@
 <?php
 
 
+use GabrielDeTassigny\Blog\ValueObject\CommentType;
 use Phinx\Seed\AbstractSeed;
 
 class PostSeeder extends AbstractSeed
@@ -25,7 +26,8 @@ class PostSeeder extends AbstractSeed
                 'subtitle' => $faker->sentence,
                 'created_at' => $faker->dateTimeThisYear->format('Y-m-d H:i:s'),
                 'updated_at' => $faker->dateTimeThisYear->format('Y-m-d H:i:s'),
-                'author_id' => rand(1, AuthorSeeder::AUTHORS_COUNT)
+                'author_id' => rand(1, AuthorSeeder::AUTHORS_COUNT),
+                'comment_type' => $faker->boolean ? CommentType::INTERNAL : CommentType::NONE
             ];
         }
 

@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManager;
 use GabrielDeTassigny\Blog\Entity\Author;
 use GabrielDeTassigny\Blog\Entity\Post;
 use GabrielDeTassigny\Blog\Repository\PostRepository;
+use GabrielDeTassigny\Blog\ValueObject\CommentType;
 use GabrielDeTassigny\Blog\ValueObject\Page;
 use GabrielDeTassigny\Blog\ValueObject\PostState;
 
@@ -56,6 +57,7 @@ class PostRepositoryTest extends RepositoryTestCase
         $this->assertSame($dateTime->getTimestamp(), $entity->getCreatedAt()->getTimestamp());
         $this->assertInstanceOf(Author::class, $entity->getAuthor());
         $this->assertInstanceOf(Collection::class, $entity->getComments());
+        $this->assertTrue($entity->hasInternalComments());
     }
 
     public function testSearchPageOfLatestPublishedPosts(): void
@@ -86,6 +88,7 @@ class PostRepositoryTest extends RepositoryTestCase
         $post->setAuthor($author);
         $post->setUpdatedAt($dateTime);
         $post->setState(new PostState(PostState::PUBLISHED));
+        $post->setCommentType(new CommentType(CommentType::INTERNAL));
 
         return $post;
     }
