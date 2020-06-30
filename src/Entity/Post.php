@@ -58,12 +58,6 @@ class Post
      */
     private $comments;
 
-//    /**
-//     * @ORM\OneToOne(targetEntity=ExternalLink::class, cascade={"persist", "remove"})
-//     * @ORM\JoinColumn(name="comment_link_id", referencedColumnName="id", nullable=true)
-//     */
-    private $commentLink;
-
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -134,11 +128,7 @@ class Post
         $slug = trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $this->getTitle()), '-');
         $slug = strtolower(preg_replace('/-+/', '-', $slug));
 
-        if (empty($slug)) {
-            return self::UNDEFINED_SLUG;
-        }
-
-        return $slug;
+        return $slug ?: self::UNDEFINED_SLUG;
     }
 
     public function getUrl(): string
@@ -184,15 +174,5 @@ class Post
     public function getCommentType(): string
     {
         return $this->commentType;
-    }
-
-    public function getCommentLink(): ?ExternalLink
-    {
-        return $this->commentLink;
-    }
-
-    public function setCommentLink(?ExternalLink $commentLink): void
-    {
-        $this->commentLink = $commentLink;
     }
 }
