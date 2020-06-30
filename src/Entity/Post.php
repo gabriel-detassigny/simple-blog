@@ -7,16 +7,17 @@ namespace GabrielDeTassigny\Blog\Entity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use GabrielDeTassigny\Blog\ValueObject\CommentType;
 use GabrielDeTassigny\Blog\ValueObject\PostState;
 
 /**
- * @Entity(repositoryClass="GabrielDeTassigny\Blog\Repository\PostRepository")
- * @Table(
+ * @ORM\Entity(repositoryClass="GabrielDeTassigny\Blog\Repository\PostRepository")
+ * @ORM\Table(
  *     name="posts",
  *     indexes={
- *         @Index(name="title", columns={"title"}),
- *         @Index(name="author_id", columns={"author_id"})
+ *         @ORM\Index(name="title", columns={"title"}),
+ *         @ORM\Index(name="author_id", columns={"author_id"})
  *     }
  * )
  */
@@ -24,38 +25,44 @@ class Post
 {
     private const UNDEFINED_SLUG = 'n-a';
 
-    /** @Id @Column(type="integer") @GeneratedValue */
+    /** @ORM\Id @ORM\Column(type="integer") @ORM\GeneratedValue */
     private $id;
 
-    /** @Column(type="text", length=20000, nullable=false) */
+    /** @ORM\Column(type="text", length=20000, nullable=false) */
     private $text;
 
-    /** @Column(type="string", length=50, nullable=false) */
+    /** @ORM\Column(type="string", length=50, nullable=false) */
     private $title;
 
-    /** @Column(type="string", length=150, nullable=false) */
+    /** @ORM\Column(type="string", length=150, nullable=false) */
     private $subtitle;
 
-    /** @Column(type="datetime", name="created_at", nullable=false) */
+    /** @ORM\Column(type="datetime", name="created_at", nullable=false) */
     private $createdAt;
 
-    /** @Column(type="datetime", name="updated_at", nullable=true) */
+    /** @ORM\Column(type="datetime", name="updated_at", nullable=true) */
     private $updatedAt;
 
-    /** @ManyToOne(targetEntity=Author::class) */
+    /** @ORM\ManyToOne(targetEntity=Author::class) */
     private $author;
 
-    /** @Column(type="string", options={"default":"published"}, nullable=false) */
+    /** @ORM\Column(type="string", options={"default":"published"}, nullable=false) */
     private $state;
 
-    /** @Column(type="string", name="comment_type", options={"default": "none"}, nullable=false) */
+    /** @ORM\Column(type="string", name="comment_type", options={"default": "none"}, nullable=false) */
     private $commentType;
 
     /**
-     * @OneToMany(targetEntity=Comment::class, mappedBy="post")
-     * @OrderBy({"createdAt": "DESC"})
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="post")
+     * @ORM\OrderBy({"createdAt": "DESC"})
      */
     private $comments;
+
+//    /**
+//     * @ORM\OneToOne(targetEntity=ExternalLink::class, cascade={"persist", "remove"})
+//     * @ORM\JoinColumn(name="comment_link_id", referencedColumnName="id", nullable=true)
+//     */
+    private $commentLink;
 
     public function __construct()
     {
@@ -177,5 +184,15 @@ class Post
     public function getCommentType(): string
     {
         return $this->commentType;
+    }
+
+    public function getCommentLink(): ?ExternalLink
+    {
+        return $this->commentLink;
+    }
+
+    public function setCommentLink(?ExternalLink $commentLink): void
+    {
+        $this->commentLink = $commentLink;
     }
 }

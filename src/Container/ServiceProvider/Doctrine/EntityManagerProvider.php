@@ -33,7 +33,7 @@ class EntityManagerProvider implements ServiceProvider
         $paths = [__DIR__ . '/../../../Entity'];
         $isDev = filter_var(getenv('DB_DEV'), FILTER_VALIDATE_BOOLEAN);
         $proxyDir = __DIR__ . '/../../../../cache';
-        $config = Setup::createAnnotationMetadataConfiguration($paths, $isDev, $proxyDir, new ArrayCache());
+        $config = Setup::createAnnotationMetadataConfiguration($paths, $isDev, $proxyDir, new ArrayCache(), false);
 
         try {
             return EntityManager::create($this->dbParams, $config);

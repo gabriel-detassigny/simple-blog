@@ -4,19 +4,21 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * @Entity(repositoryClass="GabrielDeTassigny\Blog\Repository\ExternalLinkRepository")
- * @Table(name="external_links")
+ * @ORM\Entity(repositoryClass="GabrielDeTassigny\Blog\Repository\ExternalLinkRepository")
+ * @ORM\Table(name="external_links")
  */
 class ExternalLink
 {
-    /** @Id @Column(type="integer") @GeneratedValue */
+    /** @ORM\Id @ORM\Column(type="integer") @ORM\GeneratedValue */
     private $id;
 
-    /** @Column(type="string", length=50, nullable=false) */
+    /** @ORM\Column(type="string", length=50, nullable=false) */
     private $name;
 
-    /** @Column(type="string", length=200, nullable=false) */
+    /** @ORM\Column(type="string", length=200, nullable=false) */
     private $url;
 
     public function getId(): int

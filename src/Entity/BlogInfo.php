@@ -4,22 +4,24 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * @Entity(repositoryClass="GabrielDeTassigny\Blog\Repository\BlogInfoRepository")
- * @Table(
+ * @ORM\Entity(repositoryClass="GabrielDeTassigny\Blog\Repository\BlogInfoRepository")
+ * @ORM\Table(
  *     name="blog_infos",
- *     indexes={@Index(name="info_key", columns={"info_key"})}
+ *     indexes={@ORM\Index(name="info_key", columns={"info_key"})}
  * )
  */
 class BlogInfo
 {
-    /** @Id @Column(type="integer") @GeneratedValue */
+    /** @ORM\Id @ORM\Column(type="integer") @ORM\GeneratedValue */
     private $id;
 
-    /** @Column(name="info_key", type="string", length=20, nullable=false) */
+    /** @ORM\Column(name="info_key", type="string", length=20, nullable=false) */
     private $key;
 
-    /** @Column(name="info_value", type="string", length=200, nullable=false) */
+    /** @ORM\Column(name="info_value", type="string", length=200, nullable=false) */
     private $value;
 
     public function getId(): int

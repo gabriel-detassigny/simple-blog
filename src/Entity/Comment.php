@@ -5,34 +5,35 @@ declare(strict_types=1);
 namespace GabrielDeTassigny\Blog\Entity;
 
 use DateTime;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @Entity(repositoryClass="GabrielDeTassigny\Blog\Repository\CommentRepository")
- * @Table(
+ * @ORM\Entity(repositoryClass="GabrielDeTassigny\Blog\Repository\CommentRepository")
+ * @ORM\Table(
  *     name="comments",
  *     indexes={
- *         @Index(name="post_id", columns={"post_id"})
+ *         @ORM\Index(name="post_id", columns={"post_id"})
  *     }
  * )
  */
 class Comment
 {
-    /** @Id @Column(type="integer") @GeneratedValue */
+    /** @ORM\Id @ORM\Column(type="integer") @ORM\GeneratedValue */
     private $id;
 
-    /** @Column(type="string", length=50, nullable=false) */
+    /** @ORM\Column(type="string", length=50, nullable=false) */
     private $name;
 
-    /** @Column(type="text", length=500, nullable=false) */
+    /** @ORM\Column(type="text", length=500, nullable=false) */
     private $text;
 
-    /** @Column(type="boolean", nullable=false) */
+    /** @ORM\Column(type="boolean", nullable=false) */
     private $isAdmin = false;
 
-    /** @Column(type="datetime", name="created_at", nullable=false) */
+    /** @ORM\Column(type="datetime", name="created_at", nullable=false) */
     private $createdAt;
 
-    /** @ManyToOne(targetEntity=Post::class, inversedBy="comments") */
+    /** @ORM\ManyToOne(targetEntity=Post::class, inversedBy="comments") */
     private $post;
 
     public function getId(): int

@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * @Entity(repositoryClass="GabrielDeTassigny\Blog\Repository\AuthorRepository")
- * @Table(name="authors")
+ * @ORM\Entity(repositoryClass="GabrielDeTassigny\Blog\Repository\AuthorRepository")
+ * @ORM\Table(name="authors")
  */
 class Author
 {
-    /** @Id @Column(type="integer") @GeneratedValue */
+    /** @ORM\Id @ORM\Column(type="integer") @ORM\GeneratedValue */
     private $id;
 
-    /** @Column(type="string", length=50, nullable=false) */
+    /** @ORM\Column(type="string", length=50, nullable=false) */
     private $name;
 
     public function getId(): int

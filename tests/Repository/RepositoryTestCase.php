@@ -39,7 +39,7 @@ abstract class RepositoryTestCase extends TestCase
         $config = new Configuration();
         $config->setAutoGenerateProxyClasses(true);
         $config->setProxyDir(sys_get_temp_dir());
-        $config->setMetadataDriverImpl($config->newDefaultAnnotationDriver(__DIR__ . '/../../src/Entity'));
+        $config->setMetadataDriverImpl($config->newDefaultAnnotationDriver(__DIR__ . '/../../src/Entity', false));
         $config->setQueryCacheImpl(new ArrayCache());
         $config->setMetadataCacheImpl(new ArrayCache());
         $config->setProxyNamespace('GabrielDeTassigny\Blog\Tests\Proxies');
