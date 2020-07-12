@@ -8,6 +8,7 @@ use RuntimeException;
 
 class AuthorException extends RuntimeException
 {
-    const FIND_ERROR = 1;
-    const CREATE_ERROR = 2;
+    public const FIND_ERROR = 1;
+    public const CREATE_ERROR = 2;
+    public const LINK_ASSOCIATION_ERROR = 3;
 }

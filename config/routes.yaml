@@ -78,7 +78,7 @@ routes:
     GET:
       controller: comment_admin_controller
       method: newComment
-  /external-links/new:
+  /authors/{authorId:\d+}/external-links/new:
     GET:
       controller: external_link_controller
       method: newExternalLink
@@ -86,7 +86,7 @@ routes:
     POST:
       controller: external_link_controller
       method: createExternalLink
-  /external-links/{id:\d+}:
+  /authors/{authorId:\d+}/external-links/{id:\d+}:
     DELETE:
       controller: external_link_controller
       method: deleteExternalLink

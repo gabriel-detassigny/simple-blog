@@ -32,6 +32,21 @@ class ExternalLinkService
         return $this->externalLinkRepository->findAll();
     }
 
+    public function getExternalLink(int $id): ExternalLink
+    {
+        /** @var ExternalLink $externalLink */
+        $externalLink = $this->externalLinkRepository->find($id);
+
+        if (!$externalLink) {
+            throw new ExternalLinkException(
+                'Could not find external link with ID ' . $id,
+                ExternalLinkException::FIND_ERROR
+            );
+        }
+
+        return $externalLink;
+    }
+
     /**
      * @param string $name
      * @param string $url
@@ -55,30 +70,5 @@ class ExternalLinkService
         }
 
         return $externalLink;
-    }
-
-    /**
-     * @param int $id
-     * @throws ExternalLinkException
-     * @return void
-     */
-    public function deleteExternalLink(int $id): void
-    {
-        $externalLink = $this->externalLinkRepository->find($id);
-        if (!$externalLink) {
-            throw new ExternalLinkException(
-                'Could not find external link with ID ' . $id,
-                ExternalLinkException::DELETE_ERROR
-            );
-        }
-        try {
-            $this->entityManager->remove($externalLink);
-            $this->entityManager->flush();
-        } catch (ORMException $e) {
-            throw new ExternalLinkException(
-                'Could not delete external link: ' . $e->getMessage(),
-                ExternalLinkException::DELETE_ERROR
-            );
-        }
     }
 }

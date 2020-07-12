@@ -7,6 +7,7 @@ namespace GabrielDeTassigny\Blog\Service;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use GabrielDeTassigny\Blog\Entity\Author;
+use GabrielDeTassigny\Blog\Entity\ExternalLink;
 use GabrielDeTassigny\Blog\Repository\AuthorRepository;
 use GabrielDeTassigny\Blog\Service\Exception\AuthorException;
 
@@ -33,35 +34,79 @@ class AuthorService
     }
 
     /**
-     * @param int $id
-     * @return Author
      * @throws AuthorException
      */
     public function getAuthorById(int $id): Author
     {
         /** @var Author $author */
         $author = $this->authorRepository->find($id);
+
         if (!$author) {
             throw new AuthorException("Could not find author with ID {$id}", AuthorException::FIND_ERROR);
         }
+
         return $author;
     }
 
     /**
-     * @param string $name
-     * @return Author
      * @throws AuthorException
      */
     public function createAuthor(string $name): Author
     {
         $author = new Author();
         $author->setName($name);
+
         try {
-            $this->entityManager->persist($author);
-            $this->entityManager->flush();
+            $this->persistAuthorChanges($author);
         } catch (ORMException $e) {
             throw new AuthorException('Error in author creation: ' . $e->getMessage(), AuthorException::CREATE_ERROR);
         }
+
         return $author;
+    }
+
+    /**
+     * @throws AuthorException
+     */
+    public function addExternalLink(int $authorId, ExternalLink $externalLink): void
+    {
+        $author = $this->getAuthorById($authorId);
+        $author->addExternalLink($externalLink);
+
+        try {
+            $this->persistAuthorChanges($author);
+        } catch (ORMException $e) {
+            throw new AuthorException(
+                'Error when adding link: ' . $e->getMessage(),
+                AuthorException::LINK_ASSOCIATION_ERROR
+            );
+        }
+    }
+
+    /**
+     * @throws AuthorException
+     */
+    public function removeExternalLink(int $authorId, ExternalLink $externalLink): void
+    {
+        $author = $this->getAuthorById($authorId);
+        $author->removeExternalLink($externalLink);
+
+        try {
+            $this->persistAuthorChanges($author);
+        } catch (ORMException $e) {
+            throw new AuthorException(
+                'Error when removing link: ' . $e->getMessage(),
+                AuthorException::LINK_ASSOCIATION_ERROR
+            );
+        }
+    }
+
+    /**
+     * @throws ORMException
+     */
+    private function persistAuthorChanges(Author $author): void
+    {
+        $this->entityManager->persist($author);
+        $this->entityManager->flush();
     }
 }

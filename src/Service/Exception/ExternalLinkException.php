@@ -8,6 +8,6 @@ use RuntimeException;
 
 class ExternalLinkException extends RuntimeException
 {
-    public const DELETE_ERROR = 1;
+    public const FIND_ERROR = 1;
     public const CREATE_ERROR = 2;
 }

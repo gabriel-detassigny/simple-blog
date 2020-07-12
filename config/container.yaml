@@ -53,6 +53,7 @@ dependencies:
       - external_link_service
       - server_request
       - error_renderer
+      - author_service
   author_controller:
     name: GabrielDeTassigny\Blog\Controller\Admin\AuthorController
     dependencies:

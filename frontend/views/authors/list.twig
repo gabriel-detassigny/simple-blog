@@ -1,0 +1,36 @@
+<h2 class="admin-section">Authors</h2>
+<a href="/authors/new" class="admin-action btn btn-primary">Add Author</a>
+
+{% if authors is empty %}
+    <div class="alert alert-warning" role="alert">
+        <h4 class="alert-heading">No Author</h4>
+        <p>You need to add at least one author before writing blog posts</p>
+    </div>
+{% else %}
+    <ul>
+        {% for author in authors %}
+            <li>
+                {{ author.getName }}
+                <a href="/authors/{{ author.getId }}/external-links/new" class="btn btn-xs btn-default">
+                    Add External Link
+                </a>
+                {% if author.getExternalLinks is not empty %}
+                    <div>External Links:</div>
+                    <ul>
+                        {% for externalLink in author.getExternalLinks %}
+                            <li>
+                                {{ externalLink.getName }}: {{ externalLink.getUrl }}
+                                <button data-author="{{ author.getId }}"
+                                        data-id="{{ externalLink.getId }}"
+                                        class="btn btn-xs btn-danger delete-link">
+                                    Delete
+                                </button>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
