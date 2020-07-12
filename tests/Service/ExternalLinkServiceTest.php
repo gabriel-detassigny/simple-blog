@@ -69,39 +69,24 @@ class ExternalLinkServiceTest extends TestCase
         $this->externalLinkService->createExternalLink('Github', 'https://github.com/some-user');
     }
 
-    public function testDeleteExternalLink(): void
+    public function testGetExternalLink(): void
     {
         $entity = $this->createExternalLinkEntity('Github', 'https://github.com/some-user');
         Phake::when($this->externalLinkRepository)->find(self::ID)->thenReturn($entity);
 
-        $this->externalLinkService->deleteExternalLink(self::ID);
+        $actual = $this->externalLinkService->getExternalLink(self::ID);
 
-        Phake::inOrder(
-            Phake::verify($this->entityManager)->remove($entity),
-            Phake::verify($this->entityManager)->flush()
-        );
+        $this->assertSame($entity, $actual);
     }
 
-    public function testDeleteExternalLink_NotFound(): void
+    public function testGetExternalLink_NotFound(): void
     {
         $this->expectException(ExternalLinkException::class);
-        $this->expectExceptionCode(ExternalLinkException::DELETE_ERROR);
+        $this->expectExceptionCode(ExternalLinkException::FIND_ERROR);
 
         Phake::when($this->externalLinkRepository)->find(self::ID)->thenReturn(null);
 
-        $this->externalLinkService->deleteExternalLink(self::ID);
-    }
-
-    public function testDeleteExternalLink_DatabaseError(): void
-    {
-        $this->expectException(ExternalLinkException::class);
-        $this->expectExceptionCode(ExternalLinkException::DELETE_ERROR);
-
-        $entity = $this->createExternalLinkEntity('Github', 'https://github.com/some-user');
-        Phake::when($this->externalLinkRepository)->find(self::ID)->thenReturn($entity);
-        Phake::when($this->entityManager)->remove($entity)->thenThrow(new ORMException());
-
-        $this->externalLinkService->deleteExternalLink(self::ID);
+        $this->externalLinkService->getExternalLink(self::ID);
     }
 
     private function getExternalLinksEntities(): array
