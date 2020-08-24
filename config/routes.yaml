@@ -1,104 +1,104 @@
 routes:
   /:
     GET:
-      controller: post_viewing_controller
+      controller: GabrielDeTassigny\Blog\Controller\PostViewingController
       method: index
 
   # Posts
   /posts/page/{page}:
     GET:
-      controller: post_viewing_controller
+      controller: GabrielDeTassigny\Blog\Controller\PostViewingController
       method: getPosts
   /posts/{id:\d+}/edit:
     GET:
-      controller: post_writing_controller
+      controller: GabrielDeTassigny\Blog\Controller\Admin\PostWritingController
       method: editPost
   /posts/{id:\d+}/{slug}:
     GET:
-      controller: post_viewing_controller
+      controller: GabrielDeTassigny\Blog\Controller\PostViewingController
       method: showPost
   /posts/new:
     GET:
-      controller: post_writing_controller
+      controller: GabrielDeTassigny\Blog\Controller\Admin\PostWritingController
       method: newPost
   /posts:
     POST:
-      controller: post_writing_controller
+      controller: GabrielDeTassigny\Blog\Controller\Admin\PostWritingController
       method: createPost
   /posts/{id:\d+}:
     POST:
-      controller: post_writing_controller
+      controller: GabrielDeTassigny\Blog\Controller\Admin\PostWritingController
       method: updatePost
   /posts/{id:\d+}/comments:
     POST:
-      controller: comment_controller
+      controller: GabrielDeTassigny\Blog\Controller\CommentController
       method: createComment
   /comments/captcha:
     GET:
-      controller: comment_controller
+      controller: GabrielDeTassigny\Blog\Controller\CommentController
       method: refreshCaptcha
 
   # Admin
   /admin:
     GET:
-      controller: admin_index_controller
+      controller: GabrielDeTassigny\Blog\Controller\Admin\AdminIndexController
       method: index
   /admin/images/upload:
     POST:
-      controller: image_controller
+      controller: GabrielDeTassigny\Blog\Controller\Admin\ImageController
       method: upload
   /about:
     GET:
-      controller: about_page_controller
+      controller: GabrielDeTassigny\Blog\Controller\AboutPageController
       method: showAboutPage
   /admin/info/edit:
     GET:
-      controller: blog_info_controller
+      controller: GabrielDeTassigny\Blog\Controller\Admin\BlogInfoController
       method: edit
   /admin/info/update:
     POST:
-      controller: blog_info_controller
+      controller: GabrielDeTassigny\Blog\Controller\Admin\BlogInfoController
       method: update
   /admin/posts/{id:\d+}/comments:
     GET:
-      controller: comment_admin_controller
+      controller: GabrielDeTassigny\Blog\Controller\Admin\CommentAdminController
       method: index
     POST:
-      controller: comment_admin_controller
+      controller: GabrielDeTassigny\Blog\Controller\Admin\CommentAdminController
       method: createComment
   /admin/posts/{id:\d+}/preview:
     GET:
-      controller: post_writing_controller
+      controller: GabrielDeTassigny\Blog\Controller\Admin\PostWritingController
       method: previewPost
   /admin/comments/{id:\d+}:
     DELETE:
-      controller: comment_admin_controller
+      controller: GabrielDeTassigny\Blog\Controller\Admin\CommentAdminController
       method: deleteComment
   /admin/posts/{id:\d+}/comments/new:
     GET:
-      controller: comment_admin_controller
+      controller: GabrielDeTassigny\Blog\Controller\Admin\CommentAdminController
       method: newComment
   /authors/{authorId:\d+}/external-links/new:
     GET:
-      controller: external_link_controller
+      controller: GabrielDeTassigny\Blog\Controller\Admin\ExternalLinkController
       method: newExternalLink
   /external-links:
     POST:
-      controller: external_link_controller
+      controller: GabrielDeTassigny\Blog\Controller\Admin\ExternalLinkController
       method: createExternalLink
   /authors/{authorId:\d+}/external-links/{id:\d+}:
     DELETE:
-      controller: external_link_controller
+      controller: GabrielDeTassigny\Blog\Controller\Admin\ExternalLinkController
       method: deleteExternalLink
   /authors/new:
     GET:
-      controller: author_controller
+      controller: GabrielDeTassigny\Blog\Controller\Admin\AuthorController
       method: newAuthor
   /authors:
     POST:
-      controller: author_controller
+      controller: GabrielDeTassigny\Blog\Controller\Admin\AuthorController
       method: createAuthor
   /rss:
     GET:
-      controller: rss_controller
+      controller: GabrielDeTassigny\Blog\Controller\RssController
       method: showRss

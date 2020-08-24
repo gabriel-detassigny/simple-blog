@@ -1,151 +1,140 @@
 dependencies:
-  post_viewing_controller:
+  GabrielDeTassigny\Blog\Controller\PostViewingController:
     name: GabrielDeTassigny\Blog\Controller\PostViewingController
     dependencies:
       - twig
-      - post_viewing_service
-      - blog_info_service
-      - external_link_service
-      - captcha_service
-  post_writing_controller:
+      - GabrielDeTassigny\Blog\Service\PostViewingService
+      - GabrielDeTassigny\Blog\Service\BlogInfoService
+      - GabrielDeTassigny\Blog\Service\ExternalLinkService
+      - GabrielDeTassigny\Blog\Service\CaptchaService
+  GabrielDeTassigny\Blog\Controller\Admin\PostWritingController:
     name: GabrielDeTassigny\Blog\Controller\Admin\PostWritingController
     dependencies:
       - twig
-      - admin_authenticator_service
+      - GabrielDeTassigny\Blog\Service\Authentication\AdminAuthenticator
       - server_request
-      - publishing_post_writing_service
-      - author_service
-      - publishing_post_viewing_service
-  image_controller:
+      - GabrielDeTassigny\Blog\Service\Publishing\PostWritingService
+      - GabrielDeTassigny\Blog\Service\AuthorService
+      - GabrielDeTassigny\Blog\Service\Publishing\PostViewingService
+  GabrielDeTassigny\Blog\Controller\Admin\ImageController:
     name: GabrielDeTassigny\Blog\Controller\Admin\ImageController
     dependencies:
-      - admin_authenticator_service
+      - GabrielDeTassigny\Blog\Service\Authentication\AdminAuthenticator
       - server_request
       - json_renderer
-      - image_service
-  about_page_controller:
+      - GabrielDeTassigny\Blog\Service\ImageService
+  GabrielDeTassigny\Blog\Controller\AboutPageController:
     name: GabrielDeTassigny\Blog\Controller\AboutPageController
     dependencies:
       - twig
-      - blog_info_service
-      - external_link_service
-  admin_index_controller:
+      - GabrielDeTassigny\Blog\Service\BlogInfoService
+      - GabrielDeTassigny\Blog\Service\ExternalLinkService
+  GabrielDeTassigny\Blog\Controller\Admin\AdminIndexController:
     name: GabrielDeTassigny\Blog\Controller\Admin\AdminIndexController
     dependencies:
       - twig
-      - admin_authenticator_service
-      - publishing_post_viewing_service
-      - author_service
-      - blog_info_service
-      - external_link_service
-  blog_info_controller:
+      - GabrielDeTassigny\Blog\Service\Authentication\AdminAuthenticator
+      - GabrielDeTassigny\Blog\Service\Publishing\PostViewingService
+      - GabrielDeTassigny\Blog\Service\AuthorService
+      - GabrielDeTassigny\Blog\Service\BlogInfoService
+      - GabrielDeTassigny\Blog\Service\ExternalLinkService
+  GabrielDeTassigny\Blog\Controller\Admin\BlogInfoController:
     name: GabrielDeTassigny\Blog\Controller\Admin\BlogInfoController
     dependencies:
       - twig
-      - blog_info_service
-      - admin_authenticator_service
+      - GabrielDeTassigny\Blog\Service\BlogInfoService
+      - GabrielDeTassigny\Blog\Service\Authentication\AdminAuthenticator
       - server_request
-  external_link_controller:
+  GabrielDeTassigny\Blog\Controller\Admin\ExternalLinkController:
     name: GabrielDeTassigny\Blog\Controller\Admin\ExternalLinkController
     dependencies:
-      - admin_authenticator_service
+      - GabrielDeTassigny\Blog\Service\Authentication\AdminAuthenticator
       - twig
-      - external_link_service
+      - GabrielDeTassigny\Blog\Service\ExternalLinkService
       - server_request
-      - error_renderer
-      - author_service
-  author_controller:
+      - GabrielDeTassigny\Blog\Renderer\ErrorRenderer
+      - GabrielDeTassigny\Blog\Service\AuthorService
+  GabrielDeTassigny\Blog\Controller\Admin\AuthorController:
     name: GabrielDeTassigny\Blog\Controller\Admin\AuthorController
     dependencies:
-      - author_service
-      - admin_authenticator_service
+      - GabrielDeTassigny\Blog\Service\AuthorService
+      - GabrielDeTassigny\Blog\Service\Authentication\AdminAuthenticator
       - twig
       - server_request
-  rss_controller:
+  GabrielDeTassigny\Blog\Controller\RssController:
     name: GabrielDeTassigny\Blog\Controller\RssController
     dependencies:
-      - rss_service
-      - rss_renderer
-  comment_controller:
+      - GabrielDeTassigny\Blog\Service\RssService
+      - GabrielDeTassigny\Blog\Renderer\RssRenderer
+  GabrielDeTassigny\Blog\Controller\CommentController:
     name: GabrielDeTassigny\Blog\Controller\CommentController
     dependencies:
-      - comment_service
+      - GabrielDeTassigny\Blog\Service\CommentService
       - server_request
-      - json_renderer
-      - captcha_service
-  comment_admin_controller:
+      - GabrielDeTassigny\Blog\Renderer\JsonRenderer
+      - GabrielDeTassigny\Blog\Service\CaptchaService
+  GabrielDeTassigny\Blog\Controller\Admin\CommentAdminController:
     name: GabrielDeTassigny\Blog\Controller\Admin\CommentAdminController
     dependencies:
-      - admin_authenticator_service
+      - GabrielDeTassigny\Blog\Service\Authentication\AdminAuthenticator
       - twig
-      - comment_service
+      - GabrielDeTassigny\Blog\Service\CommentService
       - server_request
 
-  post_viewing_service:
+  GabrielDeTassigny\Blog\Service\PostViewingService:
     name: GabrielDeTassigny\Blog\Service\PostViewingService
     dependencies:
       - post_repository
-  admin_authenticator_service:
+
+  GabrielDeTassigny\Blog\Service\Authentication\AdminAuthenticator:
     name: GabrielDeTassigny\Blog\Service\Authentication\HttpBasicAuthenticationService
-    dependencies:
-  publishing_post_writing_service:
+  GabrielDeTassigny\Blog\Service\Publishing\PostWritingService:
     name: GabrielDeTassigny\Blog\Service\Publishing\PostWritingService
     dependencies:
       - entity_manager
-      - author_service
-  image_service:
+      - GabrielDeTassigny\Blog\Service\AuthorService
+  GabrielDeTassigny\Blog\Service\ImageService:
     name: GabrielDeTassigny\Blog\Service\ImageService
     dependencies:
       - log
-  blog_info_service:
+  GabrielDeTassigny\Blog\Service\BlogInfoService:
     name: GabrielDeTassigny\Blog\Service\BlogInfoService
     dependencies:
       - blog_info_repository
       - entity_manager
-  external_link_service:
+  GabrielDeTassigny\Blog\Service\ExternalLinkService:
     name: GabrielDeTassigny\Blog\Service\ExternalLinkService
     dependencies:
       - external_link_repository
       - entity_manager
-  author_service:
+  GabrielDeTassigny\Blog\Service\AuthorService:
     name: GabrielDeTassigny\Blog\Service\AuthorService
     dependencies:
       - author_repository
       - entity_manager
-  rss_service:
+  GabrielDeTassigny\Blog\Service\RssService:
     name: GabrielDeTassigny\Blog\Service\RssService
     dependencies:
-      - blog_info_service
-      - post_viewing_service
+      - GabrielDeTassigny\Blog\Service\BlogInfoService
+      - GabrielDeTassigny\Blog\Service\PostViewingService
       - server_request
-  comment_service:
+  GabrielDeTassigny\Blog\Service\CommentService:
     name: GabrielDeTassigny\Blog\Service\CommentService
     dependencies:
       - entity_manager
-      - post_viewing_service
+      - GabrielDeTassigny\Blog\Service\PostViewingService
       - comment_repository
-  session_service:
-    name: GabrielDeTassigny\Blog\Service\SessionService
-    dependencies:
-  captcha_service:
-    name: GabrielDeTassigny\Blog\Service\CaptchaService
-    dependencies:
-      - captcha_builder
-      - session_service
-  publishing_post_viewing_service:
+
+  GabrielDeTassigny\Blog\Service\Publishing\PostViewingService:
     name: GabrielDeTassigny\Blog\Service\Publishing\PostViewingService
     dependencies:
       - post_repository
 
-  captcha_builder:
-    name: Gregwar\Captcha\CaptchaBuilder
-
-  json_renderer:
-    name: GabrielDeTassigny\Blog\Renderer\JsonRenderer
-  error_renderer:
+  GabrielDeTassigny\Blog\Renderer\ErrorRenderer:
     name: GabrielDeTassigny\Blog\Renderer\ErrorRenderer
     dependencies:
       - twig
-      - json_renderer
-  rss_renderer:
-    name: GabrielDeTassigny\Blog\Renderer\RssRenderer
+      - GabrielDeTassigny\Blog\Renderer\JsonRenderer
+
+  Gregwar\Captcha\CaptchaBuilder:
+    name: Gregwar\Captcha\CaptchaBuilder

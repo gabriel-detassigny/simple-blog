@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Container;
 
+use GabrielDeTassigny\Blog\Container\ServiceDefinition\AutowiringStrategy;
 use GabrielDeTassigny\Blog\Container\ServiceDefinition\ServiceDefinitionManager;
 use GabrielDeTassigny\Blog\Container\ServiceDefinition\ServiceProviderStrategy;
 use GabrielDeTassigny\Blog\Container\ServiceDefinition\YamlConfigStrategy;
@@ -43,10 +44,10 @@ class WebContainerProvider
     public function getContainer(): ContainerInterface
     {
         $strategies = [$this->serviceProviderStrategy];
-
         if ($this->configPath) {
             $strategies[] = new YamlConfigStrategy(new Parser(), $this->configPath);
         }
+        $strategies[] = new AutowiringStrategy();
 
         return new Container(new ServiceDefinitionManager(...$strategies));
     }

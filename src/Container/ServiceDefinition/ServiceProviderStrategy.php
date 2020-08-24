@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace GabrielDeTassigny\Blog\Container\ServiceDefinition;
 
 use GabrielDeTassigny\Blog\Container\ContainerException;
-use GabrielDeTassigny\Blog\Container\NotFoundException;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceCreationException;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceProvider;
 
@@ -19,10 +18,6 @@ class ServiceProviderStrategy implements ServiceDefinitionStrategy
      */
     public function getDefinition(string $id): ServiceDefinition
     {
-        if (!$this->hasDefinition($id)) {
-            throw new NotFoundException('Service definition not defined as a service provider: ' . $id);
-        }
-
         try {
             $instance = $this->serviceProviders[$id]->getService();
         } catch (ServiceCreationException $e) {

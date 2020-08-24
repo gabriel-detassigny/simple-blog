@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Container\ServiceDefinition;
 
-use GabrielDeTassigny\Blog\Container\ContainerException;
 use GabrielDeTassigny\Blog\Container\InvalidContainerConfigException;
-use GabrielDeTassigny\Blog\Container\NotFoundException;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser;
 
@@ -25,10 +23,6 @@ class YamlConfigStrategy implements ServiceDefinitionStrategy
      */
     public function getDefinition(string $id): ServiceDefinition
     {
-        if (!$this->hasDefinition($id)) {
-            throw new NotFoundException('Service definition not found in YAML config: ' . $id);
-        }
-
         return $this->serviceDefinitions[$id];
     }
 
