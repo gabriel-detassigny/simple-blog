@@ -45,7 +45,7 @@ class WebRouter
     public function dispatch(): void
     {
         /** @var ServerRequestInterface $serverRequest */
-        $serverRequest = $this->container->get('server_request');
+        $serverRequest = $this->container->get(ServerRequestInterface::class);
 
         $routeInfo = $this->dispatcher->dispatch($serverRequest->getMethod(), $serverRequest->getUri()->getPath());
 
@@ -78,7 +78,7 @@ class WebRouter
             $this->renderError($e->getCode(), $e->getMessage());
         } catch (Exception $e) {
             /** @var LoggerInterface $log */
-            $log = $this->container->get('log');
+            $log = $this->container->get(LoggerInterface::class);
             $log->error(self::EXCEPTION_MESSAGE, ['message' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
 
             $this->renderError(StatusCode::INTERNAL_SERVER_ERROR, 'Something went wrong!');
@@ -93,7 +93,7 @@ class WebRouter
     private function renderError(int $errorCode, string $errorDescription): void
     {
         /** @var ErrorRenderer $renderer */
-        $renderer = $this->container->get('error_renderer');
+        $renderer = $this->container->get(ErrorRenderer::class);
 
         if ($this->isJsonExpected()) {
             $renderer->setContentTypeToJson();
@@ -105,7 +105,7 @@ class WebRouter
     private function isJsonExpected(): bool
     {
         /** @var ServerRequestInterface $request */
-        $request = $this->container->get('server_request');
+        $request = $this->container->get(ServerRequestInterface::class);
 
         foreach ($request->getHeader('Accept') as $acceptedContentType) {
             if (strpos($acceptedContentType, ErrorRenderer::JSON) !== false) {
