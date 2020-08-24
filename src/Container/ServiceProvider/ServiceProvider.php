@@ -10,5 +10,5 @@ interface ServiceProvider
      * @return object
      * @throws ServiceCreationException
      */
-    public function getService();
+    public function getService(): object;
 }

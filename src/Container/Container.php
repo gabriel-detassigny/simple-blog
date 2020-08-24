@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Container;
 
-use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceCreationException;
-use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceProvider;
+use GabrielDeTassigny\Blog\Container\ServiceDefinition\ServiceDefinitionStrategy;
 use Psr\Container\ContainerInterface;
 
 class Container implements ContainerInterface
@@ -13,35 +12,28 @@ class Container implements ContainerInterface
     /** @var array */
     private $objects = [];
 
-    /** @var ServiceProvider[] */
-    private $serviceProviders = [];
+    /** @var ServiceDefinitionStrategy */
+    private $strategy;
 
-    /** @var array */
-    private $dependencies;
-
-    public function __construct(array $dependencies)
+    public function __construct(ServiceDefinitionStrategy $strategy)
     {
-        $this->dependencies = $dependencies;
+        $this->strategy = $strategy;
     }
 
     /**
-     * @param string $id
-     * @return object
-     * @throws NotFoundException
-     * @throws ContainerException
+     * {@inheritdoc}
      */
     public function get($id)
     {
         if (isset($this->objects[$id])) {
             return $this->objects[$id];
         }
-        if (isset($this->serviceProviders[$id])) {
-            return $this->retrieveService($id);
-        }
-        if (!$this->has($id)) {
+
+        if (!$this->strategy->hasDefinition($id)) {
             throw new NotFoundException($id);
         }
-        return $this->createObject($id);
+
+        return $this->getServiceInstance($id);
     }
 
     /**
@@ -49,55 +41,27 @@ class Container implements ContainerInterface
      */
     public function has($id)
     {
-        return array_key_exists($id, $this->dependencies) || array_key_exists($id, $this->serviceProviders);
+        return isset($this->objects[$id]) || $this->strategy->hasDefinition($id);
     }
 
-    /**
-     * @param string $serviceName
-     * @param ServiceProvider $serviceProvider
-     * @return void
-     */
-    public function registerService(string $serviceName, ServiceProvider $serviceProvider): void
+    private function getServiceInstance(string $id): object
     {
-        $this->serviceProviders[$serviceName] = $serviceProvider;
-    }
+        $serviceDefinition = $this->strategy->getDefinition($id);
+        $object = $serviceDefinition->getInstance();
 
-    /**
-     * @param string $id
-     * @return object
-     * @throws ContainerException
-     */
-    private function retrieveService(string $id)
-    {
-        try {
-            $this->objects[$id] = $this->serviceProviders[$id]->getService();
-        } catch (ServiceCreationException $e) {
-            throw new ContainerException("Error retrieving service {$id} from its provider");
+        if (!$object) {
+            $objectDependencies = $this->getDependenciesInstances($serviceDefinition->getDependencies());
+            $className = $serviceDefinition->getName();
+
+            $object = new $className(...$objectDependencies);
         }
 
-        return $this->objects[$id];
-    }
-
-    /**
-     * @param string $id
-     * @return mixed
-     * @throws ContainerException
-     */
-    private function createObject(string $id)
-    {
-        $objectDependencies = $this->getDependencies($this->dependencies[$id]['dependencies'] ?? []);
-        $className = $this->dependencies[$id]['name'];
-        $this->objects[$id] = new $className(...$objectDependencies);
+        $this->objects[$id] = $object;
 
         return $this->objects[$id];
     }
 
-    /**
-     * @param array $dependencyList
-     * @return array
-     * @throws ContainerException
-     */
-    private function getDependencies(array $dependencyList): array
+    private function getDependenciesInstances(array $dependencyList): array
     {
         $dependencies = [];
         foreach ($dependencyList as $dependencyName) {

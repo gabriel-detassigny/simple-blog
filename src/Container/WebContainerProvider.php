@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Container;
 
+use GabrielDeTassigny\Blog\Container\ServiceDefinition\ServiceDefinitionManager;
+use GabrielDeTassigny\Blog\Container\ServiceDefinition\ServiceProviderStrategy;
+use GabrielDeTassigny\Blog\Container\ServiceDefinition\YamlConfigStrategy;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\Doctrine\EntityManagerProvider;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\Doctrine\RepositoryProvider;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\LogProvider;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\ServerRequestProvider;
+use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceProvider;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\TwigProvider;
 use GabrielDeTassigny\Blog\Entity\Author;
 use GabrielDeTassigny\Blog\Entity\BlogInfo;
@@ -15,21 +19,21 @@ use GabrielDeTassigny\Blog\Entity\Comment;
 use GabrielDeTassigny\Blog\Entity\ExternalLink;
 use GabrielDeTassigny\Blog\Entity\Post;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser;
 
 class WebContainerProvider
 {
-    /** @var Parser */
-    private $yamlParser;
-
-    /** @var string */
+    /** @var string|null */
     private $configPath;
 
-    public function __construct(Parser $yamlParser, string $configPath)
+    /** @var ServiceProviderStrategy */
+    private $serviceProviderStrategy;
+
+    public function __construct(?string $configPath = null)
     {
-        $this->yamlParser = $yamlParser;
         $this->configPath = $configPath;
+        $this->serviceProviderStrategy = new ServiceProviderStrategy();
+        $this->registerServices();
     }
 
     /**
@@ -38,27 +42,18 @@ class WebContainerProvider
      */
     public function getContainer(): ContainerInterface
     {
-        $container = new Container($this->loadDependenciesFromConfig());
-        $this->registerServices($container);
+        $strategies = [$this->serviceProviderStrategy];
 
-        return $container;
+        if ($this->configPath) {
+            $strategies[] = new YamlConfigStrategy(new Parser(), $this->configPath);
+        }
+
+        return new Container(new ServiceDefinitionManager(...$strategies));
     }
 
-    private function loadDependenciesFromConfig(): array
+    public function registerService(string $id, ServiceProvider $serviceProvider): void
     {
-        if (!file_exists($this->configPath)) {
-            throw new InvalidContainerConfigException($this->configPath . ': YAML config file not found!');
-        }
-        try {
-            $config = $this->yamlParser->parse(file_get_contents($this->configPath));
-        } catch (ParseException $e) {
-            throw new InvalidContainerConfigException('Error parsing YAML: ' . $e->getMessage());
-        }
-        if (!isset($config['dependencies'])) {
-            throw new InvalidContainerConfigException('No dependencies found in YAML config');
-        }
-
-        return $config['dependencies'];
+        $this->serviceProviderStrategy->registerService($id, $serviceProvider);
     }
 
     private function getDbParams(): array
@@ -72,16 +67,19 @@ class WebContainerProvider
         ];
     }
 
-    private function registerServices(Container $container): void
+    private function registerServices(): void
     {
-        $container->registerService('server_request', new ServerRequestProvider());
-        $container->registerService('twig', new TwigProvider());
-        $container->registerService('entity_manager', new EntityManagerProvider($this->getDbParams()));
-        $container->registerService('post_repository', new RepositoryProvider($container, Post::class));
-        $container->registerService('blog_info_repository', new RepositoryProvider($container, BlogInfo::class));
-        $container->registerService('external_link_repository', new RepositoryProvider($container, ExternalLink::class));
-        $container->registerService('author_repository', new RepositoryProvider($container, Author::class));
-        $container->registerService('comment_repository', new RepositoryProvider($container, Comment::class));
-        $container->registerService('log', new LogProvider('app-errors'));
+        $this->registerService('server_request', new ServerRequestProvider());
+        $this->registerService('twig', new TwigProvider());
+
+        $entityManagerProvider = new EntityManagerProvider($this->getDbParams());
+        $this->registerService('entity_manager', $entityManagerProvider);
+        $this->registerService('post_repository', new RepositoryProvider($entityManagerProvider, Post::class));
+        $this->registerService('blog_info_repository', new RepositoryProvider($entityManagerProvider, BlogInfo::class));
+        $this->registerService('external_link_repository', new RepositoryProvider($entityManagerProvider, ExternalLink::class));
+        $this->registerService('author_repository', new RepositoryProvider($entityManagerProvider, Author::class));
+        $this->registerService('comment_repository', new RepositoryProvider($entityManagerProvider, Comment::class));
+
+        $this->registerService('log', new LogProvider('app-errors'));
     }
 }

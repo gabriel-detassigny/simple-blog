@@ -25,7 +25,7 @@ class LogProvider implements ServiceProvider
      * @return LoggerInterface
      * @throws Exception
      */
-    public function getService()
+    public function getService(): object
     {
         $log = new Logger($this->name);
         $streamHandler = new StreamHandler(__DIR__  . self::LOG_PATH . $this->name . '.log', Logger::WARNING);

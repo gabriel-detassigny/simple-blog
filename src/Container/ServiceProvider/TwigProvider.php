@@ -12,7 +12,7 @@ class TwigProvider implements ServiceProvider
     /**
      * @return Environment
      */
-    public function getService()
+    public function getService(): object
     {
         $loader = new FilesystemLoader(__DIR__ . '/../../../frontend/views/');
 

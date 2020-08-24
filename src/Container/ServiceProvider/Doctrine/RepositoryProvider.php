@@ -4,25 +4,21 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Container\ServiceProvider\Doctrine;
 
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceCreationException;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceProvider;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\ContainerInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 class RepositoryProvider implements ServiceProvider
 {
-    /** @var ContainerInterface */
-    private $container;
-
     /** @var string */
     private $entityClassName;
 
-    public function __construct(ContainerInterface $container, string $entityClassName)
+    /** @var EntityManagerProvider */
+    private $entityManagerProvider;
+
+    public function __construct(EntityManagerProvider $entityManagerProvider, string $entityClassName)
     {
-        $this->container = $container;
+        $this->entityManagerProvider = $entityManagerProvider;
         $this->entityClassName = $entityClassName;
     }
 
@@ -30,15 +26,8 @@ class RepositoryProvider implements ServiceProvider
      * @return EntityRepository
      * @throws ServiceCreationException
      */
-    public function getService()
+    public function getService(): object
     {
-        try {
-            /** @var EntityManager $entityManager */
-            $entityManager = $this->container->get('entity_manager');
-        } catch (ContainerExceptionInterface $e) {
-            throw new ServiceCreationException("Error when attempting to retrieve entity_manager dependency");
-        }
-
-        return $entityManager->getRepository($this->entityClassName);
+        return $this->entityManagerProvider->getService()->getRepository($this->entityClassName);
     }
 }

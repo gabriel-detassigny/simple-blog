@@ -16,6 +16,9 @@ class EntityManagerProvider implements ServiceProvider
     /** @var array */
     private $dbParams;
 
+    /** @var EntityManager|null */
+    private $service;
+
     /**
      * @param array $dbParams
      */
@@ -28,17 +31,21 @@ class EntityManagerProvider implements ServiceProvider
      * @return EntityManager
      * @throws ServiceCreationException
      */
-    public function getService()
+    public function getService(): object
     {
-        $paths = [__DIR__ . '/../../../Entity'];
-        $isDev = filter_var(getenv('DB_DEV'), FILTER_VALIDATE_BOOLEAN);
-        $proxyDir = __DIR__ . '/../../../../cache';
-        $config = Setup::createAnnotationMetadataConfiguration($paths, $isDev, $proxyDir, new ArrayCache(), false);
+        if (!$this->service) {
+            $paths = [__DIR__ . '/../../../Entity'];
+            $isDev = filter_var(getenv('DB_DEV'), FILTER_VALIDATE_BOOLEAN);
+            $proxyDir = __DIR__ . '/../../../../cache';
+            $config = Setup::createAnnotationMetadataConfiguration($paths, $isDev, $proxyDir, new ArrayCache(), false);
 
-        try {
-            return EntityManager::create($this->dbParams, $config);
-        } catch (Exception $e) {
-            throw new ServiceCreationException($e->getMessage());
+            try {
+                $this->service = EntityManager::create($this->dbParams, $config);
+            } catch (Exception $e) {
+                throw new ServiceCreationException($e->getMessage());
+            }
         }
+
+        return $this->service;
     }
 }

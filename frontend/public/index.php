@@ -11,12 +11,11 @@ if (!defined('PROJECT_DIR')) {
     define('PROJECT_DIR', __DIR__ . '/../../');
 }
 
-$yamlParser = new Parser();
-$containerProvider = new WebContainerProvider($yamlParser, PROJECT_DIR . 'config/container.yaml');
+$containerProvider = new WebContainerProvider(PROJECT_DIR . 'config/container.yaml');
 
 $router = new WebRouter(
     $containerProvider->getContainer(),
-    new RouteParser($yamlParser),
+    new RouteParser(new Parser()),
     PROJECT_DIR . 'config/routes.yaml'
 );
 

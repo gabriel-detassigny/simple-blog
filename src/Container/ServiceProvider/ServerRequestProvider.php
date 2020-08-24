@@ -12,7 +12,7 @@ class ServerRequestProvider implements ServiceProvider
     /**
      * @return ServerRequestInterface
      */
-    public function getService()
+    public function getService(): object
     {
         return ServerRequest::fromGlobals();
     }
