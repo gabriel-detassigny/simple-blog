@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3722233cba3a763e7a4027f0f6f68383",
+    "content-hash": "408f241a0a95d6e81dfb336138c19546",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -1249,6 +1249,66 @@
                 "static"
             ],
             "time": "2020-03-27T11:06:43+00:00"
+        },
+        {
+            "name": "gdetassigny/simple-container",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gabriel-detassigny/simple-container.git",
+                "reference": "b5b6b0ca2e5ef9a4e4bf06712c1a86197b7546d8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gabriel-detassigny/simple-container/zipball/b5b6b0ca2e5ef9a4e4bf06712c1a86197b7546d8",
+                "reference": "b5b6b0ca2e5ef9a4e4bf06712c1a86197b7546d8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">= 7.2",
+                "psr/container": "^1.0",
+                "symfony/yaml": "^4.4"
+            },
+            "require-dev": {
+                "phake/phake": "^3.1",
+                "phpunit/phpunit": "^8.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "GabrielDeTassigny\\SimpleContainer\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "GabrielDeTassigny\\SimpleContainer\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "run-tests": [
+                    "vendor/bin/phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Gabriel de Tassigny",
+                    "email": "gabriel@multivac.cc"
+                }
+            ],
+            "description": "A simple implementation of the standard container interface, with support for autowiring",
+            "keywords": [
+                "DI",
+                "container",
+                "dependency"
+            ],
+            "support": {
+                "source": "https://github.com/gabriel-detassigny/simple-container/tree/master",
+                "issues": "https://github.com/gabriel-detassigny/simple-container/issues"
+            },
+            "time": "2020-10-08T19:51:31+00:00"
         },
         {
             "name": "gregwar/captcha",
@@ -4290,7 +4350,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "gdetassigny/simple-container": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

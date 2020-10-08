@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GabrielDeTassigny\Blog\Container\ServiceProvider;
 
 use Exception;
+use GabrielDeTassigny\SimpleContainer\ServiceProvider;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;

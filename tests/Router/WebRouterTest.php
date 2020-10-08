@@ -17,13 +17,12 @@ use Psr\Http\Message\UriInterface;
 use Psr\Log\LoggerInterface;
 use Teapot\HttpException;
 use Teapot\StatusCode;
-use Twig\Environment;
 
 class WebRouterTest extends TestCase
 {
     private const ROUTE_CONFIG = '/tmp/routes.yaml';
     private const ROUTES = [
-        ['GET', '/', 'post_viewing_controller/index']
+        ['GET', '/', PostViewingController::class . '/index']
     ];
 
     /** @var ContainerInterface|Phake_IMock */
@@ -52,9 +51,9 @@ class WebRouterTest extends TestCase
         $this->errorRenderer = Phake::mock(ErrorRenderer::class);
 
         Phake::when($this->serverRequest)->getHeader('Accept')->thenReturn([]);
-        Phake::when($this->container)->get('server_request')->thenReturn($this->serverRequest);
-        Phake::when($this->container)->get('error_renderer')->thenReturn($this->errorRenderer);
-        Phake::when($this->container)->get('log')->thenReturn($this->log);
+        Phake::when($this->container)->get(ServerRequestInterface::class)->thenReturn($this->serverRequest);
+        Phake::when($this->container)->get(ErrorRenderer::class)->thenReturn($this->errorRenderer);
+        Phake::when($this->container)->get(LoggerInterface::class)->thenReturn($this->log);
 
         $routeParser = Phake::mock(RouteParser::class);
         Phake::when($routeParser)->parseRouteFile(self::ROUTE_CONFIG)->thenReturn(self::ROUTES);
@@ -119,7 +118,7 @@ class WebRouterTest extends TestCase
         Phake::when($uri)->getPath()->thenReturn('/');
 
         $controller = Phake::mock(PostViewingController::class);
-        Phake::when($this->container)->get('post_viewing_controller')->thenReturn($controller);
+        Phake::when($this->container)->get(PostViewingController::class)->thenReturn($controller);
 
         return $controller;
     }

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace GabrielDeTassigny\Blog\Container\ServiceProvider\Doctrine;
 
 use Doctrine\ORM\EntityRepository;
-use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceCreationException;
-use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceProvider;
+use GabrielDeTassigny\SimpleContainer\Exception\ServiceCreationException;
+use GabrielDeTassigny\SimpleContainer\ServiceProvider;
 
 class RepositoryProvider implements ServiceProvider
 {

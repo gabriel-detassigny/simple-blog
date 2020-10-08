@@ -8,8 +8,8 @@ use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 use Exception;
-use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceCreationException;
-use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceProvider;
+use GabrielDeTassigny\SimpleContainer\Exception\ServiceCreationException;
+use GabrielDeTassigny\SimpleContainer\ServiceProvider;
 
 class EntityManagerProvider implements ServiceProvider
 {

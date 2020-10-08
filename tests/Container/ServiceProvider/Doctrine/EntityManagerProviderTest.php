@@ -6,7 +6,7 @@ namespace GabrielDeTassigny\Blog\Tests\Container\ServiceProvider\Doctrine;
 
 use Doctrine\ORM\EntityManager;
 use GabrielDeTassigny\Blog\Container\ServiceProvider\Doctrine\EntityManagerProvider;
-use GabrielDeTassigny\Blog\Container\ServiceProvider\ServiceCreationException;
+use GabrielDeTassigny\SimpleContainer\Exception\ServiceCreationException;
 use PHPUnit\Framework\TestCase;
 
 class EntityManagerProviderTest extends TestCase

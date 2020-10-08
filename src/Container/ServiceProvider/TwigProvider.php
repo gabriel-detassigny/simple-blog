@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Container\ServiceProvider;
 
+use GabrielDeTassigny\SimpleContainer\ServiceProvider;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 

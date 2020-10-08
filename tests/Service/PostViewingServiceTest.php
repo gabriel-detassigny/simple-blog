@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace GabrielDeTassigny\Blog\Tests\Service;
 
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use GabrielDeTassigny\Blog\Container\NotFoundException;
 use GabrielDeTassigny\Blog\Entity\Post;
 use GabrielDeTassigny\Blog\Repository\PostRepository;
 use GabrielDeTassigny\Blog\Service\Exception\PostNotFoundException;
