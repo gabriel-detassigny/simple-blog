@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "408f241a0a95d6e81dfb336138c19546",
+    "content-hash": "9a4f600ce3c5f6ac00646d0a2aeb01c1",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -1252,7 +1252,7 @@
         },
         {
             "name": "gdetassigny/simple-container",
-            "version": "dev-master",
+            "version": "v0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gabriel-detassigny/simple-container.git",
@@ -1279,16 +1279,7 @@
                     "GabrielDeTassigny\\SimpleContainer\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "GabrielDeTassigny\\SimpleContainer\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "run-tests": [
-                    "vendor/bin/phpunit"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1300,14 +1291,10 @@
             ],
             "description": "A simple implementation of the standard container interface, with support for autowiring",
             "keywords": [
-                "DI",
                 "container",
-                "dependency"
+                "dependency",
+                "di"
             ],
-            "support": {
-                "source": "https://github.com/gabriel-detassigny/simple-container/tree/master",
-                "issues": "https://github.com/gabriel-detassigny/simple-container/issues"
-            },
             "time": "2020-10-08T19:51:31+00:00"
         },
         {
@@ -3558,6 +3545,7 @@
             "keywords": [
                 "tokenizer"
             ],
+            "abandoned": true,
             "time": "2019-09-17T06:23:10+00:00"
         },
         {
@@ -4350,9 +4338,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "gdetassigny/simple-container": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

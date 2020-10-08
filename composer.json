@@ -1,13 +1,7 @@
 {
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/gabriel-detassigny/simple-container"
-        }
-    ],
     "require": {
         "php": ">= 7.2",
-        "gdetassigny/simple-container": "dev-master",
+        "gdetassigny/simple-container": "^0.1",
         "guzzlehttp/psr7": "^1.4",
         "nikic/fast-route": "^1.2",
         "twig/twig": "^2.12",
