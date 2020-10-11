@@ -7,6 +7,7 @@ namespace GabrielDeTassigny\Blog\Tests\Service;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use GabrielDeTassigny\Blog\Entity\Author;
+use GabrielDeTassigny\Blog\Entity\ExternalLink;
 use GabrielDeTassigny\Blog\Repository\AuthorRepository;
 use GabrielDeTassigny\Blog\Service\Exception\AuthorException;
 use GabrielDeTassigny\Blog\Service\AuthorService;
@@ -82,6 +83,57 @@ class AuthorServiceTest extends TestCase
         Phake::when($this->entityManager)->persist(Phake::anyParameters())->thenThrow(new ORMException());
 
         $this->service->createAuthor('Stephen King');
+    }
+
+    public function testAddExternalLink(): void
+    {
+        $author = $this->getAuthorEntity('Stephen King');
+        Phake::when($this->authorRepository)->find(self::ID)->thenReturn($author);
+
+        $this->service->addExternalLink(self::ID, new ExternalLink());
+
+        $this->assertCount(1, $author->getExternalLinks());
+    }
+
+    public function testAddExternalLink_DatabaseError(): void
+    {
+        $this->expectException(AuthorException::class);
+        $this->expectExceptionCode(AuthorException::LINK_ASSOCIATION_ERROR);
+
+        $author = $this->getAuthorEntity('Stephen King');
+        Phake::when($this->authorRepository)->find(self::ID)->thenReturn($author);
+        Phake::when($this->entityManager)->persist($author)->thenThrow(new ORMException());
+
+        $this->service->addExternalLink(self::ID, new ExternalLink());
+    }
+
+    public function testRemoveExternalLink(): void
+    {
+        $externalLink = new ExternalLink();
+
+        $author = $this->getAuthorEntity('Stephen King');
+        $author->addExternalLink($externalLink);
+        Phake::when($this->authorRepository)->find(self::ID)->thenReturn($author);
+
+        $this->service->removeExternalLink(self::ID, $externalLink);
+
+        $this->assertEmpty($author->getExternalLinks());
+    }
+
+    public function testRemoveExternalLink_DatabaseError(): void
+    {
+        $this->expectException(AuthorException::class);
+        $this->expectExceptionCode(AuthorException::LINK_ASSOCIATION_ERROR);
+
+        $externalLink = new ExternalLink();
+
+        $author = $this->getAuthorEntity('Stephen King');
+        $author->addExternalLink($externalLink);
+        Phake::when($this->authorRepository)->find(self::ID)->thenReturn($author);
+
+        Phake::when($this->entityManager)->persist($author)->thenThrow(new ORMException());
+
+        $this->service->removeExternalLink(self::ID, new ExternalLink());
     }
 
     private function getAuthorEntity(string $name): Author
