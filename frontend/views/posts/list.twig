@@ -38,14 +38,21 @@
                     <p>{{ aboutText }}</p>
                 </div>
             {% endif %}
-            {% if externalLinks is not empty %}
+            {% if authors is not empty %}
                 <div class="sidebar-module">
                     <h4>Elsewhere</h4>
-                    <ol class="list-unstyled">
-                        {% for link in externalLinks %}
-                            <li><a target="_blank" rel="noopener noreferrer" href="{{ link.getUrl }}">{{ link.getName }}</a></li>
-                        {% endfor %}
-                    </ol>
+                    {% for author in authors %}
+                        {% if author.getExternalLinks|length > 0 %}
+                            {% if authors|length > 1 %}<h5>{{ author.getName }}</h5>{% endif %}
+                            <ol class="list-unstyled">
+                                {% for link in author.getExternalLinks %}
+                                    <li>
+                                        <a target="_blank" rel="noopener noreferrer" href="{{ link.getUrl }}">{{ link.getName }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ol>
+                        {% endif %}
+                    {%  endfor %}
                 </div>
             {% endif %}
             <div class="sidebar-module">

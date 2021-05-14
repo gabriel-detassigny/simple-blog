@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Controller;
 
+use GabrielDeTassigny\Blog\Service\AuthorService;
 use GabrielDeTassigny\Blog\Service\BlogInfoService;
 use GabrielDeTassigny\Blog\Service\CaptchaService;
-use GabrielDeTassigny\Blog\Service\ExternalLinkService;
 use GabrielDeTassigny\Blog\Service\Exception\PostNotFoundException;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
 use GabrielDeTassigny\Blog\ValueObject\InvalidPageException;
@@ -27,8 +27,8 @@ class PostViewingController
     /** @var BlogInfoService */
     private $blogInfoService;
 
-    /** @var ExternalLinkService */
-    private $externalLinkService;
+    /** @var AuthorService */
+    private $authorService;
 
     /** @var CaptchaService */
     private $captchaService;
@@ -37,13 +37,13 @@ class PostViewingController
         Environment $twig,
         PostViewingService $postViewingService,
         BlogInfoService $blogInfoService,
-        ExternalLinkService $externalLinkService,
+        AuthorService $authorService,
         CaptchaService $captchaService
     ) {
         $this->twig = $twig;
         $this->postViewingService = $postViewingService;
         $this->blogInfoService = $blogInfoService;
-        $this->externalLinkService = $externalLinkService;
+        $this->authorService = $authorService;
         $this->captchaService = $captchaService;
     }
 
@@ -79,7 +79,7 @@ class PostViewingController
                 'blogTitle' => $this->blogInfoService->getBlogTitle(),
                 'blogDesc' => $this->blogInfoService->getBlogDescription(),
                 'aboutText' => $this->blogInfoService->getAboutText(),
-                'externalLinks' => $this->externalLinkService->getExternalLinks()
+                'authors' => $this->authorService->getAuthors()
             ]
         );
     }
