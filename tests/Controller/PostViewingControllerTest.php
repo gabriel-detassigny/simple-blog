@@ -6,12 +6,11 @@ namespace GabrielDeTassigny\Blog\Tests\Controller;
 
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use GabrielDeTassigny\Blog\Controller\PostViewingController;
+use GabrielDeTassigny\Blog\Entity\Author;
 use GabrielDeTassigny\Blog\Entity\Post;
-use GabrielDeTassigny\Blog\Repository\PostRepository;
+use GabrielDeTassigny\Blog\Service\AuthorService;
 use GabrielDeTassigny\Blog\Service\BlogInfoService;
 use GabrielDeTassigny\Blog\Service\CaptchaService;
-use GabrielDeTassigny\Blog\Service\CommentService;
-use GabrielDeTassigny\Blog\Service\ExternalLinkService;
 use GabrielDeTassigny\Blog\Service\Exception\PostNotFoundException;
 use GabrielDeTassigny\Blog\Service\PostViewingService;
 use Phake;
@@ -38,8 +37,11 @@ class PostViewingControllerTest extends TestCase
     /** @var BlogInfoService|Phake_IMock */
     private $blogInfoService;
 
-    /** @var ExternalLinkService|Phake_IMock */
-    private $externalLinkService;
+    /** @var AuthorService|Phake_IMock */
+    private $authorService;
+
+    /** @var Author[] */
+    private $authors;
 
     /** @var CaptchaService|Phake_IMock */
     private $captchaService;
@@ -52,20 +54,22 @@ class PostViewingControllerTest extends TestCase
         $this->twig = Phake::mock(Environment::class);
         $this->postService = Phake::mock(PostViewingService::class);
         $this->blogInfoService = Phake::mock(BlogInfoService::class);
-        $this->externalLinkService = Phake::mock(ExternalLinkService::class);
+        $this->authorService = Phake::mock(AuthorService::class);
         $this->captchaService = Phake::mock(CaptchaService::class);
 
         $this->controller = new PostViewingController(
             $this->twig,
             $this->postService,
             $this->blogInfoService,
-            $this->externalLinkService,
+            $this->authorService,
             $this->captchaService
         );
 
+        $this->authors = [Phake::mock(Author::class), Phake::mock(Author::class)];
+
         Phake::when($this->postService)->getPreviousPage(Phake::anyParameters())->thenReturn(null);
         Phake::when($this->postService)->getNextPage(Phake::anyParameters())->thenReturn(null);
-        Phake::when($this->externalLinkService)->getExternalLinks()->thenReturn([]);
+        Phake::when($this->authorService)->getAuthors()->thenReturn($this->authors);
     }
 
     public function testIndexWillDisplayTwigView(): void
@@ -84,7 +88,7 @@ class PostViewingControllerTest extends TestCase
                 'blogTitle' => null,
                 'blogDesc' => null,
                 'aboutText' => null,
-                'externalLinks' => []
+                'authors' => $this->authors
             ]
         );
     }
@@ -106,7 +110,7 @@ class PostViewingControllerTest extends TestCase
                 'blogTitle' => null,
                 'blogDesc' => null,
                 'aboutText' => null,
-                'externalLinks' => []
+                'authors' => $this->authors
             ]
         );
     }

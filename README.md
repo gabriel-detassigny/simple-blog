@@ -12,7 +12,7 @@ Follow these steps if you plan to install this project either locally or for pro
 
 ### Introduction
 
-Make sure you have at least **PHP 7.2** installed, a MySQL server, and [composer](https://getcomposer.org/).
+Make sure you have at least **PHP 7.3** installed, a MySQL server, and [composer](https://getcomposer.org/).
 
 In the root of the project, type `composer install` to install all the dependencies.
 

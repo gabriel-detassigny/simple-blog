@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Controller;
 
+use GabrielDeTassigny\Blog\Service\AuthorService;
 use GabrielDeTassigny\Blog\Service\BlogInfoService;
-use GabrielDeTassigny\Blog\Service\ExternalLinkService;
 use Twig\Environment;
 
 class AboutPageController
@@ -16,24 +16,24 @@ class AboutPageController
     /** @var Environment */
     private $twig;
 
-    /** @var ExternalLinkService */
-    private $externalLinkService;
+    /** @var AuthorService */
+    private $authorService;
 
     public function __construct(
         Environment $twig,
         BlogInfoService $blogInfoService,
-        ExternalLinkService $externalLinkService
+        AuthorService $authorService
     ) {
         $this->twig = $twig;
         $this->blogInfoService = $blogInfoService;
-        $this->externalLinkService = $externalLinkService;
+        $this->authorService = $authorService;
     }
 
     public function showAboutPage(): void
     {
         $this->twig->display('about.twig', [
             'aboutText' => $this->blogInfoService->getAboutText(),
-            'externalLinks' => $this->externalLinkService->getExternalLinks(),
+            'authors' => $this->authorService->getAuthors(),
             'blogTitle' => $this->blogInfoService->getBlogTitle()
         ]);
     }

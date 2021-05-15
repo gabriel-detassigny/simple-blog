@@ -7,17 +7,21 @@
         <p class="lead">{{ aboutText }}</p>
     </div>
 
-    {% if externalLinks is not empty %}
-        <div class="row">
-            <h2>Elsewhere</h2>
-            <p>You can find me using the following links:</p>
-            <ul>
-                {% for link in externalLinks %}
-                    <li><a target="_blank" rel="noopener noreferrer" href="{{ link.getUrl }}">{{ link.getName }}</a></li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
+    <div class="row">
+        <h2>Authors</h2>
+        {% for author in authors %}
+            {% set externalLinks = author.getExternalLinks %}
+            {% if externalLinks is not empty %}
+                <p>Find <strong>{{ author.getName }}</strong> elsewhere:</p>
+                <ul>
+                    {% for link in externalLinks %}
+                        <li><a target="_blank" rel="noopener noreferrer" href="{{ link.getUrl }}">{{ link.getName }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endfor %}
+    </div>
+
     <div class="row">
         <h2>Follow this blog</h2>
         <p>Get automatically updated on any new article using our

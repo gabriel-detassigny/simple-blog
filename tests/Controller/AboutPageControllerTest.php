@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace GabrielDeTassigny\Blog\Tests\Controller;
 
 use GabrielDeTassigny\Blog\Controller\AboutPageController;
+use GabrielDeTassigny\Blog\Entity\Author;
+use GabrielDeTassigny\Blog\Service\AuthorService;
 use GabrielDeTassigny\Blog\Service\BlogInfoService;
-use GabrielDeTassigny\Blog\Service\ExternalLinkService;
 use Phake;
 use Phake_IMock;
 use PHPUnit\Framework\TestCase;
@@ -23,8 +24,8 @@ class AboutPageControllerTest extends TestCase
     /** @var BlogInfoService|Phake_IMock */
     private $blogInfoService;
 
-    /** @var ExternalLinkService|Phake_IMock */
-    private $externalLinkService;
+    /** @var AuthorService|Phake_IMock */
+    private $authorService;
 
     /** @var Environment|Phake_IMock */
     private $twig;
@@ -33,22 +34,25 @@ class AboutPageControllerTest extends TestCase
     {
         $this->blogInfoService = Phake::mock(BlogInfoService::class);
         $this->twig = Phake::mock(Environment::class);
-        $this->externalLinkService = Phake::mock(ExternalLinkService::class);
+        $this->authorService = Phake::mock(AuthorService::class);
 
-        $this->controller = new AboutPageController($this->twig, $this->blogInfoService, $this->externalLinkService);
+        $this->controller = new AboutPageController($this->twig, $this->blogInfoService, $this->authorService);
     }
 
     public function testShowAboutPage(): void
     {
+        $authors = [Phake::mock(Author::class), Phake::mock(Author::class)];
+        Phake::when($this->authorService)->getAuthors()->thenReturn($authors);
+
         Phake::when($this->blogInfoService)->getAboutText()->thenReturn(self::ABOUT_TEXT);
-        Phake::when($this->externalLinkService)->getExternalLinks()->thenReturn([]);
         Phake::when($this->blogInfoService)->getBlogTitle()->thenReturn(self::BLOG_TITLE);
 
         $this->controller->showAboutPage();
 
-        Phake::verify($this->twig)->display(
-            'about.twig',
-            ['aboutText' => self::ABOUT_TEXT, 'externalLinks' => [], 'blogTitle' => self::BLOG_TITLE]
-        );
+        Phake::verify($this->twig)->display('about.twig', [
+            'aboutText' => self::ABOUT_TEXT,
+            'authors' => $authors,
+            'blogTitle' => self::BLOG_TITLE
+        ]);
     }
 }

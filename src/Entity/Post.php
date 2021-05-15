@@ -28,7 +28,7 @@ class Post
     /** @ORM\Id @ORM\Column(type="integer") @ORM\GeneratedValue */
     private $id;
 
-    /** @ORM\Column(type="text", length=20000, nullable=false) */
+    /** @ORM\Column(type="text", length=65535, nullable=false) */
     private $text;
 
     /** @ORM\Column(type="string", length=50, nullable=false) */
