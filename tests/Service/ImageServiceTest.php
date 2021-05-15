@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace GabrielDeTassigny\Blog\Tests\Service;
 
-use DateTime;
 use GabrielDeTassigny\Blog\Service\ImageService;
 use GabrielDeTassigny\Blog\Service\Storage\StorageFactory;
 use GabrielDeTassigny\Blog\Service\Storage\StorageInterface;
