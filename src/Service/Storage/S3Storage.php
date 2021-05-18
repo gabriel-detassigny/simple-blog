@@ -32,9 +32,9 @@ class S3Storage implements StorageInterface
 
         $result = $this->s3Client->putObject([
             'Bucket' => $this->s3Bucket,
-            'Key'    => $fileName,
-            'Body'   => $uploadedFile->getStream(),
-            'ACL'    => 'public-read'
+            'Key' => $fileName,
+            'Body' => $uploadedFile->getStream(),
+            'ACL' => 'public-read'
         ]);
 
         return $result['ObjectURL'];
