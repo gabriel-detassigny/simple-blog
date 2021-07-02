@@ -18,8 +18,14 @@ In the root of the project, type `composer install` to install all the dependenc
 
 Then, make a copy of `.env.example` into a `.env` file, and change the env parameters as you need (including the DB ones).
 
-### HTTP Server
+### Assets Storage
 
+By default, uploaded images will be stored in the filesystem.
+If however you wish to load balance multiple instances, you can also set the storage to use an AWS S3 bucket.
+
+To do so, set the STORAGE_TYPE env variable to "s3", and set the other AWS env variables with the correct values.
+
+### HTTP Server
 
 On dev environment, you can start a simple PHP server by running the following from the root of the project:
 ```
