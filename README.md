@@ -20,7 +20,7 @@ Make a copy of `.env.example` into a `.env` file, and change the env parameters 
 Run `docker-compose up -d` from the root to start the basic LAMP stack.
 
 Once done, run the following to install the packages, run the DB migrations and seeds:
-- `composer install` (You should [install composer](https://getcomposer.org/) first).
+- `docker-compose exec webserver composer install`
 - `docker-compose exec webserver vendor/bin/phinx migrate`
 - `docker-compose exec webserver vendor/bin/phinx seed:run`
 

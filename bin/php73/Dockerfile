@@ -11,7 +11,6 @@ RUN apt-get -y update --fix-missing && \
     apt-get --no-install-recommends install -y apt-utils && \
     rm -rf /var/lib/apt/lists/*
 
-
 # Install useful tools and install important libaries
 RUN apt-get -y update && \
     apt-get -y --no-install-recommends install nano wget dialog libsqlite3-dev libsqlite3-0 && \
@@ -26,7 +25,6 @@ RUN pecl install xdebug-2.7.2 && \
     docker-php-ext-enable xdebug
 
 # Other PHP7 Extensions
-
 RUN docker-php-ext-install pdo_mysql && \
     docker-php-ext-install pdo_sqlite && \
     docker-php-ext-install mysqli && \
@@ -47,6 +45,9 @@ RUN apt-get -y update && \
 
 # Enable apache modules
 RUN a2enmod rewrite headers
+
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Cleanup
 RUN rm -rf /usr/src/*
