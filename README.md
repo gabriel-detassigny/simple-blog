@@ -1,14 +1,34 @@
 # simple-blog
 A simple blog built in PHP
 
-
 [![Build Status](https://travis-ci.com/gabriel-detassigny/simple-blog.svg?branch=master)](https://travis-ci.org/gabriel-detassigny/simple-blog) [![Coverage Status](https://coveralls.io/repos/github/gabriel-detassigny/simple-blog/badge.svg)](https://coveralls.io/github/gabriel-detassigny/simple-blog)
 
 This is a basic blog engine built in PHP, without any frameworks but instead multiple composer packages linked together.
 
 ## Installation
 
+This project supports [Docker](https://www.docker.com) for local development. However, it can be installed without it.
+
 Follow these steps if you plan to install this project either locally or for production.
+
+Go to the relevant documentation depending on which install you would prefer.
+
+## Local installation using Docker
+
+Make a copy of `.env.example` into a `.env` file, and change the env parameters if you need (the defaults should be enough to start).
+
+Run `docker-compose up -d` from the root to start the basic LAMP stack.
+
+Once done, run the following to install the packages, run the DB migrations and seeds:
+- `composer install` (You should [install composer](https://getcomposer.org/) first).
+- `docker-compose exec webserver vendor/bin/phinx migrate`
+- `docker-compose exec webserver vendor/bin/phinx seed:run`
+
+You should now be able to access your blog at [http://localhost:8000](http://localhost:8000).
+
+Head over to the _Admin_ section below in this doc to see how to connect to the admin and write blog posts.
+
+## Dev or prod install without Docker
 
 ### Introduction
 
@@ -17,13 +37,6 @@ Make sure you have at least **PHP 7.3** installed, a MySQL server, and [composer
 In the root of the project, type `composer install` to install all the dependencies.
 
 Then, make a copy of `.env.example` into a `.env` file, and change the env parameters as you need (including the DB ones).
-
-### Assets Storage
-
-By default, uploaded images will be stored in the filesystem.
-If however you wish to load balance multiple instances, you can also set the storage to use an AWS S3 bucket.
-
-To do so, set the STORAGE_TYPE env variable to "s3", and set the other AWS env variables with the correct values.
 
 ### HTTP Server
 
@@ -55,12 +68,12 @@ vendor/bin/phinx seed:run
 
 This will insert some random data into your DB tables.
 
-### Admin
+## Admin
 
-Once the project is installed, head over to the _/admin_ URL in your browser to access the admin interface.
+Once you've completed the installation, head over to the _/admin_ URL in your browser to access the admin interface.
 (That would be _http://localhost:8000/admin_ on dev)
 
-It will ask you for the admin credentials you set in `.env`.
+It will ask you for the admin credentials set in `.env`.
 
 On the admin index, you'll need to update the _Blog Configuration_.
 There, you can set the name of your blog, a short description of it for the home page, 
@@ -69,3 +82,10 @@ and some text about you and your blog that will display on the about page.
 You'll also need at least one author created through admin.
 
 Once this is all done, you should be ready to write blog posts!
+
+## Assets Storage
+
+By default, uploaded images will be stored in the filesystem.
+If however you wish to load balance multiple instances, you can also set the storage to use an AWS S3 bucket.
+
+To do so, set the STORAGE_TYPE env variable to "s3", and set the other AWS env variables with the correct values.

@@ -8,3 +8,5 @@ logs/*
 frontend/public/images/upload/*
 !frontend/public/images/upload/.gitkeep
 .phpunit.result.cache
+data/mysql/*
+!data/mysql/.gitkeep

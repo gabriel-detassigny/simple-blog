@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  webserver:
+    build:
+      context: ./bin/${PHPVERSION}
+    container_name: '${COMPOSE_PROJECT_NAME}-${PHPVERSION}'
+    restart: 'always'
+    ports:
+      - "8000:80"
+      - "443:443"
+    links:
+      - database
+    volumes:
+      - .:/var/www/html
+      - ./config/php/php.ini:/usr/local/etc/php/php.ini
+      - ./config/vhosts:/etc/apache2/sites-enabled
+    environment:
+      APACHE_DOCUMENT_ROOT: /var/www/html/frontend/public
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+  database:
+    platform: linux/x86_64
+    expose:
+      - "3306"
+    build:
+      context: "./bin/mysql"
+    container_name: '${COMPOSE_PROJECT_NAME}-database'
+    restart: 'always'
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
