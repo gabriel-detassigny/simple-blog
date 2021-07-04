@@ -13,7 +13,7 @@ Follow these steps if you plan to install this project either locally or for pro
 
 Go to the relevant documentation depending on which install you would prefer.
 
-## Local installation using Docker
+## Local installation (using Docker)
 
 Make a copy of `.env.example` into a `.env` file, and change the env parameters if you need (the defaults should be enough to start).
 
@@ -67,6 +67,15 @@ vendor/bin/phinx seed:run
 ```
 
 This will insert some random data into your DB tables.
+
+### Force HTTPS on prod
+
+Because the admin interface is using Basic HTTP authentication, it is _highly_ recommended to enforce HTTPS on production.
+To do so, head over the frontend/public/.htaccess and uncomment the following lines:
+```
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+```
 
 ## Admin
 
