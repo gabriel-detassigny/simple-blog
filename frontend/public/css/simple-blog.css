@@ -91,3 +91,18 @@ a.admin-action {
 #new-comment-error {
     display: none;
 }
+
+@media (prefers-color-scheme: dark) {
+    body {
+        color: white;
+        background-color: #1a1a1a;
+    }
+
+    h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+        color: #5bc0de;
+    }
+
+    .sidebar-module-inset, .jumbotron, .blog-footer {
+        background-color: #2f3742;
+    }
+}
