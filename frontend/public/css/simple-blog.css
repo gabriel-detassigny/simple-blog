@@ -102,7 +102,12 @@ a.admin-action {
         color: #5bc0de;
     }
 
-    .sidebar-module-inset, .jumbotron, .blog-footer {
+    .sidebar-module-inset, .jumbotron, .blog-footer, .panel-body {
         background-color: #2f3742;
+    }
+
+    .form-control {
+        background-color: black;
+        color: white;
     }
 }
