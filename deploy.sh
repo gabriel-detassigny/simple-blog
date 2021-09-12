@@ -12,7 +12,7 @@ rm -rf /tmp/deploy
 
 git clone git@github.com:gabriel-detassigny/simple-blog.git /tmp/deploy
 
-cd /tmp/deploy && composer install -o --no-dev
+cd /tmp/deploy && composer install -o --no-dev --ignore-platform-reqs
 rsync -avz --include="frontend/public/images/upload/.gitkeep" --exclude="frontend/public/images/upload/*" \
   --exclude=".git" --exclude=".gitignore" --exclude=".travis.yml" --exclude=".env" \
   --exclude="tests" --exclude="phpunit.xml" --exclude="logs/app-errors.log" --exclude="README.md" \

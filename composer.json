@@ -2,7 +2,7 @@
     "name": "gabriel-detassigny/simple-blog",
     "description": "A simple blog built in PHP",
     "require": {
-        "php": ">= 7.2",
+        "php": "^7.3|^8.0",
         "gdetassigny/simple-container": "^0.1",
         "guzzlehttp/psr7": "^1.4",
         "nikic/fast-route": "^1.2",
