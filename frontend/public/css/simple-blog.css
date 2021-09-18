@@ -112,6 +112,11 @@ a.admin-action {
     }
 }
 
+.post-content pre[class*=language-],
+.post-content code[class*=language-] {
+    line-height: 1.1;
+}
+
 .post-content pre[class*=language-] code[class*=language-] {
     font-size: 14px;
 }
