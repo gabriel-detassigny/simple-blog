@@ -100,7 +100,7 @@ class PostViewingController
         $this->twig->display('posts/show.twig', [
             'post' => $post,
             'blogTitle' => $this->blogInfoService->getBlogTitle(),
-            'captcha' => $this->captchaService->generateInlineCaptcha()
+            'captcha' => $post->hasInternalComments() ? $this->captchaService->generateInlineCaptcha() : null
         ]);
     }
 }
